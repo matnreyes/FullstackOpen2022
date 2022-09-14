@@ -5,9 +5,9 @@ const Header = (props) => (
 )
 
 const Content = (props) => {
-  const Part = (part) => (
+  const Part = (partProp) => (
     <>
-      <p>{part.part.name} {part.part.exercises}</p>
+      <p>{partProp.part.name} {partProp.part.exercises}</p>
     </>
   ) 
 
