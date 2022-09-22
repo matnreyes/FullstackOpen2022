@@ -4,17 +4,24 @@ const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</
 
 const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad
-  const average = total === 0 ? 0 : (good - bad) / total
-  const positive = total === 0 ? 0 : (good * 100) / total
+  const empty = total === 0 ? true : false
+  const average = empty ? 0 : (good - bad) / total
+  const positive = empty ? 0 : (good * 100) / total
+
   return (
     <>
       <h2>statistics</h2>
-      <div>good {good}</div>
-      <div>neutral {neutral}</div>
-      <div>bad {bad}</div>
-      <div>all {total}</div>
-      <div>average {average}</div>
-      <div>positive {positive}%</div>
+      {empty
+        ? <>No feedback given </>
+        : <>
+            <div>good {good}</div>
+            <div>neutral {neutral}</div>
+            <div>bad {bad}</div>
+            <div>all {total}</div>
+            <div>average {average}</div>
+            <div>positive {positive}%</div>
+          </>
+      }
     </>
   )
 }
