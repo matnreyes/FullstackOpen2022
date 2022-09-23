@@ -52,6 +52,7 @@ const App = () => {
     return updateVotes
   }
 
+  // Borrowed from StackOverflow thread
   const mostPopular = anecdotes.reduce((prev, current) => {
     return (prev.votes > current.votes) ? prev : current
   })
