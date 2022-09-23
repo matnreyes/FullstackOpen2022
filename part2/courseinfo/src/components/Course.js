@@ -1,11 +1,8 @@
-import Part from './Part'
-import Total from './Total'
+import Content from './Content'
 
-const Course = ({ course }) =>
-        <>
-            <h2>{course.name}</h2>
-            {course.parts.map(part => <Part key={part.id} part={part}/>)}
-            <Total total={course.parts.reduce((s, p) => s + p.exercises, 0)}/>
-        </>
+const Course = ({ courses }) => 
+    <>
+        {courses.map(course => <Content key={course.id} course={course}/>)}
+    </>
 
 export default Course
