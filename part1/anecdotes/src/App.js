@@ -1,5 +1,12 @@
 import { useState } from 'react'
 
+const Anecdote = ({ anecdote, votes }) => (
+  <>
+    <p>{anecdote}</p>
+    <p>has {votes} votes</p>
+  </>
+)
+
 const App = () => {  
   const [selected, setSelected] = useState(0)
   const [anecdotes, setAnecdotes] = useState([
@@ -44,13 +51,19 @@ const App = () => {
     }
     return updateVotes
   }
+
+  const mostPopular = anecdotes.reduce((prev, current) => {
+    return (prev.votes > current.votes) ? prev : current
+  })
    
   return (
     <div>
-      <p>{anecdotes[selected].anecdote}</p>
-      <p>has {anecdotes[selected].votes} votes</p>
+      <h1>Anecdote of the day</h1>
+      <Anecdote anecdote={anecdotes[selected].anecdote} votes={anecdotes[selected].votes} />
       <button onClick={handleVote()}>vote</button>
       <button onClick={() => setSelected(generateRandom)}>next anecdote</button>
+      <h1>Anecdote with most votes</h1>
+      <Anecdote anecdote={mostPopular.anecdote} votes={mostPopular.votes} />
     </div>
   )
 }
