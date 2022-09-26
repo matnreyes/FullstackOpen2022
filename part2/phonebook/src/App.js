@@ -12,8 +12,13 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setPersons(persons.concat({name: newName}))
+    findDupe(newName)
+    ? alert(`${newName} is already in the phonebook`)
+    : setPersons(persons.concat({name: newName}))
+    setNewName('')
   }
+
+  const findDupe = (newName) => persons.some(p => p.name === newName)
 
   return (
     <div>
