@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const NewContact = ({ persons, setPersons }) => {
+const PersonForm = ({ persons, setPersons, setDisplay }) => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
 
@@ -14,9 +14,14 @@ const NewContact = ({ persons, setPersons }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        findDupe(newName)
-        ? alert(`${newName} is already in the phonebook`)
-        : setPersons(persons.concat({name: newName, number: newNumber}))
+        if (findDupe(newName)) {
+          alert(`${newName} is already in the phonebook`)
+
+        } else {
+          const newPersons = persons.concat({name: newName, number: newNumber})
+          setPersons(newPersons)
+          setDisplay(newPersons)
+        }
         setNewName('')
         setNewNumber('')
       }
@@ -34,4 +39,4 @@ const NewContact = ({ persons, setPersons }) => {
     )
 }
 
-export default NewContact
+export default PersonForm
