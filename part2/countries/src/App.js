@@ -16,9 +16,13 @@ const App = () => {
   }, [])
 
   const handleSearch = (e) => {
-      setSearch(e.target.value.toLowerCase())
-      const country = countries.filter(c => c.name.common.toLowerCase().includes(search))
-      setDisplay(country)
+    setSearch(e.target.value)
+    const country = countries.filter(c => c.name.common.toLowerCase().includes(e.target.value.toLowerCase()))
+    setDisplay(country)
+  }
+
+  const handleShow = (e) => {
+    setDisplay(display.filter(c => c.ccn3 === e.target.value))
   }
   
   return (
@@ -27,7 +31,14 @@ const App = () => {
       {display.length > 10
       ? <p>Too many matches, please specify</p>
       : display.length !==1
-        ? <ul>{display.map(country => <li key={country.ccn3}>{country.name.common}</li>)}</ul>
+        ? <ul>{display.map(country => {
+                return (
+                  <li key={country.ccn3}>
+                    {country.name.common}<button value={country.ccn3} onClick={handleShow}>show</button>
+                  </li>
+                )
+              })}
+            </ul>
         : <Country country={display[0]} />}
     </div>
   )
