@@ -6,8 +6,8 @@ import Country from './components/Country'
 const App = () => {
   const [countries, setCountries] = useState([])
   const [search, setSearch] = useState('')
-  const [display, setDisplay] =useState([])
-
+  const [display, setDisplay] = useState([])
+  
   // fetch countries
   useEffect(() => {
     axios
@@ -16,15 +16,20 @@ const App = () => {
   }, [])
 
   const handleSearch = (e) => {
+    const countrySearch = countries.filter(c => c.name.common.toLowerCase().includes(e.target.value.toLowerCase()))
+    const country = countrySearch.filter(c => c.name.common === e.target.value)
+
+    if (country.length === 1) {
+      setSearch(country[0].name.common)
+      setDisplay(country)
+
+      return null
+    }
+    
     setSearch(e.target.value)
-    const country = countries.filter(c => c.name.common.toLowerCase().includes(e.target.value.toLowerCase()))
-    setDisplay(country)
+    setDisplay(countrySearch)
   }
 
-  const handleShow = (e) => {
-    const shownCountry = [JSON.parse(e.target.value)]
-    setDisplay(shownCountry)
-  }
   
   return (
     <div>
@@ -35,12 +40,12 @@ const App = () => {
         ? <ul>{display.map(country => {
                 return (
                   <li key={country.ccn3}>
-                    {country.name.common}<button value={JSON.stringify(country)} onClick={handleShow}>show</button>
+                    {country.name.common}<button value={country.name.common} onClick={handleSearch}>show</button>
                   </li>
                 )
               })}
             </ul>
-        : <Country country={display[0]} />}
+        : <Country country={display[0]}/>}
     </div>
   )
 }
