@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import axios from 'axios'
 
 const PersonForm = ({ persons, setPersons, setDisplay }) => {
     const [newName, setNewName] = useState('')
@@ -18,15 +19,18 @@ const PersonForm = ({ persons, setPersons, setDisplay }) => {
           alert(`${newName} is already in the phonebook`)
 
         } else {
-          const newPersons = persons.concat({name: newName, number: newNumber})
-          setPersons(newPersons)
-          setDisplay(newPersons)
+          axios
+            .post('http://localhost:3001/persons', {name: newName, number: newNumber})
+            .then(response => {
+              setPersons(persons.concat(response.data))
+              setDisplay(persons.concat(response.data))
+            })
         }
         setNewName('')
         setNewNumber('')
       }
     
-      const findDupe = (newName) => persons.some(p => p.name === newName)
+      const findDupe = (newName) => persons.some(p => p.name.toLowerCase() === newName.toLowerCase())
     
     return (
         <form onSubmit={handleSubmit}>
