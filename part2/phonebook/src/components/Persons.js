@@ -1,8 +1,12 @@
 import personService from '../services/persons'
 
 const Persons = ({ setPersons, setDisplay, display }) => {
-    const handleDelete = (id) => {
-        const updatedPersons = display.filter(p => p.id !== id)
+    const handleDelete = (person) => {
+    const id = person.id
+    if (!window.confirm(`Do you wish to delete ${person.name}`)) {
+        return
+    }
+    const updatedPersons = display.filter(p => p.id !== id)
         personService
             .delPerson(id)
 
@@ -12,7 +16,7 @@ const Persons = ({ setPersons, setDisplay, display }) => {
 
     return (
         <ul>
-            {display.map(person => <li key={person.id}>{person.name} {person.number}<button onClick={() => handleDelete(person.id)}>delete</button></li>)} 
+            {display.map(person => <li key={person.id}>{person.name} {person.number}<button onClick={() => handleDelete(person)}>delete</button></li>)} 
         </ul>
     )
 }
