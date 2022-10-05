@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import personService from '../services/persons'
 
-const PersonForm = ({ persons, setPersons, setDisplay }) => {
+const PersonForm = ({ persons, setPersons, setDisplay, setMessage }) => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
 
@@ -35,8 +35,12 @@ const PersonForm = ({ persons, setPersons, setDisplay }) => {
         personService
           .create({name: newName, number: newNumber})
           .then(newPerson => {
+            setMessage(`Added ${newName} to phonebook`)
             setDisplay(persons.concat(newPerson))
             setPersons(persons.concat(newPerson))
+            setTimeout(() => {
+              setMessage(null)
+            }, 2000)
           })
         setNewName('')
         setNewNumber('')
