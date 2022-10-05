@@ -13,6 +13,10 @@ const Message = ({ message }) => {
         marginBottom: 10
     }
 
+    if (message.includes('deleted')) {
+        messageStyle.color = 'red'
+    }
+
     return (
        <div style={messageStyle}>
         {message}
