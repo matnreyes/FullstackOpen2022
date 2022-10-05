@@ -15,22 +15,34 @@ const PersonForm = ({ persons, setPersons, setDisplay }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (findDupe(newName)) {
-          alert(`${newName} is already in the phonebook`)
+        const isDupe = findDupe(newName.toLocaleLowerCase())
+        if (isDupe) {
+          if (window.confirm(`${newName} is already in your phonebook, would you like to update their number?`)) {
+            personService
+              .update({...isDupe, number: newNumber})
+              .then(updated => {
+                const newContacts = persons.map(p => p.id === updated.id ? updated : p)
+                setDisplay(newContacts)
+                setPersons(newContacts)
+              })
+          }
 
-        } else {
-          personService
-            .create({name: newName, number: newNumber})
-            .then(newPerson => {
-              setDisplay(persons.concat(newPerson))
-              setPersons(persons.concat(newPerson))
-            })
+          setNewName('')
+          setNewNumber('')
+          return
         }
+
+        personService
+          .create({name: newName, number: newNumber})
+          .then(newPerson => {
+            setDisplay(persons.concat(newPerson))
+            setPersons(persons.concat(newPerson))
+          })
         setNewName('')
         setNewNumber('')
       }
     
-      const findDupe = (newName) => persons.some(p => p.name.toLowerCase() === newName.toLowerCase())
+      const findDupe = (name) => persons.find(p => p.name.toLowerCase() === name)
     
     return (
         <form onSubmit={handleSubmit}>
