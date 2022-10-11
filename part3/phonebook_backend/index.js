@@ -59,6 +59,8 @@ const generateId = () => {
     return maxId + 1
 }
 
+const findDupe = (name) => contacts.find(c => c.name.toLowerCase() === name)
+
 app.post('/api/contacts', (req, res) => {
     const body = req.body
 
@@ -71,6 +73,12 @@ app.post('/api/contacts', (req, res) => {
     if (!body.number) {
         return res.status(400).json({
             error: 'number missing'
+        })
+    }
+
+    if (findDupe(body.name.toLowerCase())) {
+        return res.status(409).json({
+            error: 'contact already exists'
         })
     }
 
