@@ -1,6 +1,7 @@
-const { response } = require('express')
 const express = require ('express')
 const app = express()
+
+app.use(express.json())
 
 let contacts = [
     {
@@ -48,6 +49,39 @@ app.delete('/api/contacts/:id', (req, res) => {
     contacts = contacts.filter(p => p.id !== id)
 
     res.status(204).end()
+})
+
+const generateId = () => {
+    const maxId = contacts.length > 0
+        ? Math.max(...contacts.map(p => p.id))
+        : 0
+    
+    return maxId + 1
+}
+
+app.post('/api/contacts', (req, res) => {
+    const body = req.body
+
+    if (!body.name) {
+        return res.status(400).json({
+            error: 'name missing'
+        })
+    }
+
+    if (!body.number) {
+        return res.status(400).json({
+            error: 'number missing'
+        })
+    }
+
+    const contact = {
+        id: generateId(),
+        name: body.name,
+        number: body.number
+    }
+
+    contacts = contacts.concat(contact)
+    res.json(contact)
 })
 
 const PORT = 3001
