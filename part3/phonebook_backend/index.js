@@ -108,6 +108,13 @@ app.post('/api/contacts', (req, res) => {
     res.json(contact)
 })
 
+app.put('/api/contacts/:id', (req, res) => {
+    const body = req.body
+
+    contacts = contacts.map(p => p.id === body.id ? body : p)
+    res.json(contacts)
+})
+
 const PORT = 8080
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
