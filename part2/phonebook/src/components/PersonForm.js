@@ -21,10 +21,9 @@ const PersonForm = ({ persons, setPersons, setDisplay, setMessage }) => {
             personService
               .update({...isDupe, number: newNumber})
               .then(updated => {
-                const newContacts = persons.map(p => p.id === updated.id ? updated : p)
                 setMessage(`${newName} has been updated`)
-                setDisplay(newContacts)
-                setPersons(newContacts)
+                setDisplay(updated)
+                setPersons(updated)
                 setTimeout(() => {
                   setMessage(null)
                 }, 2000)
