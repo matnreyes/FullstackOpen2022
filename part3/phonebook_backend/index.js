@@ -106,7 +106,7 @@ app.post('/api/contacts', (req, res) => {
     res.json(contact)
 })
 
-const PORT = 3001
+const PORT = 8080
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
