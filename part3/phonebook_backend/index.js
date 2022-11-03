@@ -35,10 +35,9 @@ app.get('/info', (req, res) => {
 })
 
 app.get('/api/contacts/:id', (req, res) => {
-    const id = Number(req.params.id)
-    const contact = contacts.find(p => p.id === id)
-
-    contact ? res.json(contact) : res.status(404).end()
+    Contact.findById(req.params.id).then(contact => {
+        res.json(contact)
+    })
 })
 
 app.delete('/api/contacts/:id', (req, res) => {
