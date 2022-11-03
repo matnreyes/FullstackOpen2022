@@ -3,6 +3,7 @@ const morgan = require('morgan')
 require('dotenv').config()
 const cors = require('cors')
 const app = express()
+const Contact = require('./models/contact')
 
 morgan.token('body', (req, res) => JSON.stringify(req.body))
 
@@ -21,7 +22,9 @@ app.use(morgan((tokens, req, res) => [
 ))
 
 app.get('/api/contacts', (req, res) => {
-    res.json(contacts)
+    Contact.find({}).then(contacts => {
+        res.json(contacts)
+    })
 })
 
 app.get('/info', (req, res) => {

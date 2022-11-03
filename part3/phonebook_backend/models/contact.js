@@ -7,7 +7,7 @@ mongoose.connect(url)
         console.log('connected to MongoDB')
     })
     .catch(err => {
-        console.log('error connecting to MongoDB', err.meesage)
+        console.log('failed to connect to MongoDB', err.meessage)
     })
 
 const contactSchema = new mongoose.Schema({
