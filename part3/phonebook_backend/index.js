@@ -38,6 +38,10 @@ app.get('/api/contacts/:id', (req, res) => {
     Contact.findById(req.params.id).then(contact => {
         res.json(contact)
     })
+    .catch(err => {
+        console.log('unknown id')
+        res.status(500).json('note not found').end()
+    })
 })
 
 app.delete('/api/contacts/:id', (req, res) => {
@@ -55,44 +59,35 @@ const generateId = () => {
     return maxId + 1
 }
 
-const findDupe = (name) => contacts.find(c => c.name.toLowerCase() === name)
-
 app.post('/api/contacts', (req, res) => {
-    const body = req.body
+   const body = req.body
+   console.log(body)
 
-    if (!body.name) {
-        return res.status(400).json({
-            error: 'name missing'
-        })
-    }
+   if (body.name === undefined || body.number === undefined) {
+        return res.status(400).json({ error: 'missing field'})
+   }
 
-    if (!body.number) {
-        return res.status(400).json({
-            error: 'number missing'
-        })
-    }
-
-    if (findDupe(body.name.toLowerCase())) {
-        return res.status(409).json({
-            error: 'contact already exists'
-        })
-    }
-
-    const contact = {
-        id: generateId(),
+   const contact = new Contact({
         name: body.name,
         number: body.number
-    }
+   })
 
-    contacts = contacts.concat(contact)
-    res.json(contact)
+   contact.save().then((returnedContact) => {
+        res.json(returnedContact)
+   })
 })
 
 app.put('/api/contacts/:id', (req, res) => {
     const body = req.body
 
-    contacts = contacts.map(p => p.id === body.id ? body : p)
-    res.json(contacts)
+    Contact.findById(req.params.id).then(contact => {
+        contact.number = body.number
+        contact.save()
+    })
+    
+    Contact.find({}).then(contacts => {
+        res.json(contacts)
+    })
 })
 
 const PORT = 8080

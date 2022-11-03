@@ -1,7 +1,7 @@
-POST http://localhost:3001/api/contacts
+POST http://localhost:8080/api/contacts
 Content-Type: application/json 
 
 {
     "name": "Arto Hellas1",
-    "number": "fake number"
+    "number": 93213444
 }
