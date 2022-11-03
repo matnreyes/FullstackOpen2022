@@ -1,5 +1,6 @@
 const express = require ('express')
 const morgan = require('morgan')
+require('dotenv').config()
 const cors = require('cors')
 const app = express()
 
@@ -18,29 +19,6 @@ app.use(morgan((tokens, req, res) => [
     tokens.body(req, res)
     ].join(' ')
 ))
-
-let contacts = [
-    {
-        "id": 1,
-        "name": "Arto Hellas",
-        "number": "040-12345"
-    },
-    {
-        "id": 2,
-        "name": "Ada Lovelace",
-        "number": "39-44-52423342"
-    },
-    {
-        "id": 3,
-        "name": "Dan Abramov",
-        "number": "12-43-123455"
-    },
-    {
-        "id": 4,
-        "name": "Harry Povenmire",
-        "number": "337-123-4565"
-    }
-]
 
 app.get('/api/contacts', (req, res) => {
     res.json(contacts)
