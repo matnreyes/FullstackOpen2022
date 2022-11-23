@@ -56,14 +56,6 @@ app.delete('/api/contacts/:id', (req, res) => {
     .catch(error => next(error))
 })
 
-const generateId = () => {
-    const maxId = contacts.length > 0
-        ? Math.max(...contacts.map(p => p.id))
-        : 0
-    
-    return maxId + 1
-}
-
 app.post('/api/contacts', (req, res) => {
    const body = req.body
    console.log(body)
