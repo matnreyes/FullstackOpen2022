@@ -74,13 +74,9 @@ app.post('/api/contacts', (req, res) => {
    })
 })
 
-app.put('/api/contacts/:id', (req, res) => {
-    const body = req.body
-
-    Contact.findById(req.params.id).then(contact => {
-        contact.number = body.number
-        contact.save()
-    })
+app.put('/api/contacts/:id', (req, res, next) => {
+    Contact.findByIdAndUpdate(req.params.id, {number: req.body.number})
+    .catch(error => next(error))
     
     Contact.find({}).then(contacts => {
         res.json(contacts)
