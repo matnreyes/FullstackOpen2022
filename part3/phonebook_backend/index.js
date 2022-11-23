@@ -36,14 +36,16 @@ app.get('/info', (req, res) => {
     `)
 })
 
-app.get('/api/contacts/:id', (req, res) => {
-    Contact.findById(req.params.id).then(contact => {
-        res.json(contact)
+app.get('/api/contacts/:id', (req, res, next) => {
+    Contact.findById(req.params.id)
+    .then(contact => {
+        if (contact) {
+            res.json(note)
+        } else {
+            res.status(404).end()
+        }
     })
-    .catch(err => {
-        console.log('unknown id')
-        res.status(500).json('note not found').end()
-    })
+    .catch(error => next(error))
 })
 
 app.delete('/api/contacts/:id', (req, res) => {
@@ -92,6 +94,18 @@ app.put('/api/contacts/:id', (req, res) => {
         res.json(contacts)
     })
 })
+
+const errorHandler = (error, req, res, next) => {
+    console.error(error.message)
+
+    if (error.name === 'CastError') {
+        return res.status(400).send({ error: 'malformatted id'})
+    }
+
+    next(error)
+}
+
+app.use(errorHandler)
 
 const PORT = 8080
 app.listen(PORT, () => {
