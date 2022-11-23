@@ -4,6 +4,8 @@ require('dotenv').config()
 const cors = require('cors')
 const app = express()
 const Contact = require('./models/contact')
+const contact = require('./models/contact')
+const { response } = require('express')
 
 morgan.token('body', (req, res) => JSON.stringify(req.body))
 
@@ -45,10 +47,11 @@ app.get('/api/contacts/:id', (req, res) => {
 })
 
 app.delete('/api/contacts/:id', (req, res) => {
-    const id = Number(req.params.id)
-    contacts = contacts.filter(p => p.id !== id)
-
-    res.status(204).end()
+    Contact.findByIdAndRemove(req.params.id)
+    .then(result => {
+        res.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 const generateId = () => {
