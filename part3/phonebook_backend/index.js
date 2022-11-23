@@ -4,8 +4,6 @@ require('dotenv').config()
 const cors = require('cors')
 const app = express()
 const Contact = require('./models/contact')
-const contact = require('./models/contact')
-const { response } = require('express')
 
 morgan.token('body', (req, res) => JSON.stringify(req.body))
 
