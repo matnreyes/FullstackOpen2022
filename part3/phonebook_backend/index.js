@@ -49,7 +49,7 @@ app.get('/api/contacts/:id', (req, res, next) => {
     .catch(error => next(error))
 })
 
-app.delete('/api/contacts/:id', (req, res) => {
+app.delete('/api/contacts/:id', (req, res, next) => {
     Contact.findByIdAndRemove(req.params.id)
     .then(result => {
         res.status(204).end()
@@ -57,22 +57,21 @@ app.delete('/api/contacts/:id', (req, res) => {
     .catch(error => next(error))
 })
 
-app.post('/api/contacts', (req, res) => {
-   const body = req.body
-   console.log(body)
+app.post('/api/contacts', (req, res, next) => {
+    const { name, number } = req.body 
+    const contact = new Contact({
+        name: name,
+        number: number
+    })
 
-   if (body.name === undefined || body.number === undefined) {
-        return res.status(400).json({ error: 'missing field'})
-   }
-
-   const contact = new Contact({
-        name: body.name,
-        number: body.number
-   })
-
-   contact.save().then((returnedContact) => {
+    contact.save()
+        .then((returnedContact) => {
         res.json(returnedContact)
-   })
+        })
+        .catch(error => {
+            next(error)
+            console.log(error.message)
+        })
 })
 
 app.put('/api/contacts/:id', (req, res, next) => {
@@ -89,6 +88,8 @@ const errorHandler = (error, req, res, next) => {
 
     if (error.name === 'CastError') {
         return res.status(400).send({ error: 'malformatted id'})
+    } else if (error.name === 'ValidationError') {
+        return res.status(400).send({ error: error.message })
     }
 
     next(error)
