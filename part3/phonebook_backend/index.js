@@ -28,10 +28,13 @@ app.get('/api/contacts', (req, res) => {
 })
 
 app.get('/info', (req, res) => {
-    res.send(`
-        Phoneboook has info for ${contacts.length} 
-        <p>${Date()}</p>
-    `)
+    Contact.find({})
+    .then(contacts => {
+        res.send(`
+            Phonebook has infor for ${contacts.length}
+            <p>${Date()}</p>
+        `)
+    })
 })
 
 app.get('/api/contacts/:id', (req, res, next) => {
