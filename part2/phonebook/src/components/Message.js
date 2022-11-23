@@ -13,7 +13,7 @@ const Message = ({ message }) => {
         marginBottom: 10
     }
 
-    if (message.includes('deleted')) {
+    if (message.includes('error')) {
         messageStyle.color = 'red'
     }
 

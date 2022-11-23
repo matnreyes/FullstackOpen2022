@@ -10,7 +10,7 @@ const Persons = ({ setPersons, setDisplay, display, setMessage }) => {
         personService
             .delPerson(id)
             .catch(error => {
-                setMessage(`${person.name} has already been deleted from server`)
+                setMessage(`error: ${error}`)
                 setTimeout(() => {
                     setMessage(null)
                 }, 2000)

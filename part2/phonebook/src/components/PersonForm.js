@@ -45,6 +45,12 @@ const PersonForm = ({ persons, setPersons, setDisplay, setMessage }) => {
               setMessage(null)
             }, 2000)
           })
+          .catch(error => {
+            setMessage('error: ' + error.response.data.error)
+            setTimeout(() => {
+              setMessage(null)
+            }, 2000)
+          })
         setNewName('')
         setNewNumber('')
       }
