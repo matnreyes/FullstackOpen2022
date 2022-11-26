@@ -2,6 +2,6 @@ POST http://localhost:8080/api/contacts
 Content-Type: application/json 
 
 {
-    "name": "werr",
-    "number": 93213444
+    "name": "name",
+    "number": "123-33322"
 }
