@@ -26,7 +26,13 @@ const PersonForm = ({ persons, setPersons, setDisplay, setMessage }) => {
                 setPersons(updated)
                 setTimeout(() => {
                   setMessage(null)
-                }, 2000)
+                }, 5000)
+              })
+              .catch(error => {
+                setMessage(`error: ${error.response.data.error}`)
+                setTimeout(() => {
+                  setMessage(null)
+                }, 5000)
               })
           }
 
@@ -43,13 +49,13 @@ const PersonForm = ({ persons, setPersons, setDisplay, setMessage }) => {
             setPersons(persons.concat(newPerson))
             setTimeout(() => {
               setMessage(null)
-            }, 2000)
+            }, 5000)
           })
           .catch(error => {
             setMessage('error: ' + error.response.data.error)
             setTimeout(() => {
               setMessage(null)
-            }, 2000)
+            }, 5000)
           })
         setNewName('')
         setNewNumber('')
