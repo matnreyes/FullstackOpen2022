@@ -22,7 +22,7 @@ const contactSchema = new mongoose.Schema({
     number: {
         type: String,
         validate: {
-            validator: (n) => /^\d{2,}-\d+/.test(n),
+            validator: (n) => /^\d{2,3}-\d+$/.test(n),
             message: 'Number format is invalid'
         },
         required: [true, 'Contact must have a number']
