@@ -13,10 +13,17 @@ mongoose.connect(url)
 const contactSchema = new mongoose.Schema({
     name: {
         type: String,
-        minLength: 3, 
-        required: true
+        minLength: [3, 'Name must be longer than 3 characters'],
+        required: [true, 'Contact name required']
     },
-    number: Number
+    number: {
+        type: String,
+        validate: {
+            validator: (n) => /^\d{2,}-\d+/.test(n),
+            message: 'Number format is invalid'
+        },
+        required: [true, 'Contact must have a number']
+    }
 })
 
 
