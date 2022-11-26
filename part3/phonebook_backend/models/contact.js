@@ -16,6 +16,7 @@ const contactSchema = new mongoose.Schema({
         type: String,
         minLength: [3, 'Name must be longer than 3 characters'],
         unique: [true, 'Contact is already in the database'],
+        uniqueCaseInsensitive: true,
         required: [true, 'Contact name required']
     },
     number: {
