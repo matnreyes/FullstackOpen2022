@@ -75,12 +75,17 @@ app.post('/api/contacts', (req, res, next) => {
 })
 
 app.put('/api/contacts/:id', (req, res, next) => {
-    Contact.findByIdAndUpdate(req.params.id, {number: req.body.number})
-    .catch(error => next(error))
-    
-    Contact.find({}).then(contacts => {
-        res.json(contacts)
+    Contact.findByIdAndUpdate(
+        req.params.id,
+        { number: req.body.number },
+        {runValidators: true, context: 'query'}
+    )
+    .then(() => {
+        Contact.find({}).then(contacts => {
+            res.json(contacts)
+        })
     })
+    .catch(error => next(error))
 })
 
 const errorHandler = (error, req, res, next) => {
