@@ -1,7 +1,8 @@
-const { dummy, totalLikes, favoriteBlog } = require('../utils/list_helper')
+const { dummy, totalLikes, favoriteBlog, mostBlogs } = require('../utils/list_helper')
 const testBlogs = require('../utils/testblogs')
 
 const listWithOneBlog = [testBlogs[0]]
+const noBlogs = []
 
 test('dummy returns one', () => {
   const blogs = []
@@ -19,7 +20,6 @@ describe('total likes', () => {
 
 describe('favorite blog', () => {
   const multipleFave = [testBlogs[0], testBlogs[1], testBlogs[5]]
-  const noBlogs = []
 
   test('when there are no blogs', () => {
     const result = favoriteBlog(noBlogs)
@@ -39,5 +39,12 @@ describe('favorite blog', () => {
   test('when there is only one favorite', () => {
     const result = favoriteBlog(testBlogs)
     expect(result.likes).toBe(12)
+  })
+})
+
+describe('most blogs', () => {
+  test('when one author wrote the most', () => {
+    const result = mostBlogs(testBlogs)
+    expect(result[0].author).toBe()
   })
 })
