@@ -9,9 +9,10 @@ test('dummy returns one', () => {
 })
 
 describe('total likes', () => {
-  const listWithOneBlog[0] = testBlogs[0]
+  const listWithOneBlog = []
+  listWithOneBlog.push(testBlogs[0])
 
-  test('when list has ony one blog, equals the like od that', () => {
+  test('when list has ony one blog, equals the like of that', () => {
     const result = listHelper.totalLikes(listWithOneBlog)
     expect(result).toBe(5)
   })
