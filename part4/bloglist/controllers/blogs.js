@@ -1,5 +1,4 @@
 const blogsRouter = require('express').Router()
-const { models } = require('mongoose')
 const Blog = require('../models/blog')
 
 blogsRouter.get('/', (req, res, next) => {
