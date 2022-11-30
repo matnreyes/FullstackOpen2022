@@ -1,5 +1,5 @@
+const _ = require('lodash')
 const logger = require('./logger')
-const lodash = require('lodash')
 
 // eslint-disable-next-line no-unused-vars
 const dummy = (blogs) => 1
@@ -17,19 +17,15 @@ const favoriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
-  const authors = []
-  for (let i = 0; i < blogs.length; i++) {
-    if (!authors[blogs[i].author]) {
-      authors[blogs[i].author] = 1
-    } else {
-      authors[blogs[i].author] += 1
-    }
+  const credits = _.groupBy(blogs, 'author')
+  const authors = Object.keys(credits)
+  const maxBlogs = Math.max(null, ...(authors.map((author) => credits[author].length)))
+
+  return {
+    author: authors.find((author) => credits[author].length === maxBlogs),
+    blogs: maxBlogs
+
   }
-
-  const sortedAuthors = authors.sort((a, b) => b[1] - a[1])
-  logger.info(sortedAuthors)
-
-  return authors.sort((a, b) => b - a)
 }
 
 module.exports = {
