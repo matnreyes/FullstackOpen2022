@@ -45,6 +45,6 @@ describe('favorite blog', () => {
 describe('most blogs', () => {
   test('when one author wrote the most', () => {
     const result = mostBlogs(testBlogs)
-    expect(result.author).toBe('Robert C. Martin')
+    expect(result).toEqual({ author: 'Robert C. Martin', blogs: 3 })
   })
 })
