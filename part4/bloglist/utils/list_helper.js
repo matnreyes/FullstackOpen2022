@@ -1,5 +1,4 @@
 const _ = require('lodash')
-const logger = require('./logger')
 
 // eslint-disable-next-line no-unused-vars
 const dummy = (blogs) => 1
