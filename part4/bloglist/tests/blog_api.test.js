@@ -100,6 +100,30 @@ describe('deleting a blog', () => {
     const titles = updatedBlogs.body.map((blog) => blog.title)
     expect(titles).not.toContain(blogToDelete.title)
   })
+
+  test('fails 400 if invalid id', async () => {
+    const fakeid = 'fakeid'
+
+    await api
+      .delete(`/api/blogs/${fakeid}`)
+      .expect(400)
+  })
+})
+
+describe('update a post', () => {
+  test('suceeds with status 200 if update is succesful', async () => {
+    const allBlogs = await api.get('/api/blogs')
+    const blogToEdit = allBlogs.body[0]
+
+    const newLikes = blogToEdit.likes + 1
+
+    const updatedBlog = await api
+      .put(`/api/blogs/${blogToEdit.id}`)
+      .send(newLikes)
+      .expect(200)
+
+    expect(updatedBlog.body.likes).toEqual(newLikes)
+  })
 })
 
 afterAll(() => {
