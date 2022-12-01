@@ -66,7 +66,7 @@ test('missing likes property defaults to 0', async () => {
 test('missing title/url field fails', async () => {
   const noTitle = {
     author: 'Anon',
-    url: 'google.com',
+    url: 'google.com'
   }
 
   const noURL = {
