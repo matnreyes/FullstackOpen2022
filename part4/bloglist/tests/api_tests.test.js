@@ -63,6 +63,28 @@ test('missing likes property defaults to 0', async () => {
   expect(newBlog.body.likes).toEqual(0)
 })
 
+test('missing title/url field fails', async () => {
+  const noTitle = {
+    author: 'Anon',
+    url: 'google.com',
+  }
+
+  const noURL = {
+    title: 'Should Fail',
+    author: 'Anon'
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(noTitle)
+    .expect(400)
+
+  await api
+    .post('/api/blogs')
+    .send(noURL)
+    .expect(400)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
