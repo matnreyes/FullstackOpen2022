@@ -85,6 +85,25 @@ test('missing title/url field fails', async () => {
     .expect(400)
 })
 
+describe('deleting a blog', () => {
+  test('when blog exists', async () => {
+    const allBlogs = await api
+      .get('/api/blogs')
+
+    const blogToDelete = allBlogs.body[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const updatedBlogs = await api.get('/api/blogs')
+    const titles = updatedBlogs.body.map((b) => b.title)
+
+    expect(updatedBlogs.body).toHaveLength(allBlogs.length - 1)
+    expect(titles).not.toContain(blogToDelete.title)
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
