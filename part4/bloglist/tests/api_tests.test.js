@@ -29,6 +29,25 @@ test('unique identifier property of blog is named id', async () => {
   expect(blog.id).toBeDefined()
 })
 
+test('new blog is created', async () => {
+  const newBlog = {
+    title: 'Cool Guys Blog',
+    author: 'Yours Truly',
+    url: 'cooldudes.com',
+    likes: 2000
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+
+  const allBlogs = await api
+    .get('/api/blogs')
+
+  expect(allBlogs.body).toHaveLength(testBlogs.length + 1)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })

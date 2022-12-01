@@ -18,7 +18,7 @@ blogsRouter.post('/api/blogs', (req, res, next) => {
 
   blog.save()
     .then((returnedBlog) => {
-      res.json(returnedBlog)
+      res.status(201).json(returnedBlog)
     })
     .catch((error) => next(error))
 })
