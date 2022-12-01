@@ -86,10 +86,8 @@ test('missing title/url field fails', async () => {
 })
 
 describe('deleting a blog', () => {
-  test('when blog exists', async () => {
-    const allBlogs = await api
-      .get('/api/blogs')
-
+  test('succeeds with 204 if valid id', async () => {
+    const allBlogs = await api.get('/api/blogs')
     const blogToDelete = allBlogs.body[0]
 
     await api
@@ -97,9 +95,9 @@ describe('deleting a blog', () => {
       .expect(204)
 
     const updatedBlogs = await api.get('/api/blogs')
-    const titles = updatedBlogs.body.map((b) => b.title)
+    expect(updatedBlogs.body).toHaveLength(allBlogs.body.length - 1)
 
-    expect(updatedBlogs.body).toHaveLength(allBlogs.length - 1)
+    const titles = updatedBlogs.body.map((blog) => blog.title)
     expect(titles).not.toContain(blogToDelete.title)
   })
 })
