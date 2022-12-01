@@ -56,7 +56,7 @@ test('missing likes property defaults to 0', async () => {
   }
 
   const newBlog = await api
-    .post(blog)
+    .post('/api/blogs')
     .send(blog)
     .expect(201)
 
