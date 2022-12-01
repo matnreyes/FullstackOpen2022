@@ -124,6 +124,22 @@ describe('update a post', () => {
 
     expect(updatedBlog.body.likes).toEqual(blogToEdit.likes)
   })
+
+  test('fails 400 with invalid id', async () => {
+    const invalidId = 'invalidid'
+
+    const fakeBlog = {
+      title: 'fake title',
+      author: 'fake author',
+      url: 'fakeurl.com',
+      likes: 0
+    }
+
+    await api
+      .put(`/api/blogs/${invalidId}`)
+      .send(fakeBlog)
+      .expect(400)
+  })
 })
 
 afterAll(() => {
