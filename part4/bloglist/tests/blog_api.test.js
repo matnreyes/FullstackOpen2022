@@ -115,14 +115,14 @@ describe('update a post', () => {
     const allBlogs = await api.get('/api/blogs')
     const blogToEdit = allBlogs.body[0]
 
-    const newLikes = blogToEdit.likes + 1
+    blogToEdit.likes += 1
 
     const updatedBlog = await api
       .put(`/api/blogs/${blogToEdit.id}`)
-      .send(newLikes)
+      .send(blogToEdit)
       .expect(200)
 
-    expect(updatedBlog.body.likes).toEqual(newLikes)
+    expect(updatedBlog.body.likes).toEqual(blogToEdit.likes)
   })
 })
 
