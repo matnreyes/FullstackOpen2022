@@ -48,6 +48,21 @@ test('new blog is created', async () => {
   expect(allBlogs.body).toHaveLength(testBlogs.length + 1)
 })
 
+test('missing likes property defaults to 0', async () => {
+  const blog = {
+    title: 'Lame blog',
+    author: 'lame guy',
+    url: 'lameblog.com'
+  }
+
+  const newBlog = await api
+    .post(blog)
+    .send(blog)
+    .expect(201)
+
+  expect(newBlog.body.likes).toEqual(0)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
