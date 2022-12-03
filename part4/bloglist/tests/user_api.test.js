@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
+
 const api = supertest(app)
 const User = require('../models/user')
 
@@ -37,9 +38,8 @@ describe('adding users', () => {
   test('fails when password is too short', async () => {
     const usersAtStart = await api.get('/api/users')
     const newUser = {
-      username: 'testuser',
-      name: 'short user1',
-      password: 'pa'
+      username: 'testusername',
+      name: 'short user1'
     }
 
     const result = await api

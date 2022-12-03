@@ -1,10 +1,11 @@
+/* eslint-disable consistent-return */
 const usersRouter = require('express').Router()
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
 
 usersRouter.post('/', async (req, res, next) => {
   const { username, name, password } = req.body
-  if (password.length < 3) {
+  if (!password || password.length < 3) {
     const error = {
       name: 'ValidationError',
       message: 'Password must be at least 3 characters long'
