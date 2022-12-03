@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const blogsRouter = require('express').Router()
+const jwt = require('jsonwebtoken')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
@@ -9,21 +10,34 @@ blogsRouter.get('/', async (req, res) => {
   res.json(blogs)
 })
 
+const getTokenFrom = req => {
+  const authorization = req.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return null
+}
+
 blogsRouter.post('/', async (req, res) => {
-  const user = await User.find({})
+  const { title, author, url, likes } = req.body
+  const token = getTokenFrom(req)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return res.status(401).json({ error: 'token missing or field invalid'})
+  }
+  const user = await User.findById(decodedToken.id)
+
   const newBlog = new Blog({
-    title: req.body.title,
-    author: req.body.author,
-    url: req.body.url,
-    likes: req.body.likes,
-    user: user[0]._id
+    title,
+    author,
+    url,
+    likes,
+    user: user._id
   })
 
-  const author = await User.findById(newBlog.user.toString())
-  author.blogs = author.blogs.concat(newBlog._id)
-  await author.save()
-
   const savedBlog = await newBlog.save()
+  user.blogs = user.blogs.concat(savedBlog._id)
+  await user.save()
 
   res.status(201).json(savedBlog)
 })
