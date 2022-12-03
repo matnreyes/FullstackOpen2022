@@ -9,7 +9,7 @@ usersRouter.post('/', async (req, res, next) => {
       name: 'ValidationError',
       message: 'Password must be at least 3 characters long'
     }
-    next(error)
+    return next(error)
   }
   const passwordHash = await bcrypt.hash(password, 10)
   const newUser = new User({

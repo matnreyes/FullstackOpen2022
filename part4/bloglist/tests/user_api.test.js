@@ -19,7 +19,7 @@ describe('adding users', () => {
     const usersAtStart = await api.get('/api/users')
     const newUser = {
       username: 'te',
-      name: 'short user',
+      name: 'short user0',
       password: 'password'
     }
 
@@ -38,7 +38,7 @@ describe('adding users', () => {
     const usersAtStart = await api.get('/api/users')
     const newUser = {
       username: 'testuser',
-      name: 'short user',
+      name: 'short user1',
       password: 'pa'
     }
 
@@ -48,6 +48,26 @@ describe('adding users', () => {
       .expect(400)
 
     expect(result.body.error).toContain('Password must be at least 3 characters long')
+
+    const usersAtEnd = await api.get('/api/users')
+    expect(usersAtEnd.body).toHaveLength(usersAtStart.body.length)
+  })
+
+  test('fails when username already in DB', async () => {
+    const user = {
+      username: 'username',
+      name: 'user',
+      password: 'testtpass'
+    }
+
+    const usersAtStart = await api.get('/api/users')
+
+    const result = await api
+      .post('/api/users')
+      .send(user)
+      .expect(400)
+
+    expect(result.body.error).toContain('Error, expected `username` to be unique')
 
     const usersAtEnd = await api.get('/api/users')
     expect(usersAtEnd.body).toHaveLength(usersAtStart.body.length)
