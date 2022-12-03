@@ -2,8 +2,15 @@ const usersRouter = require('express').Router()
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
 
-usersRouter.post('/', async (req, res) => {
+usersRouter.post('/', async (req, res, next) => {
   const { username, name, password } = req.body
+  if (password.length < 3) {
+    const error = {
+      name: 'ValidationError',
+      message: 'Password must be at least 3 characters long'
+    }
+    next(error)
+  }
   const passwordHash = await bcrypt.hash(password, 10)
   const newUser = new User({
     username,
