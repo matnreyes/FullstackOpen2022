@@ -37,7 +37,7 @@ blogsRouter.post('/', async (req, res) => {
 
 blogsRouter.delete('/:id', async (req, res) => {
   const blog = await Blog.findById(req.params.id)
-  if (!(blog.user.toString() === req.user.id)) {
+  if (blog.user.toString() !== req.user.id) {
     return res.status(401).json({ error: 'user does not have permission'})
   }
   const user = await User.findById(req.user.id)
