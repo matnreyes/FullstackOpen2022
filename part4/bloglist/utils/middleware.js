@@ -1,4 +1,5 @@
 /* eslint-disable consistent-return */
+const jwt = require('jsonwebtoken')
 const logger = require('./logger')
 
 const requestLogger = (request, response, next) => {
@@ -34,12 +35,18 @@ const errorHandler = (error, request, response, next) => {
 
 const tokenExtractor = (req, res, next) => {
   const authorization = req.get('authorization')
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    req.token = authorization.substring(7)
-    next()
-  } else {
+  if (!(authorization && authorization.toLowerCase().startsWith('bearer '))) {
     return res.status(401).json({ error: 'invalid token' })
   }
+  const token = authorization.substring(7)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+
+  if (!decodedToken.id) {
+    return res.status(401).json({ error: 'invalid token' })
+  }
+
+  req.user = decodedToken
+  next()
 }
 
 module.exports = {

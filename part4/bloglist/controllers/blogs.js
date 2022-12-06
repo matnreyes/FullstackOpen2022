@@ -19,18 +19,13 @@ blogsRouter.get('/:id', async (req, res) => {
 blogsRouter.post('/', async (req, res) => {
   // eslint-disable-next-line object-curly-newline
   const { title, author, url, likes } = req.body
-  const decodedToken = jwt.verify(req.token, process.env.SECRET)
-  if (!decodedToken.id) {
-    return res.status(401).json({ error: 'token missing or field invalid' })
-  }
-  const user = await User.findById(decodedToken.id)
-
+  const user = await User.findById(req.user.id)
   const newBlog = new Blog({
     title,
     author,
     url,
     likes,
-    user: user._id
+    user: user.id
   })
 
   const savedBlog = await newBlog.save()
@@ -41,8 +36,15 @@ blogsRouter.post('/', async (req, res) => {
 })
 
 blogsRouter.delete('/:id', async (req, res) => {
-  await Blog.findByIdAndRemove(req.params.id)
+  const blog = await Blog.findById(req.params.id)
+  if (!(blog.user.toString() === req.user.id)) {
+    return res.status(401).json({ error: 'user does not have permission'})
+  }
+  const user = await User.findById(req.user.id)
+  user.blogs = user.blogs.filter(b => b !== blog._id.toString())
+  await user.save()
 
+  blog.delete()
   res.status(204).end()
 })
 
