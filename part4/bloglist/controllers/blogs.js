@@ -11,6 +11,11 @@ blogsRouter.get('/', async (req, res) => {
   res.json(blogs)
 })
 
+blogsRouter.get('/:id', async (req, res) => {
+  const blog = await Blog.findById(req.params.id)
+  res.json(blog)
+})
+
 blogsRouter.post('/', async (req, res) => {
   // eslint-disable-next-line object-curly-newline
   const { title, author, url, likes } = req.body

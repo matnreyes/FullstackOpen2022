@@ -1,10 +1,14 @@
-/* eslint-disable no-console */
+/* eslint-disable no-unused-expressions */
 const info = (...params) => {
-  console.log(...params)
+  process.env.NODE_ENV === 'test'
+    ? 1
+    : console.log(...params)
 }
 
 const error = (...params) => {
-  console.error(...params)
+  process.env.NODE_ENV === 'test'
+    ? 1
+    : console.error(...params)
 }
 
 module.exports = {
