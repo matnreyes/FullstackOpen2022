@@ -3,6 +3,7 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const { tokenExtractor } = require('../utils/middleware')
 
 blogsRouter.get('/', async (req, res) => {
   const blogs = await Blog
@@ -15,7 +16,7 @@ blogsRouter.get('/:id', async (req, res) => {
   res.json(blog)
 })
 
-blogsRouter.post('/', async (req, res) => {
+blogsRouter.post('/', tokenExtractor, async (req, res) => {
   // eslint-disable-next-line object-curly-newline
   const { title, author, url, likes } = req.body
   const user = await User.findById(req.user.id)
@@ -34,7 +35,7 @@ blogsRouter.post('/', async (req, res) => {
   res.status(201).json(savedBlog)
 })
 
-blogsRouter.delete('/:id', async (req, res) => {
+blogsRouter.delete('/:id', tokenExtractor, async (req, res) => {
   const blog = await Blog.findById(req.params.id)
   if (blog.user.toString() !== req.user.id) {
     return res.status(401).json({ error: 'user does not have permission'})
@@ -47,7 +48,7 @@ blogsRouter.delete('/:id', async (req, res) => {
   res.status(204).end()
 })
 
-blogsRouter.put('/:id', async (req, res) => {
+blogsRouter.put('/:id', tokenExtractor, async (req, res) => {
   const blog = {
     title: req.body.title,
     author: req.body.author,

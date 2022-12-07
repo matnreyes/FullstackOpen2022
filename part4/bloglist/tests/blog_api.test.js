@@ -30,7 +30,6 @@ beforeEach(async () => {
 test('gets all blogs in database', async () => {
   const allNotes = await api
     .get('/api/blogs')
-    .set({ Authorization: token })
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
@@ -40,7 +39,6 @@ test('gets all blogs in database', async () => {
 test('unique identifier property of blog is named id', async () => {
   const allBlogs = await api
     .get('/api/blogs')
-    .set({ Authorization: token })
 
   const blog = allBlogs.body[0]
 
@@ -63,7 +61,6 @@ test('new blog is created', async () => {
 
   const allBlogs = await api
     .get('/api/blogs')
-    .set({ Authorization: token })
 
   expect(allBlogs.body).toHaveLength(testBlogs.length + 1)
 })
@@ -112,7 +109,6 @@ describe('deleting a blog', () => {
   test('succeeds with 204 if valid id', async () => {
     const allBlogs = await api
       .get('/api/blogs')
-      .set({ Authorization: token })
     const blogToDelete = allBlogs.body[0]
 
     await api
@@ -122,7 +118,6 @@ describe('deleting a blog', () => {
 
     const updatedBlogs = await api
       .get('/api/blogs')
-      .set({ Authorization: token })
     expect(updatedBlogs.body).toHaveLength(allBlogs.body.length - 1)
 
     const titles = updatedBlogs.body.map((blog) => blog.title)
@@ -143,7 +138,6 @@ describe('update a post', () => {
   test('suceeds with status 200 if update is succesful', async () => {
     const allBlogs = await api
       .get('/api/blogs')
-      .set({ Authorization: token })
     const blogToEdit = allBlogs.body[0]
 
     blogToEdit.likes += 1
