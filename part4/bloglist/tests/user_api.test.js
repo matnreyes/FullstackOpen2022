@@ -7,12 +7,14 @@ const User = require('../models/user')
 
 beforeEach(async () => {
   await User.deleteMany({})
-  const user = new User({
+  const user = {
     username: 'username',
-    name: 'test user',
-    passwordHash: 'ejndwiejndfiwejfn'
-  })
-  await user.save()
+    name: 'testUser',
+    password: 'password'
+  }
+  await api
+    .post('/api/users')
+    .send(user)
 })
 
 describe('adding users', () => {

@@ -1,7 +1,6 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
 const blogsRouter = require('express').Router()
-const jwt = require('jsonwebtoken')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
@@ -49,7 +48,13 @@ blogsRouter.delete('/:id', async (req, res) => {
 })
 
 blogsRouter.put('/:id', async (req, res) => {
-  const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  const blog = {
+    title: req.body.title,
+    author: req.body.author,
+    likes: req.body.likes,
+    url: req.body.url
+  }
+  const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, { new: true })
   res.status(200).json(updatedBlog)
 })
 
