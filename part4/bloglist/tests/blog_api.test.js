@@ -7,6 +7,12 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 
 beforeEach(async () => {
+  const token = await api
+    .post('/api/login')
+    .send({
+      username: 'admin',
+      password: 'password'
+    })
   await Blog.deleteMany({})
   await Blog.insertMany(testBlogs)
 })
