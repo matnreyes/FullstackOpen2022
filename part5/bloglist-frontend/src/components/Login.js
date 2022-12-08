@@ -1,6 +1,6 @@
 import userService from '../services/users'
 
-const Login = ({ username, password, setUsername, setPassword, setUser}) => {
+const Login = ({ username, password, setUsername, setPassword, setUser, setNotification}) => {
   const handleLogin = async (event) => {
     event.preventDefault()
 
@@ -11,8 +11,9 @@ const Login = ({ username, password, setUsername, setPassword, setUser}) => {
       setUsername('')
       setPassword('')
       setUser(user)
+      setNotification(`${user.username} logged in`)
     } catch (exception) {
-      console.log(exception)
+        setNotification(`error: ${exception.response.data.error}`)
     }
   }
 

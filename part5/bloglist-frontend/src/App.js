@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Login from './components/Login'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 
 const App = () => {
@@ -9,6 +10,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [notification, setNotification] = useState(null)
  
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -35,7 +37,7 @@ const App = () => {
           }}>Logout</button>
         </p>
       </div>
-      <BlogForm blogs={blogs} setBlogs={setBlogs} />
+      <BlogForm blogs={blogs} setBlogs={setBlogs} setNotification={setNotification}/>
       <div>
         {blogs.map(blog => 
           <Blog key={blog.id} blog={blog}/>
@@ -46,6 +48,9 @@ const App = () => {
 
   return (
     <div>
+       {notification !== null && 
+        <Notification notification={notification} setNotification={setNotification}/>
+      }
       {user === null ?
       <Login 
       username={username}
@@ -53,6 +58,7 @@ const App = () => {
         setUsername={setUsername}
         setPassword={setPassword}
         setUser={setUser}
+        setNotification={setNotification}
       /> :
       blogDisplay()
       }
