@@ -15,6 +15,7 @@ const postBlog = async (blogObject) => {
   const config = {
     header: { Authorization: token }
   }
+  console.log(token)
   const response = await axios.post(baseUrl, blogObject, config)
   return response.data
 }

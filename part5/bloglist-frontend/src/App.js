@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Login from './components/Login'
+import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 
 const App = () => {
@@ -8,8 +9,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [newBlog, setNewBlog] = useState(null)
-
+ 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -20,58 +20,9 @@ const App = () => {
     const loggedIn = JSON.parse(window.localStorage.getItem('user'))
     if (loggedIn) {
       setUser(loggedIn)
+      blogService.setToken(loggedIn.token)
     }
-
-    const blogObject = {
-      title: '',
-      author: '',
-      url: ''
-    }
-    setNewBlog(blogObject)
   }, [])
-
-  const blogObject = {
-    title: '',
-    author: '',
-    url: ''
-  }
-  
-  const BlogForm = () => (
-    <>
-      <form>
-        title: 
-        <input
-          type='text'
-          value={blogObject.title}
-          onChange={({ target }) => {
-            blogObject.title = target.value
-            return blogObject.title
-          }}
-          name='title'
-        />
-        author: 
-        <input
-          type='text'
-          value={blogObject.author}
-          onChange={({ target }) => {
-            blogObject.author = target.value
-            return blogObject.author
-          }}
-          name='author'
-        />
-        url:
-        <input
-          type='text'
-          value={blogObject.url}
-          onChange={({ target }) => {
-            blogObject.url = target.value
-            return blogObject.url
-          }}
-          name='url'
-        />
-      </form>
-    </>
-  )
 
   const blogDisplay = () => (
     <>
@@ -87,7 +38,7 @@ const App = () => {
       {blogs.map(blog => 
         <Blog key={blog.id} blog={blog}/>
       )}
-      <BlogForm />
+      <BlogForm blogs={blogs} setBlogs={setBlogs} />
     </>
   )
 
