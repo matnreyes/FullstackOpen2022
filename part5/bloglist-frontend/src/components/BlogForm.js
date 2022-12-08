@@ -11,6 +11,9 @@ const BlogForm = ({ blogs, setBlogs }) => {
     try {
       const newBlog = await blogService.postBlog({ title, author, url})
       setBlogs(blogs.concat(newBlog))
+      setTitle('')
+      setAuthor('')
+      setUrl('')
     } catch (exception) {
       console.log(exception)
     }
