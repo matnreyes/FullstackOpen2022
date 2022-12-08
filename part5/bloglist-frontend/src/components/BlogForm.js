@@ -20,6 +20,7 @@ const BlogForm = ({ blogs, setBlogs }) => {
   }
   return (
     <>
+    <h3>add blog</h3>
       <form onSubmit={handleSubmit}>
         <div>
           title: 
