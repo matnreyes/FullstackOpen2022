@@ -19,9 +19,19 @@ const BlogForm = ({ blogs, setBlogs, setNotification }) => {
       setNotification(`error: ${exception.response.data.error}`)
     }
   }
+
+  const formStyle = {
+    backgroundColor: 'lightgrey',
+    borderStyle: 'solid',
+    borderRadius: 10,
+    borderColor: 'grey',
+    borderWidth: 2,
+    padding: 8,
+    width: '20%',
+}
   return (
-    <>
-    <h3>add blog</h3>
+    <div style={formStyle}>
+      <h3>add blog</h3>
       <form onSubmit={handleSubmit}>
         <div>
           title: 
@@ -52,7 +62,7 @@ const BlogForm = ({ blogs, setBlogs, setNotification }) => {
         </div>
         <button type='submit'>submit</button> 
       </form>
-    </>
+    </div>
   )
 }
 
