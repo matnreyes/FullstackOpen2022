@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const BlogForm = ({ blogs, setBlogs, setNotification }) => {
+const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    blogFormRef.current.toggleVisibility()
     try {
       const newBlog = await blogService.postBlog({ title, author, url})
       setBlogs(blogs.concat(newBlog))
@@ -27,14 +28,15 @@ const BlogForm = ({ blogs, setBlogs, setNotification }) => {
     borderColor: 'grey',
     borderWidth: 2,
     padding: 8,
-    width: '20%',
+    width: 200,
 }
   return (
     <div style={formStyle}>
       <h3>add blog</h3>
       <form onSubmit={handleSubmit}>
         <div>
-          title: 
+          title:
+          <br/>
           <input 
             type='text'
             name='title'
@@ -44,6 +46,7 @@ const BlogForm = ({ blogs, setBlogs, setNotification }) => {
         </div>
         <div>
           author:
+          <br/>
           <input 
             type='text'
             name='author'
@@ -53,6 +56,7 @@ const BlogForm = ({ blogs, setBlogs, setNotification }) => {
         </div>
         <div>
           url:
+          <br/>
           <input 
             type='text'
             name='url'
