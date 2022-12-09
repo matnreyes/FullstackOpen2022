@@ -48,7 +48,7 @@ blogsRouter.delete('/:id', tokenExtractor, async (req, res) => {
   res.status(204).end()
 })
 
-blogsRouter.put('/:id', tokenExtractor, async (req, res) => {
+blogsRouter.put('/:id', async (req, res) => {
   const blog = {
     title: req.body.title,
     author: req.body.author,

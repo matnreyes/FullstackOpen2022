@@ -3,6 +3,7 @@ import blogService from '../services/blogs'
 
 const Blog = ({blog}) => {
   const [expanded, setExpanded] = useState(false)
+  const [likes, setLikes] = useState(blog.likes)
 
   const showWhenExpanded = { display: expanded ? '' : 'none' }
 
@@ -21,18 +22,21 @@ const Blog = ({blog}) => {
 
   const handleLike = () => {
     blog.likes += 1
+    setLikes(blog.likes)
     blogService.updateBlog(blog)
   }
 
   return (
     <div style={blogStyle}>
       "{blog.title}" by {blog.author}
-      <button onClick={toggleExpand}>expand</button>
+      <button onClick={toggleExpand}>{expanded ? 'close' : 'expand'}</button>
       <div style={showWhenExpanded}>
         {blog.url}
         <br/>
-        likes: {blog.likes}
+        likes: {likes}
         <button onClick={handleLike}>like</button>
+        <br/>
+        added by: {blog.user.username}
       </div>
     </div>
   )

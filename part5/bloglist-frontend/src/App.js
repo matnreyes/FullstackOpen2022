@@ -14,20 +14,23 @@ const App = () => {
   const [notification, setNotification] = useState(null)
  
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [])
-
-  useEffect(() => {
     const loggedIn = JSON.parse(window.localStorage.getItem('user'))
     if (loggedIn) {
       setUser(loggedIn)
       blogService.setToken(loggedIn.token)
     }
+
+    const fetchBlogs = async () => {
+      const returnedBlogs = await blogService.getAll()
+      returnedBlogs.sort((a, b) => b.likes - a.likes)
+      setBlogs(returnedBlogs)
+    }
+
+    fetchBlogs()
   }, [])
 
   const blogFormRef = useRef()
+  console.log(blogs)
 
   const blogDisplay = () => (
     <>
