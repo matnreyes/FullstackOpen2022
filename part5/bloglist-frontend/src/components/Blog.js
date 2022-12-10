@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({blog}) => {
+const Blog = ({ blog }) => {
   const [expanded, setExpanded] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
