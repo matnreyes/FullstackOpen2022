@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog , user, setNotification }) => {
+const Blog = ({ blog , user, setNotification, setBlogs, blogs }) => {
   const [expanded, setExpanded] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
@@ -24,6 +24,8 @@ const Blog = ({ blog , user, setNotification }) => {
     blog.likes += 1
     setLikes(blog.likes)
     blogService.updateBlog(blog)
+    const newBlogs = blogs.map(n => n.id === blog.id ? blog : n)
+    setBlogs(newBlogs.sort((a, b) => b.likes = a.likes))
   }
 
   const deleteButton = () => { 
@@ -31,6 +33,7 @@ const Blog = ({ blog , user, setNotification }) => {
       try {
         if(window.confirm(`Delete blog: '${blog.title}'?`)) {
           await blogService.deleteBlog(blog.id)
+          setNotification(`Succesfully deleted ${blog.title}`)
         }
       } catch (exception) {
         setNotification(`error: ${exception.response.data.error}`)
