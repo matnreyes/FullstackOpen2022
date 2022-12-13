@@ -29,7 +29,25 @@ const App = () => {
     fetchBlogs()
   }, [])
 
+  const handleDelete = async (blog) => {
+    try {
+      if(window.confirm(`Delete blog: '${blog.title}'?`)) {
+        await blogService.deleteBlog(blog.id)
+        const updatedBlogs = blogs.filter(b => b.id !== blog.id)
+        setBlogs(updatedBlogs)
+        setNotification(`Succesfully deleted ${blog.title}`)
+      }
+    } catch (exception) {
+      setNotification(`error: ${exception.response.data.error}`)
+    }
+  }
+
   const blogFormRef = useRef()
+
+  const sortBlogs = (blog) => {
+    const updatedBlogs = blogs.map(b => b === blog.id ? blog : b)
+    setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes))
+  }
 
   const blogDisplay = () => (
     <>
@@ -47,7 +65,7 @@ const App = () => {
       </Togglable>
       <div>
         {blogs.map(blog => 
-          <Blog key={blog.id} blog={blog} user={user.username} setNotification={setNotification} setBlogs={setBlogs} blogs={blogs}/>
+          <Blog key={blog.id} blog={blog} user={user.username} handleDelete={handleDelete} sortBlogs={sortBlogs}/>
         )}
       </div>
     </>

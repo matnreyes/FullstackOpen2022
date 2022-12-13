@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog , user, setNotification, setBlogs, blogs }) => {
+const Blog = ({ blog , user, handleDelete, sortBlogs }) => {
   const [expanded, setExpanded] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
@@ -24,24 +24,13 @@ const Blog = ({ blog , user, setNotification, setBlogs, blogs }) => {
     blog.likes += 1
     setLikes(blog.likes)
     blogService.updateBlog(blog)
-    const newBlogs = blogs.map(n => n.id === blog.id ? blog : n)
-    setBlogs(newBlogs.sort((a, b) => b.likes = a.likes))
+    sortBlogs(blog)
+
   }
 
-  const deleteButton = () => { 
-    const handleDelete = async () => {
-      try {
-        if(window.confirm(`Delete blog: '${blog.title}'?`)) {
-          await blogService.deleteBlog(blog.id)
-          setNotification(`Succesfully deleted ${blog.title}`)
-        }
-      } catch (exception) {
-        setNotification(`error: ${exception.response.data.error}`)
-      }
-    }
-    return (
-      <button onClick={handleDelete}>delete</button>
-  )}
+  const deleteButton = () => (
+    <button onClick={() => handleDelete(blog)}>delete</button>
+  )
 
   return (
     <div style={blogStyle}>
@@ -55,7 +44,7 @@ const Blog = ({ blog , user, setNotification, setBlogs, blogs }) => {
         <br/>
         added by: {blog.user.username}
         <br/>
-        {user === blog.user.username && deleteButton() }
+        {user === blog.user.username && deleteButton()}
       </div>
     </div>
   )
