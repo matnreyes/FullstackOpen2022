@@ -53,7 +53,7 @@ const Blog = ({ blog , user, handleDelete, sortBlogs }) => {
 
 Blog.propTypes =  {
   blog: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
+  user: PropTypes.string.isRequired,
   handleDelete: PropTypes.func.isRequired,
   sortBlogs: PropTypes.func.isRequired
 }

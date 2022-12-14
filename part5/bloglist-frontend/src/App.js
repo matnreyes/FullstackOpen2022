@@ -12,7 +12,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState(null)
- 
+
   useEffect(() => {
     const loggedIn = JSON.parse(window.localStorage.getItem('user'))
     if (loggedIn) {
