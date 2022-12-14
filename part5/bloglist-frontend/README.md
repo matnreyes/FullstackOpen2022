@@ -7,9 +7,13 @@ Bloglist is a fullstack application that allows users to store information regar
 - React (useEffect, useRef)
 - Axios
 
+Demonstrates ability to create conditionally rendered components, client-side user authentication, basic CSS styling, and multi-user support.
+
 **[Back end](https://github.com/matnreyes/FullstackOpen2022/tree/main/part4/bloglist):**
 - Node.js
 - Express
 - Mongoose / MongoDB
 - Jest (testing)
 - JSONWebToken + Bcrypt (user auth)
+
+Demontrates ability to create a Node app with different route handlers. Routes handle user login, user management, and blog submission. JSWT is used to autheticate users and Bcrypt allows for secure storage of password hash. Mongoose Unique Validators prevent from multiple users having same username. 
