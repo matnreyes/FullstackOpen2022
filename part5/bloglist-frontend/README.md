@@ -1,4 +1,4 @@
-# Bloglist
+# [Bloglist](https://matnreyes-bloglist.fly.dev/)
 
 Bloglist is a fullstack application that allows users to store information regarding blogs they've come across on the internet. Bloglist has multi-user support and allows for users to vote on which blog they like.
 
@@ -18,5 +18,3 @@ Demonstrates ability to create conditionally rendered components, client-side us
 
 Demontrates ability to create a Node app with different route handlers. Routes handle user login, user management, and blog submission. JSWT is used to autheticate users and Bcrypt allows for secure storage of password hash. Mongoose Unique Validators prevent from multiple users having same username. 
 
-
-**Fly.io deployment coming soon**
