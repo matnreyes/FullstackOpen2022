@@ -17,3 +17,6 @@ Demonstrates ability to create conditionally rendered components, client-side us
 - JSONWebToken + Bcrypt (user auth)
 
 Demontrates ability to create a Node app with different route handlers. Routes handle user login, user management, and blog submission. JSWT is used to autheticate users and Bcrypt allows for secure storage of password hash. Mongoose Unique Validators prevent from multiple users having same username. 
+
+
+**Fly.io deployment coming soon**
