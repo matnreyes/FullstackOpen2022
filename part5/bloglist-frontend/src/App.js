@@ -53,7 +53,7 @@ const App = () => {
     <>
       <h1>blogs</h1>
       <div>
-        <p>Logged in as {user.username} 
+        <p>Logged in as {user.username}
           <button onClick={() => {
             setUser(null)
             return window.localStorage.removeItem('user')
@@ -64,7 +64,7 @@ const App = () => {
         <BlogForm blogs={blogs} setBlogs={setBlogs} setNotification={setNotification} blogFormRef={blogFormRef}/>
       </Togglable>
       <div>
-        {blogs.map(blog => 
+        {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} user={user.username} handleDelete={handleDelete} sortBlogs={sortBlogs}/>
         )}
       </div>
@@ -73,19 +73,19 @@ const App = () => {
 
   return (
     <div>
-       {notification !== null && 
+      {notification !== null &&
         <Notification notification={notification} setNotification={setNotification}/>
       }
       {user === null ?
-      <Login 
-        username={username}
-        password={password}
-        setUsername={setUsername}
-        setPassword={setPassword}
-        setUser={setUser}
-        setNotification={setNotification}
-      /> :
-      blogDisplay()
+        <Login
+          username={username}
+          password={password}
+          setUsername={setUsername}
+          setPassword={setPassword}
+          setUser={setUser}
+          setNotification={setNotification}
+        /> :
+        blogDisplay()
       }
     </div>
   )

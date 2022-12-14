@@ -1,11 +1,11 @@
 import userService from '../services/users'
 
-const Login = ({ username, password, setUsername, setPassword, setUser, setNotification}) => {
+const Login = ({ username, password, setUsername, setPassword, setUser, setNotification }) => {
   const handleLogin = async (event) => {
     event.preventDefault()
 
     try {
-      const user = await userService.login({ username, password})
+      const user = await userService.login({ username, password })
       window.localStorage.setItem('user', JSON.stringify(user))
 
       setUsername('')
@@ -13,7 +13,7 @@ const Login = ({ username, password, setUsername, setPassword, setUser, setNotif
       setUser(user)
       setNotification(`${user.username} logged in`)
     } catch (exception) {
-        setNotification(`error: ${exception.response.data.error}`)
+      setNotification(`error: ${exception.response.data.error}`)
     }
   }
 
@@ -23,20 +23,20 @@ const Login = ({ username, password, setUsername, setPassword, setUser, setNotif
       <form onSubmit={handleLogin}>
         <div>
           username
-          <input 
-          type='text'
-          value={username}
-          name='username'
-          onChange={({ target }) => setUsername(target.value)}
+          <input
+            type='text'
+            value={username}
+            name='username'
+            onChange={({ target }) => setUsername(target.value)}
           />
         </div>
         <div>
           password
           <input
-          type='password'
-          value={password}
-          name='password'
-          onChange={({ target }) => setPassword(target.value)}
+            type='password'
+            value={password}
+            name='password'
+            onChange={({ target }) => setPassword(target.value)}
           />
         </div>
         <button type='submit'>login</button>

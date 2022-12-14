@@ -11,7 +11,7 @@ const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
     event.preventDefault()
     blogFormRef.current.toggleVisibility()
     try {
-      const newBlog = await blogService.postBlog({ title, author, url})
+      const newBlog = await blogService.postBlog({ title, author, url })
       setBlogs(blogs.concat(newBlog))
       setTitle('')
       setAuthor('')
@@ -30,7 +30,7 @@ const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
     borderWidth: 2,
     padding: 8,
     width: 200,
-}
+  }
   return (
     <div style={formStyle}>
       <h3>add blog</h3>
@@ -38,7 +38,7 @@ const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
         <div>
           title:
           <br/>
-          <input 
+          <input
             type='text'
             name='title'
             value= {title}
@@ -48,7 +48,7 @@ const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
         <div>
           author:
           <br/>
-          <input 
+          <input
             type='text'
             name='author'
             value={author}
@@ -58,20 +58,20 @@ const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
         <div>
           url:
           <br/>
-          <input 
+          <input
             type='text'
             name='url'
             value={url}
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <button type='submit'>submit</button> 
+        <button type='submit'>submit</button>
       </form>
     </div>
   )
 }
 
-BlogForm.propTypes = { 
+BlogForm.propTypes = {
   blogs: PropTypes.array.isRequired,
   setBlogs: PropTypes.func.isRequired,
   setNotification: PropTypes.func.isRequired,
