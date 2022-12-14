@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand --forceExit",
+    "build:ui": "rm -rf build && cd ../../part5/bloglist-frontend && npm run build && cp -r build ../../part4/bloglist",
+    "deploy": "fly deploy",
+    "deploy:full": "npm run build:ui && npm run deploy",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "start": "cross-env NODE_ENV=production node index.js"
   },
