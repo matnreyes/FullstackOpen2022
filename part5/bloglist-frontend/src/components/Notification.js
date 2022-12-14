@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 const Notification = ({ notification, setNotification }) => {
   setTimeout(() => {
     setNotification(null)
@@ -20,6 +22,11 @@ const Notification = ({ notification, setNotification }) => {
       <h2>{notification}</h2>
     </div>
   )
+}
+
+Notification.propTypes = {
+  notification: PropTypes.string.isRequired,
+  setNotification: PropTypes.func.isRequired
 }
 
 export default Notification
