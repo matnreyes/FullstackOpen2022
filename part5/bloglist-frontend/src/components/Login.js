@@ -12,7 +12,7 @@ const Login = ({ username, password, setUsername, setPassword, setUser, setNotif
       setUsername('')
       setPassword('')
       setUser(user)
-      blogService.setToken(user)
+      blogService.setToken(user.token)
       setNotification(`${user.username} logged in`)
     } catch (exception) {
       setNotification(`error: ${exception.response.data.error}`)
