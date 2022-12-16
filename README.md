@@ -3,4 +3,4 @@ Revised projects for Fullstack Open for 2022 session of class. I've started from
 
 
 ## Projects
-* Bloglist : ([front end](https://github.com/matnreyes/FullstackOpen2022/tree/main/part5/bloglist-frontend) ([back end](https://github.com/matnreyes/FullstackOpen2022/tree/main/part4/bloglist)) ([deploymeny](https://matnreyes-bloglist.fly.dev/)))
+* Bloglist : [front end](https://github.com/matnreyes/FullstackOpen2022/tree/main/part5/bloglist-frontend) [back end](https://github.com/matnreyes/FullstackOpen2022/tree/main/part4/bloglist) [deploymeny](https://matnreyes-bloglist.fly.dev/)
