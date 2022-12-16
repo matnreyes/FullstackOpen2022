@@ -4,6 +4,14 @@ Revised projects for Fullstack Open for 2022 session of class. I've started from
 
 ## Projects
 * Bloglist : 
-  - [Front end](https://github.com/matnreyes/FullstackOpen2022/tree/main/part5/bloglist-frontend) 
-  - [Back end](https://github.com/matnreyes/FullstackOpen2022/tree/main/part4/bloglist) 
+  - [Front End](https://github.com/matnreyes/FullstackOpen2022/tree/main/part5/bloglist-frontend) 
+  - [Back End](https://github.com/matnreyes/FullstackOpen2022/tree/main/part4/bloglist) 
   - [Fly.io Deployment](https://matnreyes-bloglist.fly.dev/)
+
+* Phonebook :
+  - [Front End](https://github.com/matnreyes/FullstackOpen2022/tree/main/part2/phonebook)
+  - [Back End](https://github.com/matnreyes/FullstackOpen2022/tree/main/part3/phonebook_backend)
+  - [Fly.io Deployment](https://matnreyes-phonebook.fly.dev)
+
+* Country Data (front end for RESTCountries API): 
+  - [Front End](https://github.com/matnreyes/FullstackOpen2022/tree/main/part2/countries)
