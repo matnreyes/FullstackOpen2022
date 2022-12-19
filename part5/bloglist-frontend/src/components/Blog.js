@@ -37,7 +37,7 @@ const Blog = ({ blog , user, handleDelete, sortBlogs }) => {
     <div style={blogStyle}>
       {blog.title} by {blog.author}
       <button onClick={toggleExpand}>{expanded ? 'close' : 'expand'}</button>
-      <div style={showWhenExpanded}>
+      <div style={showWhenExpanded} className='moreInfo'>
         {blog.url}
         <br/>
         likes: {likes}

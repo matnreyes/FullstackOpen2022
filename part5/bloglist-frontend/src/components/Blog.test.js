@@ -8,9 +8,15 @@ test('<Blog /> only rredners title and author', () => {
   const blog = {
     title: 'testBlog',
     author: 'testAuthor',
-    url: 'opjndf.com'
+    url: 'opjndf.com',
+    user: {
+      username: 'testUser'
+    }
   }
 
-  render(<Blog blog={blog}/>)
-  screen.debug()
+  const { container } = render(<Blog blog={blog} />)
+  const div = container.querySelector('.moreInfo')
+
+
+  expect(div).toHaveStyle('display: none')
 })
