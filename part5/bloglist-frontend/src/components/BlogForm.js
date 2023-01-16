@@ -41,6 +41,7 @@ const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
           <input
             type='text'
             name='title'
+            placeholder='title'
             value= {title}
             onChange={({ target }) => setTitle(target.value)}
           />
@@ -51,6 +52,7 @@ const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
           <input
             type='text'
             name='author'
+            placeholder='author'
             value={author}
             onChange={({ target }) => setAuthor(target.value)}
           />
@@ -61,6 +63,7 @@ const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
           <input
             type='text'
             name='url'
+            placeholder='url'
             value={url}
             onChange={({ target }) => setUrl(target.value)}
           />

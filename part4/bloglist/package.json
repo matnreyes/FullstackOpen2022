@@ -10,7 +10,8 @@
     "deploy:full": "npm run build:ui && npm run deploy",
     "dev": " NODE_ENV=development nodemon index.js",
     "start": "NODE_ENV=production node index.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "start:test": "NODE_ENV=test node index.js"
   },
   "author": "Matias Reyes",
   "license": "ISC",
