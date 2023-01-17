@@ -42,4 +42,30 @@ describe('Blog app', function() {
       cy.contains('invalid username or password').should('have.css', 'color', 'rgb(255, 0, 0)')
     })
   })
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.request('POST', 'http://localhost:3003/api/users', {
+        username: 'testUser', password: 'password', name: 'Test User'
+      })
+
+      cy.request('POST', 'http://localhost:3003/api/login', {
+        username: 'testUser', password: 'password'
+      }).then((response) => {
+        localStorage.setItem('user', JSON.stringify(response.body))
+        cy.visit('http://localhost:3000')
+      })
+    })
+
+    it('a new blog can be created', function() {
+      cy.contains('new blog').click()
+      cy.contains('title').type('Test blog')
+      cy.contains('author').type('Brian Griffin')
+      cy.contains('url').type('fakeblog.com')
+      cy.contains('submit').click()
+
+      cy.contains('Blog succesfully added').should('have.css', 'color', 'rgb(0, 128, 0)')
+      cy.contains('Test blog by Brian Griffin')
+    })
+  })
 })
