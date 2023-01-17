@@ -38,3 +38,14 @@ Cypress.Commands.add('login', ({ username, password }) => {
 Cypress.Commands.add('cleanup', () => {
   cy.request('POST', 'http://localhost:3003/api/testing/reset')
 })
+
+Cypress.Commands.add('addBlog', (blog) => {
+  cy.request({
+    url: 'http://localhost:3003/api/blogs',
+    method: 'POST',
+    body: { ...blog },
+    headers: {
+      'Authorization': `bearer ${JSON.parse(localStorage.getItem('user')).token}`
+    }
+  })
+})

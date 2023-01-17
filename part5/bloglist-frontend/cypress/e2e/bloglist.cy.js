@@ -1,6 +1,6 @@
 describe('Blog app', function() {
   beforeEach(function() {
-    cy.request('POST', 'http://localhost:3003/api/testing/reset')
+    cy.cleanup()
     cy.visit('http://localhost:3000')
   })
 
@@ -20,10 +20,8 @@ describe('Blog app', function() {
 
   describe('Login', function() {
     beforeEach(function() {
-      cy.request('POST', 'http://localhost:3003/api/testing/reset')
-      cy.request('POST', 'http://localhost:3003/api/users', {
-        username: 'testUser', password: 'password', name: 'Test User'
-      })
+      cy.cleanup()
+      cy.signup({ username: 'testUser', password: 'password', name: 'Test User' })
     })
 
     it('succeeds with correct credentials', function() {
@@ -45,6 +43,22 @@ describe('Blog app', function() {
 
   describe('When logged in', function() {
     beforeEach(function() {
+      cy.cleanup()
+      const otherUser = {
+        username: 'testUser1',
+        password: 'password',
+        name: 'Test User 1'
+      }
+      cy.signup(otherUser)
+      cy.login(otherUser)
+
+      const otherBlog = {
+        title: 'Other Blog',
+        author: 'Other Author',
+        url: 'otherurl.com'
+      }
+      cy.addBlog(otherBlog)
+
       const user = {
         username: 'testUser',
         password: 'password',
@@ -52,8 +66,15 @@ describe('Blog app', function() {
       }
 
       cy.signup(user)
-
       cy.login(user)
+
+      const blog = {
+        title: 'Test blog',
+        author: 'Test Author',
+        url: 'testurl.com'
+      }
+      cy.addBlog(blog)
+
       cy.visit('http://localhost:3000')
     })
 
@@ -67,5 +88,44 @@ describe('Blog app', function() {
       cy.contains('Blog succesfully added').should('have.css', 'color', 'rgb(0, 128, 0)')
       cy.contains('Test blog by Brian Griffin')
     })
+
+    it('user can like blog', function() {
+      cy.contains('Test blog')
+        .should('contain', 'likes: 0')
+        .as('theBlog')
+
+      cy.get('@theBlog')
+        .contains('expand')
+        .click()
+
+      cy.get('@theBlog')
+        .contains('like')
+        .click()
+
+      cy.contains('likes: 1')
+    })
+
+    describe('user can delete', function() {
+      it('blog they wrote', function() {
+        cy.contains('Test blog')
+          .contains('expand')
+          .click()
+
+        cy.contains('delete')
+          .click()
+
+        cy.contains('Succesfully deleted Test blog')
+          .should('have.css', 'color', 'rgb(0, 128, 0)')
+      })
+
+      it('user can only delete blog they posted', function() {
+        cy.contains('expand')
+          .click()
+
+        cy.contains('Other Blog')
+          .should('not.contain', 'delete')
+      })
+    })
+
   })
 })
