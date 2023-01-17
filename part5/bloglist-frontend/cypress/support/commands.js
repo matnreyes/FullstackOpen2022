@@ -31,7 +31,7 @@ Cypress.Commands.add('signup', ({ username, password, name }) => {
 Cypress.Commands.add('login', ({ username, password }) => {
   cy.request('POST', 'http://localhost:3003/api/login', { username, password })
     .then((response) => {
-      localStorage.setItem('user', response.body)
+      localStorage.setItem('user', JSON.stringify(response.body))
     })
 })
 
