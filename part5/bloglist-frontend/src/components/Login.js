@@ -39,6 +39,7 @@ const Login = ({ username, password, setUsername, setPassword, setUser, setNotif
         <div>
           username
           <input
+            id="username-input"
             type='text'
             value={username}
             name='username'
@@ -48,14 +49,15 @@ const Login = ({ username, password, setUsername, setPassword, setUser, setNotif
         <div>
           password
           <input
+            id="password-input"
             type='password'
             value={password}
             name='password'
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button type='submit' value='login'>login</button>
-        <button type='submit' value='newuser'>create account</button>
+        <button id="login-button" type='submit' value='login'>login</button>
+        <button id="signup-button" type='submit' value='newuser'>create account</button>
       </form>
     </div>
   )
