@@ -126,6 +126,64 @@ describe('Blog app', function() {
           .should('not.contain', 'delete')
       })
     })
+  })
 
+  describe('Blogs', function() {
+    beforeEach(function() {
+      const blogs = [
+        {
+          title: 'blog0',
+          author: 'test author',
+          url: 'testurl3',
+          likes: 33
+        },
+        {
+          title: 'blog1',
+          author: 'test author',
+          url: 'testurl4',
+          likes: 200
+        },
+        {
+          title: 'blog2',
+          author: 'test author',
+          url: 'testurl3',
+          likes: 13
+        },
+        {
+          title: 'blog3',
+          author: 'test author',
+          url: 'testurl3',
+          likes: 13
+        }
+      ]
+
+      const user = {
+        username: 'testUser',
+        password: 'password',
+        name: 'Test User'
+      }
+
+      cy.signup(user)
+      cy.login(user)
+      blogs.forEach(blog => {
+        cy.addBlog(blog)
+      })
+      cy.visit('http://localhost:3000')
+    })
+
+    it('are ordered by descending likes', function() {
+      cy.get('.blog').eq(0).should('contain', 'blog1')
+      cy.get('.blog').eq(1).should('contain', 'blog0')
+      cy.get('.blog').eq(2).should('contain', 'blog2')
+      cy.get('.blog').eq(3).as('lastBlog')
+
+      cy.get('@lastBlog')
+        .should('contain', 'blog3')
+        .contains('expand').click()
+      cy.get('@lastBlog').contains('like').click()
+
+      cy.get('.blog').eq(2).should('contain', 'blog3')
+      cy.get('.blog').eq(3).should('contain', 'blog2')
+    })
   })
 })
