@@ -28,4 +28,11 @@ describe('anecdote reducer', () => {
     expect(newState).toHaveLength(state.length + 1)
     expect(newState).toContainEqual(addedAnecdote.data)
   })
+
+  test('should return anecdotes by order of likes', () => {
+    store.dispatch(increaseVote(state[4].id))
+    const newState = store.getState().sort((a, b) => b.votes - a.votes)
+
+    expect(newState[0].id).toEqual(state[4].id)
+  })
 })
