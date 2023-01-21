@@ -1,6 +1,6 @@
 interface Measurements {
-  weight: number;
   height: number;
+  weight: number;
 }
 
 const parseMeasurements = (args: Array<string>): Measurements => {
@@ -9,8 +9,8 @@ const parseMeasurements = (args: Array<string>): Measurements => {
 
   if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
     return {
-      weight: Number(args[2]),
-      height: Number(args[3])
+      height: Number(args[2]),
+      weight: Number(args[3])
     }
   } else {
     throw new Error('Values were not numbers')
@@ -18,8 +18,8 @@ const parseMeasurements = (args: Array<string>): Measurements => {
 }
 
 const calculateBMI = (a: number, b: number) => {
-  const BMI: number = a / (b * b)
-
+  const height = a / 100
+  const BMI: number = b / (height * height)
   if (BMI < 16) {
     return 'Underweight (Severe Thinness)'
   } else if (BMI < 17) {
@@ -42,7 +42,7 @@ const calculateBMI = (a: number, b: number) => {
 }
 
 try {
-  console.log(calculateBMI(64, 1.8))
+  console.log(calculateBMI(180, 74))
 } catch (error: unknown) {
   let errorMessage = 'Error happened'
   if (error instanceof Error) {
