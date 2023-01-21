@@ -1,14 +1,19 @@
-interface ActivityInfo {
-  days: number;
-  trainingDays: number;
-  targetTDays: number;
-  averageTime: number;
-  hitTarget: boolean;
+interface Rating {
   rating: number;
-  ratingExpanded: string;
+  description: string;
 }
 
-const calculateExercises = (hours: Array<string>): ActivityInfo => {
+interface ActivityInfo {
+  periodLength: number;
+  trainingDays: number;
+  success: boolean;
+  rating: number;
+  ratingDescription: string;
+  target: number;
+  average: number;
+}
+
+const calculateExercises = (hours: Array<number>, target: number): ActivityInfo => {
   // MUST calculate daily exercise hours
   // Compares it to the target amount of daily hours 
     /* 
@@ -21,6 +26,45 @@ const calculateExercises = (hours: Array<string>): ActivityInfo => {
       - rating between 1-3 that tells how the hours are met
       - text value explaining the rating
     */
-  const activity: ActivityInfo
-  return activity
+  const periodLength = hours.length;
+  const totalHours  = hours.reduce((a, b) => a + b, 0);
+  const trainingDays = (hours.filter(h => h > 0)).length;
+  const average: number = totalHours / periodLength;
+  const calculateRating = (): Rating => {
+    if (average >= target) {
+      const rating: Rating = {
+        rating: 3,
+        description: 'Surpassed your target hours. Good job!'
+      };
+      return rating;
+    } else if (trainingDays > (periodLength * 0.5))  {
+      const rating: Rating = {
+        rating: 2,
+        description: 'You kept up with your schedule. Keep going!'
+      }
+      return rating;
+    }
+
+    const rating: Rating = {
+      rating: 1,
+      description: 'Improvements could be made. Try altering exercise frequency or target.'
+    }
+
+    return rating;
+  }
+
+  const rating : Rating = calculateRating()
+
+  const activity: ActivityInfo = {
+    periodLength,
+    trainingDays,
+    success: average > target,
+    rating: rating.rating,
+    ratingDescription: rating.description,
+    target,
+    average
+  };
+  return activity;
 }
+
+console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
