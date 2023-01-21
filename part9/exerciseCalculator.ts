@@ -1,3 +1,14 @@
+/* 
+  Run instructions: 
+    npm run calculateExercises 2 1 0 2 4.5 0 3 1 0 4
+      target: 2
+      hours: [1, 0, 2, 4.5, 0, 3, 1, 0, 4]
+*/
+interface UserInput {
+  target: number;
+  hours: Array<number>
+}
+
 interface Rating {
   rating: number;
   description: string;
@@ -11,6 +22,31 @@ interface ActivityInfo {
   ratingDescription: string;
   target: number;
   average: number;
+}
+
+const parseInput = (args: Array<string>) : UserInput => {
+  if (args.length < 4) {
+    throw new Error('Missing fields');
+  }
+
+  const input: UserInput = {
+    target: 0,
+    hours: []
+  };
+
+  if (!isNaN(Number(args[3]))) {
+    input.target = Number(args[2]);
+  }
+
+  for (let x = 3; x < args.length; x++) {
+    if (isNaN(Number(args[x]))) {
+      throw new Error('Invalid input')
+    }
+
+    input.hours.push(Number(args[x]))
+  }
+
+  return input
 }
 
 const calculateExercises = (hours: Array<number>, target: number): ActivityInfo => {
@@ -55,4 +91,13 @@ const calculateExercises = (hours: Array<number>, target: number): ActivityInfo 
   return activity;
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+try {
+  const {hours, target} = parseInput(process.argv)
+  console.log(calculateExercises(hours, target))
+} catch (error: unknown) {
+  let errorMessage = 'Something went wrong';
+  if (error instanceof Error) {
+    errorMessage = error.message;
+  }
+  console.log(errorMessage);
+}
