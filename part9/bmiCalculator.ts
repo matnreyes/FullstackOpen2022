@@ -1,3 +1,8 @@
+/* 
+  Run instructions:
+    npm run calculateBmi (height in cm) (weight kg)
+*/
+
 interface Measurements {
   height: number;
   weight: number;
