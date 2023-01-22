@@ -1,4 +1,8 @@
 /* 
+  NOTE: 
+    This project does not express my (Matias Reyes) views on BMI calculations, rather
+    this project only follows current definitions for BMI numbers. 
+
   Run instructions:
     npm run calculateBmi (height in cm) (weight kg)
 */
@@ -9,16 +13,15 @@ interface Measurements {
 }
 
 const parseMeasurements = (args: Array<string>): Measurements => {
-  if (args.length < 4) throw new Error('Missing argument');
-  if (args.length > 4) throw new Error('Too many arguments');
-
-  if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+  const values = args.slice(-2)
+    
+  if (!isNaN(Number(values[0])) && !isNaN(Number(values[1]))) {
     return {
-      height: Number(args[2]),
-      weight: Number(args[3])
+      height: Number(values[0]),
+      weight: Number(values[1])
     }
   } else {
-    throw new Error('Values were not numbers')
+    throw new Error('malformatted parameters')
   }
 }
 
@@ -56,3 +59,7 @@ try {
   }
   console.log(errorMessage)
 }
+
+const bmiTools = { parseMeasurements, calculateBMI }
+
+module.exports = bmiTools
