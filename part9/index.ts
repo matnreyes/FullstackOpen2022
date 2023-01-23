@@ -16,7 +16,7 @@ app.get('/bmi', (req, res) => {
     res.json({ height, weight, BMI })
   } catch (error: unknown) {
     if (error instanceof Error) {
-      res.json(error.message)
+      res.json(error.message).status(400)
     }
   }
 })
