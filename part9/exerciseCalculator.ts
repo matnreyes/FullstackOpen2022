@@ -40,14 +40,14 @@ const parseInput = (args: Array<string>) : UserInput => {
 
   for (let x = 3; x < args.length; x++) {
     if (isNaN(Number(args[x]))) {
-      throw new Error('Invalid input')
+      throw new Error('Invalid input');
     }
 
-    input.hours.push(Number(args[x]))
+    input.hours.push(Number(args[x]));
   }
 
-  return input
-}
+  return input;
+};
 
 const calculateExercises = (hours: Array<number>, target: number): ActivityInfo => {
   const periodLength = hours.length;
@@ -65,19 +65,19 @@ const calculateExercises = (hours: Array<number>, target: number): ActivityInfo 
       const rating: Rating = {
         rating: 2,
         description: 'You kept up with your schedule. Keep going!'
-      }
+      };
       return rating;
     }
 
     const rating: Rating = {
       rating: 1,
       description: 'Improvements could be made. Try altering exercise frequency or target.'
-    }
+    };
 
     return rating;
-  }
+  };
 
-  const rating : Rating = calculateRating()
+  const rating : Rating = calculateRating();
 
   const activity: ActivityInfo = {
     periodLength,
@@ -89,11 +89,11 @@ const calculateExercises = (hours: Array<number>, target: number): ActivityInfo 
     average
   };
   return activity;
-}
+};
 
 try {
-  const {hours, target} = parseInput(process.argv)
-  console.log(calculateExercises(hours, target))
+  const {hours, target} = parseInput(process.argv);
+  console.log(calculateExercises(hours, target));
 } catch (error: unknown) {
   let errorMessage = 'Something went wrong';
   if (error instanceof Error) {
