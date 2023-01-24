@@ -1,6 +1,8 @@
 import express from 'express';
 const app = express();
+require('express-async-errors');
 import bmiTools from './bmiCalculator';
+import calculateExercises from './exerciseCalculator';
 
 app.use(express.json());
 
@@ -26,6 +28,31 @@ app.get('/bmi', (req, res) => {
       res.json(error.message).status(400);
     }
   }
+});
+
+app.post('/exercises', (req, res) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { daily_exercises, target } = req.body;
+  if (!daily_exercises || !target) {
+    throw new Error ('parameters missing');
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  if (isNaN(target)) {
+    throw new Error('malformatted parameters');
+  }
+  
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+  daily_exercises.forEach((n: number) => {
+    if (isNaN(n)) {
+      throw new Error('malformatted parameters');
+    }
+  });
+  
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  const activityInfo = calculateExercises(daily_exercises, Number(target));
+  res.json(activityInfo);
 });
 
 const PORT = 3002;

@@ -4,10 +4,10 @@
       target: 2
       hours: [1, 0, 2, 4.5, 0, 3, 1, 0, 4]
 */
-interface UserInput {
-  target: number;
-  hours: Array<number>
-}
+// interface UserInput {
+//   target: number;
+//   hours: Array<number>
+// }
 
 interface Rating {
   rating: number;
@@ -24,30 +24,30 @@ interface ActivityInfo {
   average: number;
 }
 
-const parseInput = (args: Array<string>) : UserInput => {
-  if (args.length < 4) {
-    throw new Error('Missing fields');
-  }
+// const parseInput = (args: Array<string>) : UserInput => {
+//   if (args.length < 4) {
+//     throw new Error('Missing fields');
+//   }
 
-  const input: UserInput = {
-    target: 0,
-    hours: []
-  };
+//   const input: UserInput = {
+//     target: 0,
+//     hours: []
+//   };
 
-  if (!isNaN(Number(args[3]))) {
-    input.target = Number(args[2]);
-  }
+//   if (!isNaN(Number(args[3]))) {
+//     input.target = Number(args[2]);
+//   }
 
-  for (let x = 3; x < args.length; x++) {
-    if (isNaN(Number(args[x]))) {
-      throw new Error('Invalid input');
-    }
+//   for (let x = 3; x < args.length; x++) {
+//     if (isNaN(Number(args[x]))) {
+//       throw new Error('Invalid input');
+//     }
 
-    input.hours.push(Number(args[x]));
-  }
+//     input.hours.push(Number(args[x]));
+//   }
 
-  return input;
-};
+//   return input;
+// };
 
 const calculateExercises = (hours: Array<number>, target: number): ActivityInfo => {
   const periodLength = hours.length;
@@ -91,13 +91,15 @@ const calculateExercises = (hours: Array<number>, target: number): ActivityInfo 
   return activity;
 };
 
-try {
-  const {hours, target} = parseInput(process.argv);
-  console.log(calculateExercises(hours, target));
-} catch (error: unknown) {
-  let errorMessage = 'Something went wrong';
-  if (error instanceof Error) {
-    errorMessage = error.message;
-  }
-  console.log(errorMessage);
-}
+// try {
+//   const {hours, target} = parseInput(process.argv);
+//   console.log(calculateExercises(hours, target));
+// } catch (error: unknown) {
+//   let errorMessage = 'Something went wrong';
+//   if (error instanceof Error) {
+//     errorMessage = error.message;
+//   }
+//   console.log(errorMessage);
+// }
+
+export default calculateExercises;

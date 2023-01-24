@@ -50,16 +50,16 @@ const calculateBMI = (a: number, b: number): string => {
   throw new Error('Unreachable code');
 };
 
-try {
-  const {height, weight} = parseMeasurements(process.argv);
-  console.log(calculateBMI(height, weight));
-} catch (error: unknown) {
-  let errorMessage = 'Error happened';
-  if (error instanceof Error) {
-    errorMessage = error.message;
-  }
-  console.log(errorMessage);
-}
+// try {
+//   const {height, weight} = parseMeasurements(process.argv);
+//   console.log(calculateBMI(height, weight));
+// } catch (error: unknown) {
+//   let errorMessage = 'Error happened';
+//   if (error instanceof Error) {
+//     errorMessage = error.message;
+//   }
+//   console.log(errorMessage);
+// }
 
 const bmiTools = { parseMeasurements, calculateBMI };
 
