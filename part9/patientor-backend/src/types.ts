@@ -4,3 +4,13 @@ export type Diagnose = {
   latin?: string;
 };
 
+export type Patient = {
+  id: string;
+  name: string;
+  dateOfBirth: string;
+  gender: string;
+  occupation?: string;
+  ssn: string;
+};
+
+export type NonSensitivePatientInfo = Omit<Patient, 'ssn'>;
