@@ -11,7 +11,7 @@ app.get('/api/ping', (_req, res) => {
 });
 
 app.use('/api/diagnoses', diagnoseRouter);
-app.use('/api/patiens', patientRouter);
+app.use('/api/patients', patientRouter);
 
 const PORT = 3001;
 
