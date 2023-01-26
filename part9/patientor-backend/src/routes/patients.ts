@@ -1,5 +1,6 @@
 import express from 'express';
 const router = express.Router();
+
 import patientService from '../services/patientsService';
 
 router.get('/', (_req, res) => {
