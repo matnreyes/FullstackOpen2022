@@ -9,7 +9,7 @@ export type Patient = {
   name: string;
   dateOfBirth: string;
   gender: string;
-  occupation?: string;
+  occupation: string;
   ssn: string;
 };
 
