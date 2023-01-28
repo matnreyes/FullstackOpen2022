@@ -1,15 +1,25 @@
 import { NewPatient, Gender } from '../types';
-type Fields = { name: unknown, dateOfBirth: unknown, gender: unknown, occupation: unknown, ssn: unknown };
 
 const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
 };
 
-const parseString = (str: unknown): string => {
-  if (!str || !isString(str)) {
-    throw new Error('Incorrect or missing value');
+const parseInput = (input: unknown): string => {
+  if (!input || !isString(input)) {
+    throw new Error('Incorrect or missing field');
   }
-  return str;
+  return input;
+};
+
+const isDate = (date: string): boolean => {
+  return Boolean(Date.parse(date));
+};
+
+const parseDate = (date: unknown): string => {
+  if (!date || !isString(date) || !isDate(date)) {
+    throw new Error('Incorrect or missing date: ' + date);
+  }
+  return date;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,31 +29,23 @@ const isGender = (param: any): param is Gender => {
 };
 
 const parseGender = (gender: unknown): Gender => {
-  if (!gender || !isGender(gender)) {
-    throw new Error('Incorrect or missing gender option:' + gender);
+  if (!gender || !isString(gender) || !isGender(gender)) {
+    throw new Error('Incorrect or missing gender option: ' + gender);
   }
   return gender;
 };
 
-const isDate = (date: string): boolean => {
-  return Boolean(Date.parse(date));
-};
+type Fields = { name : unknown, dateOfBirth: unknown, gender: unknown, occupation: unknown, ssn: unknown };
 
-const parseDate = (date: unknown): string => {
-  if (!date || !isString(date) || !isDate(date)) {
-    throw new Error(`Incorrect of missing date: ${date}`);
-  }
-  return date;
-};
-
-const toNewPatient = (object: Fields): NewPatient => {
+const toNewPatient = ({ name, dateOfBirth, gender, occupation, ssn } : Fields): NewPatient => {
   const newPatient: NewPatient = {
-    name: parseString(object.name),
-    dateOfBirth: parseDate(object.dateOfBirth),
-    gender: parseGender(object.gender),
-    occupation: parseString(object.occupation),
-    ssn: parseString(object.ssn)
+    name: parseInput(name),
+    dateOfBirth: parseDate(dateOfBirth),
+    gender: parseGender(gender),
+    occupation: parseInput(occupation),
+    ssn: parseInput(ssn)
   };
+  
   return newPatient;
 };
 
