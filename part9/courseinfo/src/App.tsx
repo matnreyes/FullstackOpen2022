@@ -27,6 +27,10 @@ const App = () => {
       <p>
         {courseParts[2].name} {courseParts[2].exerciseCount}
       </p>
+      <p>
+        Number of exervises{" "}
+        {courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}
+      </p>
     </div>
   );
 };
