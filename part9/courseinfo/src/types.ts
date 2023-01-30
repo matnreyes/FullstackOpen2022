@@ -33,4 +33,9 @@ interface CourseSubmissionPart extends DescriptivePart {
   exerciseSubmissionLink: string;
 }
 
-export type CoursePart = CourseNormalPart | CourseProjectPart | CourseSubmissionPart;
+interface SpecialCoursePart extends DescriptivePart {
+  type: "special";
+  requirements: string[]
+}
+
+export type CoursePart = CourseNormalPart | CourseProjectPart | CourseSubmissionPart | SpecialCoursePart;

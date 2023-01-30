@@ -28,6 +28,13 @@ const courseParts: CoursePart[] = [
     description: "Confusing description",
     exerciseSubmissionLink: "http://fake-exercise-submission.made-up-url.dev",
     exerciseCount: 14
+  },
+  {
+    type: "special",
+    name: "Backend development",
+    exerciseCount: 21,
+    description: "Typing the backend",
+    requirements: ["nodejs", "jest"]
   }
 ]
 
