@@ -1,30 +1,42 @@
-import { Course } from './types';
+import { CoursePart } from './types';
 import Header from './components/Header';
 import Content from './components/Content';
 import Total from './components/Total';
 
-const App = () => {
-  const course: Course = {
-    name: "Half Stack application development",
-    parts: [{
-      name: "Fundamentals",
-      exerciseCount: 10
-    },
-    {
-      name: "Using props to pass data",
-      exerciseCount: 7
-    },
-    {
-      name: "Deeper type usage",
-      exerciseCount: 14
-    }]
-  };
+const courseParts: CoursePart[] = [
+  {
+    name: "Fundamentals",
+    exerciseCount: 10,
+    description: "This is the easy course part",
+    type: "normal"
+  },
+  {
+    type: "normal",
+    name: "Advanced",
+    exerciseCount: 7,
+    description: "This is the hard course part"
+  },
+  {
+    type: "groupProject",
+    name: "Using props to pass data",
+    exerciseCount: 7,
+    groupProjectCount: 3
+  },
+  {
+    type: "submission",
+    name: "Deeper type usage",
+    description: "Confusing description",
+    exerciseSubmissionLink: "http://fake-exercise-submission.made-up-url.dev",
+    exerciseCount: 14
+  }
+]
 
-  return (
+const App = () => {
+    return (
     <div>
-      <Header name={course.name}/>
-      <Content parts={course.parts}/>
-      <Total total={course.parts.reduce((a, b) => b.exerciseCount + a, 0)}/>
+      <Header name="Half Stack application development"/>
+      <Content parts={courseParts}/>
+      <Total total={courseParts.reduce((a, b) => b.exerciseCount + a, 0)}/>
     </div>
   );
 };
