@@ -19,7 +19,8 @@
     "start": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "BROWSER=none NODE_ENV=development react-scripts start"
   },
   "eslintConfig": {
     "extends": [
@@ -38,5 +39,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "msw": "^1.0.0"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
