@@ -23,7 +23,7 @@ export const handlers = [
 
   rest.post('/api/anecdotes', (req, res, ctx) => {
     const newAnecdote = asObject(req.body)
-    anecdotes = anecdotes.concat(newAnecdote)
+    anecdotes.push(newAnecdote)
     return res(
       ctx.status(201),
       ctx.json(newAnecdote)
