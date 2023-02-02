@@ -28,5 +28,13 @@ export const handlers = [
       ctx.status(201),
       ctx.json(newAnecdote)
     )
+  }),
+
+  rest.put('/api/anecdotes/:id', (req, res, ctx) => {
+     anecdotes = anecdotes.map(anecdote => anecdote.id === req.params.id ? { ...anecdote, votes: anecdote.votes + 1 } : anecdote)
+      return res(
+        ctx.status(200),
+        ctx.json(anecdotes)
+      )
   })
 ]
