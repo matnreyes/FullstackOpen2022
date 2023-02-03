@@ -1,5 +1,6 @@
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
+import anecdoteService from './services/anecdoteService'
 
 const App = () => {
 
