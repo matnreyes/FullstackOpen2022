@@ -1,12 +1,20 @@
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
-import { getAll } from './services/anecdoteService'
-import { useQuery } from 'react-query'
+import { getAll, submitVote } from './services/anecdoteService'
+import { useQuery, useMutation, useQueryClient } from 'react-query'
 
 const App = () => {
+  const queryClient = useQueryClient()
+
+  const voteMutation = useMutation(submitVote, {
+    onSuccess: (updatedAnecdote) => {
+      const anecdotes = queryClient.getQueryData('anecdotes')
+      queryClient.setQueryData('anecdotes', anecdotes.map(n => n.id === updatedAnecdote.id ? updatedAnecdote : n))
+    },
+  })
 
   const handleVote = (anecdote) => {
-    console.log('vote')
+   voteMutation.mutate(anecdote) 
   }
 
   const result = useQuery('anecdotes', getAll, {
@@ -22,11 +30,11 @@ const App = () => {
     return <div> loading... </div>
   }
 
-  const anecdotes = result.data
+  const anecdotes = result.data.sort((a, b) => b.votes - a.votes)
 
   return (
     <div>
-      <h3>Anecdote app</h3>
+      <h3>Anecdote app</h3> 
     
       <Notification />
       <AnecdoteForm />
