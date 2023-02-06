@@ -2,8 +2,12 @@ import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 import { getAll, submitVote } from './services/anecdoteService'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
+import notificationReducer from './reducers/notificationReducer'
+import { useReducer } from 'react'
+import NotificationContext from './NotificationContext'
 
 const App = () => {
+  const [notification, notificationDispatch] = useReducer(notificationReducer, null)
   const queryClient = useQueryClient()
 
   const voteMutation = useMutation(submitVote, {
@@ -14,7 +18,16 @@ const App = () => {
   })
 
   const handleVote = (anecdote) => {
-   voteMutation.mutate(anecdote) 
+    changeNotification(`Voted for: ${anecdote.content}`)
+    voteMutation.mutate(anecdote) 
+  }
+
+  const changeNotification = (content) => {
+    notificationDispatch({ type: "SET_NOTIFICATION", payload: content})
+
+    setTimeout(() => {
+      notificationDispatch({ type: "RESET" })
+    }, 5000)
   }
 
   const result = useQuery('anecdotes', getAll, {
@@ -33,10 +46,10 @@ const App = () => {
   const anecdotes = result.data.sort((a, b) => b.votes - a.votes)
 
   return (
-    <div>
+    <NotificationContext.Provider value={[notification, notificationDispatch]}>
       <h3>Anecdote app</h3> 
     
-      <Notification />
+      <Notification notification={notification}/>
       <AnecdoteForm />
     
       {anecdotes.map(anecdote =>
@@ -50,7 +63,7 @@ const App = () => {
           </div>
         </div>
       )}
-    </div>
+    </NotificationContext.Provider>
   )
 }
 
