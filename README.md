@@ -5,6 +5,8 @@ Revised projects for Fullstack Open for 2022 session of class. I've started from
 ## Projects
 * Patientor : 
   Typescript application used to track basic patient information when visiting doctor
+ - [Frontend](https://github.com/matnreyes/FullstackOpen2022/tree/main/part9/patientor)
+  Typescript application used to track basic patient information when visiting doctor
   - [Backend](https://github.com/matnreyes/FullstackOpen2022/tree/main/part9/patientor-backend)
 * Bloglist : 
   - [Frontend](https://github.com/matnreyes/FullstackOpen2022/tree/main/part5/bloglist-frontend) 
