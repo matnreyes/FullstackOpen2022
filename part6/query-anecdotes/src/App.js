@@ -49,7 +49,7 @@ const App = () => {
     <NotificationContext.Provider value={[notification, notificationDispatch]}>
       <h3>Anecdote app</h3> 
     
-      <Notification notification={notification}/>
+      <Notification />
       <AnecdoteForm />
     
       {anecdotes.map(anecdote =>
