@@ -18,9 +18,15 @@ const BlogForm = ({ blogs, setBlogs, blogFormRef }) => {
       setTitle('')
       setAuthor('')
       setUrl('')
-      setNotification({ type: 'SET_NOTIFICATION', payload: 'Blog succesfully added' })
+      setNotification({
+        type: 'SET_NOTIFICATION',
+        payload: 'Blog succesfully added'
+      })
     } catch (exception) {
-      setNotification({ type: 'SET_NOTIFICATION', payload: `error: ${exception.response.data.error}` })
+      setNotification({
+        type: 'SET_NOTIFICATION',
+        payload: `error: ${exception.response.data.error}`
+      })
     }
   }
 

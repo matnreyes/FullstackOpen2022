@@ -1,8 +1,11 @@
-import { useNotificationDispatch, useNotificationValue } from '../NotificationContext'
+import {
+  useNotificationDispatch,
+  useNotificationValue
+} from '../NotificationContext'
 
 const Notification = () => {
   const notification = useNotificationValue()
-  const dispatch= useNotificationDispatch()
+  const dispatch = useNotificationDispatch()
   setTimeout(() => {
     dispatch({ type: 'RESET' })
   }, 5000)

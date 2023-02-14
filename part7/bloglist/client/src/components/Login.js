@@ -2,13 +2,7 @@ import userService from '../services/users'
 import blogService from '../services/blogs'
 import { useNotificationDispatch } from '../NotificationContext'
 
-const Login = ({
-  username,
-  password,
-  setUsername,
-  setPassword,
-  setUser
-}) => {
+const Login = ({ username, password, setUsername, setPassword, setUser }) => {
   const notificationDispatch = useNotificationDispatch()
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -21,9 +15,15 @@ const Login = ({
       setPassword('')
       setUser(user)
       blogService.setToken(user.token)
-      notificationDispatch({ type: 'SET_NOTIFICATION', payload: `${user.username} logged in` })
+      notificationDispatch({
+        type: 'SET_NOTIFICATION',
+        payload: `${user.username} logged in`
+      })
     } catch (exception) {
-      notificationDispatch({ type: 'SET_NOTIFICATION', payload: `error: ${exception.response.data.error}` })
+      notificationDispatch({
+        type: 'SET_NOTIFICATION',
+        payload: `error: ${exception.response.data.error}`
+      })
     }
   }
 
@@ -34,9 +34,15 @@ const Login = ({
       const user = await userService.newUser({ username, password })
       setUsername('')
       setPassword('')
-      notificationDispatch({ type: 'SET_NOTIFICATION', payload: `${user.username} has been created` })
+      notificationDispatch({
+        type: 'SET_NOTIFICATION',
+        payload: `${user.username} has been created`
+      })
     } catch (exception) {
-      notificationDispatch({ type: 'SET_NOTIFICATION', payload: `error: ${exception.data.error}` })
+      notificationDispatch({
+        type: 'SET_NOTIFICATION',
+        payload: `error: ${exception.data.error}`
+      })
     }
   }
   return (

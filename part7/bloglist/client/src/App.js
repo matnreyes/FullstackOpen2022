@@ -5,7 +5,10 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
-import { useNotificationDispatch, useNotificationValue } from './NotificationContext'
+import {
+  useNotificationDispatch,
+  useNotificationValue
+} from './NotificationContext'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -36,11 +39,17 @@ const App = () => {
         await blogService.deleteBlog(blog.id)
         const updatedBlogs = blogs.filter((b) => b.id !== blog.id)
         setBlogs(updatedBlogs)
-        setNotification({ type: 'SET_NOTIFICATION', payload: `Succesfully deleted ${blog.title}` })
+        setNotification({
+          type: 'SET_NOTIFICATION',
+          payload: `Succesfully deleted ${blog.title}`
+        })
       }
     } catch (exception) {
       console.log(exception)
-      setNotification({ type: 'SET_NOTIFICATION', payload: `error: ${exception.response.data.error}` })
+      setNotification({
+        type: 'SET_NOTIFICATION',
+        payload: `error: ${exception.response.data.error}`
+      })
     }
   }
 
@@ -68,11 +77,7 @@ const App = () => {
         </p>
       </div>
       <Togglable buttonLabel="new blog" ref={blogFormRef}>
-        <BlogForm
-          blogs={blogs}
-          setBlogs={setBlogs}
-          blogFormRef={blogFormRef}
-        />
+        <BlogForm blogs={blogs} setBlogs={setBlogs} blogFormRef={blogFormRef} />
       </Togglable>
       <div>
         {blogs.map((blog) => (
@@ -90,9 +95,7 @@ const App = () => {
 
   return (
     <div>
-      {useNotificationValue() !== null && (
-        <Notification />
-      )}
+      {useNotificationValue() !== null && <Notification />}
       {user === null ? (
         <Login
           username={username}
