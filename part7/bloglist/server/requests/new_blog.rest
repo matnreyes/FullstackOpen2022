@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "9to5Mac22333",
+  "author": "Dieter Brown",
+  "url": "9to5mac.com",
+  "likes": "3"
+}
