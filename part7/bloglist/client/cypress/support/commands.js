@@ -25,14 +25,20 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('signup', ({ username, password, name }) => {
-  cy.request('POST', 'http://localhost:3003/api/users', { username, password, name })
+  cy.request('POST', 'http://localhost:3003/api/users', {
+    username,
+    password,
+    name
+  })
 })
 
 Cypress.Commands.add('login', ({ username, password }) => {
-  cy.request('POST', 'http://localhost:3003/api/login', { username, password })
-    .then((response) => {
-      localStorage.setItem('user', JSON.stringify(response.body))
-    })
+  cy.request('POST', 'http://localhost:3003/api/login', {
+    username,
+    password
+  }).then((response) => {
+    localStorage.setItem('user', JSON.stringify(response.body))
+  })
 })
 
 Cypress.Commands.add('cleanup', () => {
@@ -45,7 +51,7 @@ Cypress.Commands.add('addBlog', (blog) => {
     method: 'POST',
     body: { ...blog },
     headers: {
-      'Authorization': `bearer ${JSON.parse(localStorage.getItem('user')).token}`
+      Authorization: `bearer ${JSON.parse(localStorage.getItem('user')).token}`
     }
   })
 })

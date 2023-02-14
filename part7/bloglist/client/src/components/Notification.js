@@ -14,8 +14,8 @@ const Notification = ({ notification, setNotification }) => {
   }
 
   notification.includes('error')
-    ? notifStyle.color = 'red'
-    : notifStyle.color = 'green'
+    ? (notifStyle.color = 'red')
+    : (notifStyle.color = 'green')
 
   return (
     <div style={notifStyle}>

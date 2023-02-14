@@ -2,7 +2,7 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog , user, handleDelete, sortBlogs }) => {
+const Blog = ({ blog, user, handleDelete, sortBlogs }) => {
   const [expanded, setExpanded] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
@@ -26,7 +26,6 @@ const Blog = ({ blog , user, handleDelete, sortBlogs }) => {
     setLikes(blog.likes)
     blogService.updateBlog(blog)
     sortBlogs(blog)
-
   }
 
   const deleteButton = () => (
@@ -37,21 +36,23 @@ const Blog = ({ blog , user, handleDelete, sortBlogs }) => {
     <div className="blog" style={blogStyle}>
       {blog.title} by {blog.author}
       <button onClick={toggleExpand}>{expanded ? 'close' : 'expand'}</button>
-      <div style={showWhenExpanded} className='moreInfo'>
+      <div style={showWhenExpanded} className="moreInfo">
         {blog.url}
-        <br/>
+        <br />
         likes: {likes}
-        <button id="like-button" onClick={handleLike}>like</button>
-        <br/>
+        <button id="like-button" onClick={handleLike}>
+          like
+        </button>
+        <br />
         added by: {blog.user.username}
-        <br/>
+        <br />
         {user === blog.user.username && deleteButton()}
       </div>
     </div>
   )
 }
 
-Blog.propTypes =  {
+Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   user: PropTypes.string.isRequired,
   handleDelete: PropTypes.func.isRequired,

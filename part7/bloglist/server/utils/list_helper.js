@@ -6,7 +6,7 @@ const dummy = (blogs) => 1
 const totalLikes = (blogs) => {
   const reducer = (sum, item) => sum + item
 
-  return (blogs.map((blog) => blog.likes)).reduce(reducer, 0)
+  return blogs.map((blog) => blog.likes).reduce(reducer, 0)
 }
 
 const favoriteBlog = (blogs) => {
@@ -18,7 +18,10 @@ const favoriteBlog = (blogs) => {
 const mostBlogs = (blogs) => {
   const works = _.groupBy(blogs, 'author')
   const authors = Object.keys(works)
-  const maxBlogs = Math.max(null, ...(authors.map((author) => works[author].length)))
+  const maxBlogs = Math.max(
+    null,
+    ...authors.map((author) => works[author].length)
+  )
 
   return {
     author: authors.find((author) => works[author].length === maxBlogs),
@@ -34,7 +37,7 @@ const mostLikes = (blogs) => {
     likes: works[author].reduce((sum, blog) => blog.likes + sum, 0)
   }))
 
-  return (authorLikes.sort((a, b) => b - a))[0]
+  return authorLikes.sort((a, b) => b - a)[0]
 }
 
 module.exports = {

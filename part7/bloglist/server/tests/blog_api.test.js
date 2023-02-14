@@ -12,12 +12,10 @@ const User = require('../models/user')
 let token = 0
 
 beforeEach(async () => {
-  const signIn = await api
-    .post('/api/login')
-    .send({
-      username: 'username',
-      password: 'password'
-    })
+  const signIn = await api.post('/api/login').send({
+    username: 'username',
+    password: 'password'
+  })
 
   token = `bearer ${signIn.body.token}`
   const user = await User.find({})
@@ -38,8 +36,7 @@ test('gets all blogs in database', async () => {
 })
 
 test('unique identifier property of blog is named id', async () => {
-  const allBlogs = await api
-    .get('/api/blogs')
+  const allBlogs = await api.get('/api/blogs')
 
   const blog = allBlogs.body[0]
 
@@ -60,8 +57,7 @@ test('new blog is created', async () => {
     .set({ Authorization: token })
     .expect(201)
 
-  const allBlogs = await api
-    .get('/api/blogs')
+  const allBlogs = await api.get('/api/blogs')
 
   expect(allBlogs.body).toHaveLength(testBlogs.length + 1)
 })
@@ -108,8 +104,7 @@ test('missing title/url field fails', async () => {
 
 describe('deleting a blog', () => {
   test('succeeds with 204 if valid id', async () => {
-    const allBlogs = await api
-      .get('/api/blogs')
+    const allBlogs = await api.get('/api/blogs')
     const blogToDelete = allBlogs.body[0]
 
     await api
@@ -117,8 +112,7 @@ describe('deleting a blog', () => {
       .set({ Authorization: token })
       .expect(204)
 
-    const updatedBlogs = await api
-      .get('/api/blogs')
+    const updatedBlogs = await api.get('/api/blogs')
     expect(updatedBlogs.body).toHaveLength(allBlogs.body.length - 1)
 
     const titles = updatedBlogs.body.map((blog) => blog.title)
@@ -137,8 +131,7 @@ describe('deleting a blog', () => {
 
 describe('update a post', () => {
   test('suceeds with status 200 if update is succesful', async () => {
-    const allBlogs = await api
-      .get('/api/blogs')
+    const allBlogs = await api.get('/api/blogs')
     const blogToEdit = allBlogs.body[0]
 
     blogToEdit.likes += 1

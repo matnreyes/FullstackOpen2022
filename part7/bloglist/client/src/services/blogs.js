@@ -8,7 +8,7 @@ const setToken = (userToken) => {
 
 const getAll = () => {
   const request = axios.get(baseUrl)
-  return request.then(response => response.data)
+  return request.then((response) => response.data)
 }
 
 const postBlog = async (blogObject) => {
@@ -25,7 +25,9 @@ const updateBlog = async (blogObject) => {
 }
 
 const deleteBlog = async (blogId) => {
-  const response = await axios.delete(`${baseUrl}/${blogId}`, { headers: { Authorization: token } })
+  const response = await axios.delete(`${baseUrl}/${blogId}`, {
+    headers: { Authorization: token }
+  })
   return response.data
 }
 

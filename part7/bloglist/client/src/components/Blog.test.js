@@ -4,8 +4,6 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
-
-
 describe('<Blog />', () => {
   test('only redners title and author', () => {
     const blog = {
@@ -19,7 +17,6 @@ describe('<Blog />', () => {
 
     const { container } = render(<Blog blog={blog} />)
     const div = container.querySelector('.moreInfo')
-
 
     expect(div).toHaveStyle('display: none')
   })
@@ -57,22 +54,17 @@ describe('<Blog />', () => {
     }
     const mockHandler = jest.fn()
 
-    const { container } = render(<Blog blog={blog} sortBlogs={mockHandler}/>)
-
+    const { container } = render(<Blog blog={blog} sortBlogs={mockHandler} />)
 
     const user = userEvent.setup()
     const expandButton = screen.getByText('expand')
 
-
     await user.click(expandButton)
-
 
     // Like blog twice
     const likeButton = screen.getByText('like')
     await user.click(likeButton)
     await user.click(likeButton)
-
-
 
     const div = container.querySelector('.moreInfo')
     expect(div).toHaveTextContent('likes: 2')

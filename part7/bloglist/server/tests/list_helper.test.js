@@ -1,5 +1,11 @@
 // eslint-disable-next-line object-curly-newline
-const { dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes } = require('../utils/list_helper')
+const {
+  dummy,
+  totalLikes,
+  favoriteBlog,
+  mostBlogs,
+  mostLikes
+} = require('../utils/list_helper')
 
 const testBlogs = require('../utils/testblogs')
 

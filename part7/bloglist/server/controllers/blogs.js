@@ -6,8 +6,7 @@ const User = require('../models/user')
 const { tokenExtractor } = require('../utils/middleware')
 
 blogsRouter.get('/', async (req, res) => {
-  const blogs = await Blog
-    .find({}).populate('user', { blogs: 0 })
+  const blogs = await Blog.find({}).populate('user', { blogs: 0 })
   res.json(blogs)
 })
 
@@ -56,7 +55,9 @@ blogsRouter.put('/:id', async (req, res) => {
     likes: req.body.likes,
     url: req.body.url
   }
-  const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, { new: true })
+  const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, {
+    new: true
+  })
   res.status(200).json(updatedBlog)
 })
 

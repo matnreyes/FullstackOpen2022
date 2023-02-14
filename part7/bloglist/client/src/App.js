@@ -31,9 +31,9 @@ const App = () => {
 
   const handleDelete = async (blog) => {
     try {
-      if(window.confirm(`Delete blog: '${blog.title}'?`)) {
+      if (window.confirm(`Delete blog: '${blog.title}'?`)) {
         await blogService.deleteBlog(blog.id)
-        const updatedBlogs = blogs.filter(b => b.id !== blog.id)
+        const updatedBlogs = blogs.filter((b) => b.id !== blog.id)
         setBlogs(updatedBlogs)
         setNotification(`Succesfully deleted ${blog.title}`)
       }
@@ -45,7 +45,7 @@ const App = () => {
   const blogFormRef = useRef()
 
   const sortBlogs = (blog) => {
-    const updatedBlogs = blogs.map(b => b === blog.id ? blog : b)
+    const updatedBlogs = blogs.map((b) => (b === blog.id ? blog : b))
     setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes))
   }
 
@@ -53,30 +53,49 @@ const App = () => {
     <>
       <h1>blogs</h1>
       <div>
-        <p>Logged in as {user.username}
-          <button onClick={() => {
-            setUser(null)
-            return window.localStorage.removeItem('user')
-          }}>Logout</button>
+        <p>
+          Logged in as {user.username}
+          <button
+            onClick={() => {
+              setUser(null)
+              return window.localStorage.removeItem('user')
+            }}
+          >
+            Logout
+          </button>
         </p>
       </div>
-      <Togglable buttonLabel='new blog' ref={blogFormRef}>
-        <BlogForm blogs={blogs} setBlogs={setBlogs} setNotification={setNotification} blogFormRef={blogFormRef}/>
+      <Togglable buttonLabel="new blog" ref={blogFormRef}>
+        <BlogForm
+          blogs={blogs}
+          setBlogs={setBlogs}
+          setNotification={setNotification}
+          blogFormRef={blogFormRef}
+        />
       </Togglable>
       <div>
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user.username} handleDelete={handleDelete} sortBlogs={sortBlogs}/>
-        )}
+        {blogs.map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            user={user.username}
+            handleDelete={handleDelete}
+            sortBlogs={sortBlogs}
+          />
+        ))}
       </div>
     </>
   )
 
   return (
     <div>
-      {notification !== null &&
-        <Notification notification={notification} setNotification={setNotification}/>
-      }
-      {user === null ?
+      {notification !== null && (
+        <Notification
+          notification={notification}
+          setNotification={setNotification}
+        />
+      )}
+      {user === null ? (
         <Login
           username={username}
           password={password}
@@ -84,9 +103,10 @@ const App = () => {
           setPassword={setPassword}
           setUser={setUser}
           setNotification={setNotification}
-        /> :
+        />
+      ) : (
         blogDisplay()
-      }
+      )}
     </div>
   )
 }

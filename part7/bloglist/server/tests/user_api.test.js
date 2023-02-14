@@ -12,9 +12,7 @@ beforeEach(async () => {
     name: 'testUser',
     password: 'password'
   }
-  await api
-    .post('/api/users')
-    .send(user)
+  await api.post('/api/users').send(user)
 })
 
 describe('adding users', () => {
@@ -26,12 +24,11 @@ describe('adding users', () => {
       password: 'password'
     }
 
-    const result = await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(400)
+    const result = await api.post('/api/users').send(newUser).expect(400)
 
-    expect(result.body.error).toContain('Username is should be longer than 3 characters')
+    expect(result.body.error).toContain(
+      'Username is should be longer than 3 characters'
+    )
 
     const usersAtEnd = await api.get('/api/users')
     expect(usersAtEnd.body).toHaveLength(usersAtStart.body.length)
@@ -44,12 +41,11 @@ describe('adding users', () => {
       name: 'short user1'
     }
 
-    const result = await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(400)
+    const result = await api.post('/api/users').send(newUser).expect(400)
 
-    expect(result.body.error).toContain('Password must be at least 3 characters long')
+    expect(result.body.error).toContain(
+      'Password must be at least 3 characters long'
+    )
 
     const usersAtEnd = await api.get('/api/users')
     expect(usersAtEnd.body).toHaveLength(usersAtStart.body.length)
@@ -64,12 +60,11 @@ describe('adding users', () => {
 
     const usersAtStart = await api.get('/api/users')
 
-    const result = await api
-      .post('/api/users')
-      .send(user)
-      .expect(400)
+    const result = await api.post('/api/users').send(user).expect(400)
 
-    expect(result.body.error).toContain('Error, expected `username` to be unique')
+    expect(result.body.error).toContain(
+      'Error, expected `username` to be unique'
+    )
 
     const usersAtEnd = await api.get('/api/users')
     expect(usersAtEnd.body).toHaveLength(usersAtStart.body.length)

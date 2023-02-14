@@ -1,7 +1,14 @@
 import userService from '../services/users'
 import blogService from '../services/blogs'
 
-const Login = ({ username, password, setUsername, setPassword, setUser, setNotification }) => {
+const Login = ({
+  username,
+  password,
+  setUsername,
+  setPassword,
+  setUser,
+  setNotification
+}) => {
   const handleLogin = async (event) => {
     event.preventDefault()
 
@@ -19,7 +26,6 @@ const Login = ({ username, password, setUsername, setPassword, setUser, setNotif
     }
   }
 
-
   const handleNewUser = async (event) => {
     event.preventDefault()
 
@@ -35,14 +41,20 @@ const Login = ({ username, password, setUsername, setPassword, setUser, setNotif
   return (
     <div>
       <h2>log in to application</h2>
-      <form onSubmit={(event) => event.nativeEvent.submitter.value === 'login' ? handleLogin(event) : handleNewUser(event)}>
+      <form
+        onSubmit={(event) =>
+          event.nativeEvent.submitter.value === 'login'
+            ? handleLogin(event)
+            : handleNewUser(event)
+        }
+      >
         <div>
           username
           <input
             id="username-input"
-            type='text'
+            type="text"
             value={username}
-            name='username'
+            name="username"
             onChange={({ target }) => setUsername(target.value)}
           />
         </div>
@@ -50,14 +62,18 @@ const Login = ({ username, password, setUsername, setPassword, setUser, setNotif
           password
           <input
             id="password-input"
-            type='password'
+            type="password"
             value={password}
-            name='password'
+            name="password"
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button id="login-button" type='submit' value='login'>login</button>
-        <button id="signup-button" type='submit' value='newuser'>create account</button>
+        <button id="login-button" type="submit" value="login">
+          login
+        </button>
+        <button id="signup-button" type="submit" value="newuser">
+          create account
+        </button>
       </form>
     </div>
   )

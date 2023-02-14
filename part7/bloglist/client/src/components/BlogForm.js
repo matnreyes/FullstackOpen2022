@@ -29,7 +29,7 @@ const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
     borderColor: 'grey',
     borderWidth: 2,
     padding: 8,
-    width: 200,
+    width: 200
   }
   return (
     <div style={formStyle}>
@@ -37,38 +37,38 @@ const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
       <form onSubmit={handleSubmit}>
         <div>
           title:
-          <br/>
+          <br />
           <input
-            type='text'
-            name='title'
-            placeholder='title'
-            value= {title}
+            type="text"
+            name="title"
+            placeholder="title"
+            value={title}
             onChange={({ target }) => setTitle(target.value)}
           />
         </div>
         <div>
           author:
-          <br/>
+          <br />
           <input
-            type='text'
-            name='author'
-            placeholder='author'
+            type="text"
+            name="author"
+            placeholder="author"
             value={author}
             onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
         <div>
           url:
-          <br/>
+          <br />
           <input
-            type='text'
-            name='url'
-            placeholder='url'
+            type="text"
+            name="url"
+            placeholder="url"
             value={url}
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <button type='submit'>submit</button>
+        <button type="submit">submit</button>
       </form>
     </div>
   )
