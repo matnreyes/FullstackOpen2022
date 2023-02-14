@@ -3,15 +3,16 @@ import Blog from './components/Blog'
 import Login from './components/Login'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
-import blogService from './services/blogs'
 import Togglable from './components/Togglable'
+import blogService from './services/blogs'
+import { useNotificationDispatch, useNotificationValue } from './NotificationContext'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [notification, setNotification] = useState(null)
+  const setNotification = useNotificationDispatch()
 
   useEffect(() => {
     const loggedIn = JSON.parse(window.localStorage.getItem('user'))
@@ -35,10 +36,11 @@ const App = () => {
         await blogService.deleteBlog(blog.id)
         const updatedBlogs = blogs.filter((b) => b.id !== blog.id)
         setBlogs(updatedBlogs)
-        setNotification(`Succesfully deleted ${blog.title}`)
+        setNotification({ type: 'SET_NOTIFICATION', payload: `Succesfully deleted ${blog.title}` })
       }
     } catch (exception) {
-      setNotification(`error: ${exception.response.data.error}`)
+      console.log(exception)
+      setNotification({ type: 'SET_NOTIFICATION', payload: `error: ${exception.response.data.error}` })
     }
   }
 
@@ -69,7 +71,6 @@ const App = () => {
         <BlogForm
           blogs={blogs}
           setBlogs={setBlogs}
-          setNotification={setNotification}
           blogFormRef={blogFormRef}
         />
       </Togglable>
@@ -89,11 +90,8 @@ const App = () => {
 
   return (
     <div>
-      {notification !== null && (
-        <Notification
-          notification={notification}
-          setNotification={setNotification}
-        />
+      {useNotificationValue() !== null && (
+        <Notification />
       )}
       {user === null ? (
         <Login
@@ -102,7 +100,6 @@ const App = () => {
           setUsername={setUsername}
           setPassword={setPassword}
           setUser={setUser}
-          setNotification={setNotification}
         />
       ) : (
         blogDisplay()

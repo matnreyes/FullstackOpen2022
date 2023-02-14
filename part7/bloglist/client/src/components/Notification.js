@@ -1,8 +1,10 @@
-import PropTypes from 'prop-types'
+import { useNotificationDispatch, useNotificationValue } from '../NotificationContext'
 
-const Notification = ({ notification, setNotification }) => {
+const Notification = () => {
+  const notification = useNotificationValue()
+  const dispatch= useNotificationDispatch()
   setTimeout(() => {
-    setNotification(null)
+    dispatch({ type: 'RESET' })
   }, 5000)
 
   const notifStyle = {
@@ -22,11 +24,6 @@ const Notification = ({ notification, setNotification }) => {
       <h2>{notification}</h2>
     </div>
   )
-}
-
-Notification.propTypes = {
-  notification: PropTypes.string.isRequired,
-  setNotification: PropTypes.func.isRequired
 }
 
 export default Notification

@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
+import { useNotificationDispatch } from '../NotificationContext'
 
-const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
+const BlogForm = ({ blogs, setBlogs, blogFormRef }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const setNotification = useNotificationDispatch()
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -16,9 +18,9 @@ const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
       setTitle('')
       setAuthor('')
       setUrl('')
-      setNotification('Blog succesfully added')
+      setNotification({ type: 'SET_NOTIFICATION', payload: 'Blog succesfully added' })
     } catch (exception) {
-      setNotification(`error: ${exception.response.data.error}`)
+      setNotification({ type: 'SET_NOTIFICATION', payload: `error: ${exception.response.data.error}` })
     }
   }
 
@@ -77,7 +79,6 @@ const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
 BlogForm.propTypes = {
   blogs: PropTypes.array.isRequired,
   setBlogs: PropTypes.func.isRequired,
-  setNotification: PropTypes.func.isRequired,
   blogFormRef: PropTypes.object.isRequired
 }
 
