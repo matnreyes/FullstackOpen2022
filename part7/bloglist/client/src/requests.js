@@ -21,3 +21,6 @@ export const postBlog = newBlog =>
 
 export const deleteBlog = id =>
   axios.delete(`${baseUrl}/${id}`, config)
+
+export const likeBlog = blog =>
+  axios.put(`${baseUrl}/${blog.id}`, { ...blog, likes: blog.likes + 1 }, config).then(res => res.data)

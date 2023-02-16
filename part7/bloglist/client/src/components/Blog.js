@@ -1,17 +1,16 @@
 import { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
-import blogService from '../services/blogs'
-import { deleteBlog } from '../requests'
+import { deleteBlog, likeBlog } from '../requests'
 import { useNotificationDispatch } from '../NotificationContext'
 
 
 const Blog = ({ blog, user }) => {
   const [expanded, setExpanded] = useState(false)
-  const [likes, setLikes] = useState(blog.likes)
 
   const setNotification = useNotificationDispatch()
   const queryClient = useQueryClient()
   const deleteMutation = useMutation(deleteBlog)
+  const likeMutation = useMutation(likeBlog)
 
   const handleDelete = () => {
     if (!window.confirm(`Delete ${blog.title}?`)) {
@@ -22,6 +21,7 @@ const Blog = ({ blog, user }) => {
       onSuccess: () => {
         const blogs = queryClient.getQueryData('blogs')
         queryClient.setQueryData('blogs', blogs.filter(n => n.id !== blog.id))
+        setNotification({ type: 'SET_NOTIFICATION', payload: 'Deleted blog' })
       },
       onError: (exception) => {
         setNotification({ type: 'SET_NOTIFICATION', payload: `error: ${exception.response.data.error}` })
@@ -45,9 +45,16 @@ const Blog = ({ blog, user }) => {
   }
 
   const handleLike = () => {
-    blog.likes += 1
-    setLikes(blog.likes)
-    blogService.updateBlog(blog)
+    likeMutation.mutate(blog, {
+      onSuccess: (updatedBlog) => {
+        const blogs = queryClient.getQueryData('blogs')
+        queryClient.setQueryData('blogs', (blogs.map(b => b.id === updatedBlog.id ? updatedBlog : b)).sort((a, b) => b.likes - a.likes))
+        setNotification({ type: 'SET_NOTIFICATION', payload: `Liked ${blog.title}` })
+      },
+      onError: () => {
+        setNotification('error')
+      }
+    })
   }
 
   const deleteButton = () => (
@@ -61,7 +68,7 @@ const Blog = ({ blog, user }) => {
       <div style={showWhenExpanded} className="moreInfo">
         {blog.url}
         <br />
-        likes: {likes}
+        likes: {blog.likes}
         <button id="like-button" onClick={handleLike}>
           like
         </button>
