@@ -1,33 +1,42 @@
-import { useState } from 'react'
-import PropTypes from 'prop-types'
-import blogService from '../services/blogs'
-import { useNotificationDispatch } from '../NotificationContext'
 
-const BlogForm = ({ blogs, setBlogs, blogFormRef }) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+import { postBlog } from '../requests'
+import { useNotificationDispatch } from '../NotificationContext'
+import { useMutation, useQueryClient } from 'react-query'
+import { useField } from '../hooks'
+
+const BlogForm = () => {
+  const title = useField('text')
+  const author = useField('text')
+  const url = useField('text')
   const setNotification = useNotificationDispatch()
+
+  const newBlogMutation = useMutation(postBlog)
+  const queryClient = useQueryClient()
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    blogFormRef.current.toggleVisibility()
-    try {
-      const newBlog = await blogService.postBlog({ title, author, url })
-      setBlogs(blogs.concat(newBlog))
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-      setNotification({
-        type: 'SET_NOTIFICATION',
-        payload: 'Blog succesfully added'
-      })
-    } catch (exception) {
-      setNotification({
-        type: 'SET_NOTIFICATION',
-        payload: `error: ${exception.response.data.error}`
-      })
+    const blogInput = {
+      title: title.value,
+      url: url.value,
+      author: author.value,
+      important: false
     }
+    newBlogMutation.mutate(blogInput, {
+      onSuccess: (newBlog) => {
+        const blogs = queryClient.getQueryData('blogs')
+        queryClient.setQueryData('blogs', blogs.concat(newBlog))
+        setNotification({
+          type: 'SET_NOTIFICATION',
+          payload: 'Blog succesfully added'
+        })
+      },
+      onError: (exception) => {
+        setNotification({
+          type: 'SET_NOTIFICATION',
+          payload: `error: ${exception.response.data.error}`
+        })
+      }
+    })
   }
 
   const formStyle = {
@@ -46,46 +55,22 @@ const BlogForm = ({ blogs, setBlogs, blogFormRef }) => {
         <div>
           title:
           <br />
-          <input
-            type="text"
-            name="title"
-            placeholder="title"
-            value={title}
-            onChange={({ target }) => setTitle(target.value)}
-          />
+          <input {...title}/>
         </div>
         <div>
           author:
           <br />
-          <input
-            type="text"
-            name="author"
-            placeholder="author"
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
-          />
+          <input {...author}/>
         </div>
         <div>
           url:
           <br />
-          <input
-            type="text"
-            name="url"
-            placeholder="url"
-            value={url}
-            onChange={({ target }) => setUrl(target.value)}
-          />
+          <input {...url}/>
         </div>
         <button type="submit">submit</button>
       </form>
     </div>
   )
-}
-
-BlogForm.propTypes = {
-  blogs: PropTypes.array.isRequired,
-  setBlogs: PropTypes.func.isRequired,
-  blogFormRef: PropTypes.object.isRequired
 }
 
 export default BlogForm

@@ -6,16 +6,19 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import {
-  useNotificationDispatch,
+  //useNotificationDispatch,
   useNotificationValue
 } from './NotificationContext'
 
+import { useQuery } from 'react-query'
+import { fetchBlogs } from './requests'
+
+
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const setNotification = useNotificationDispatch()
+  //const setNotification = useNotificationDispatch()
 
   useEffect(() => {
     const loggedIn = JSON.parse(window.localStorage.getItem('user'))
@@ -23,42 +26,22 @@ const App = () => {
       setUser(loggedIn)
       blogService.setToken(loggedIn.token)
     }
-
-    const fetchBlogs = async () => {
-      const returnedBlogs = await blogService.getAll()
-      returnedBlogs.sort((a, b) => b.likes - a.likes)
-      setBlogs(returnedBlogs)
-    }
-
-    fetchBlogs()
   }, [])
 
-  const handleDelete = async (blog) => {
-    try {
-      if (window.confirm(`Delete blog: '${blog.title}'?`)) {
-        await blogService.deleteBlog(blog.id)
-        const updatedBlogs = blogs.filter((b) => b.id !== blog.id)
-        setBlogs(updatedBlogs)
-        setNotification({
-          type: 'SET_NOTIFICATION',
-          payload: `Succesfully deleted ${blog.title}`
-        })
-      }
-    } catch (exception) {
-      console.log(exception)
-      setNotification({
-        type: 'SET_NOTIFICATION',
-        payload: `error: ${exception.response.data.error}`
-      })
-    }
+  const result = useQuery('blogs', fetchBlogs)
+
+  if (result.isLoading) {
+    return <div> loading... </div>
   }
+
+  const blogs = result.data
 
   const blogFormRef = useRef()
 
-  const sortBlogs = (blog) => {
-    const updatedBlogs = blogs.map((b) => (b === blog.id ? blog : b))
-    setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes))
-  }
+  // const sortBlogs = (blog) => {
+  //   const updatedBlogs = blogs.map((b) => (b === blog.id ? blog : b))
+  //   setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes))
+  // }
 
   const blogDisplay = () => (
     <>
@@ -77,7 +60,7 @@ const App = () => {
         </p>
       </div>
       <Togglable buttonLabel="new blog" ref={blogFormRef}>
-        <BlogForm blogs={blogs} setBlogs={setBlogs} blogFormRef={blogFormRef} />
+        <BlogForm blogs={blogs} blogFormRef={blogFormRef} />
       </Togglable>
       <div>
         {blogs.map((blog) => (
@@ -85,8 +68,8 @@ const App = () => {
             key={blog.id}
             blog={blog}
             user={user.username}
-            handleDelete={handleDelete}
-            sortBlogs={sortBlogs}
+            // handleDelete={handleDelete}
+            // sortBlogs={sortBlogs}
           />
         ))}
       </div>

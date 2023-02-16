@@ -1,10 +1,33 @@
 import { useState } from 'react'
-import PropTypes from 'prop-types'
+import { useMutation, useQueryClient } from 'react-query'
 import blogService from '../services/blogs'
+import { deleteBlog } from '../requests'
+import { useNotificationDispatch } from '../NotificationContext'
 
-const Blog = ({ blog, user, handleDelete, sortBlogs }) => {
+
+const Blog = ({ blog, user }) => {
   const [expanded, setExpanded] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
+
+  const setNotification = useNotificationDispatch()
+  const queryClient = useQueryClient()
+  const deleteMutation = useMutation(deleteBlog)
+
+  const handleDelete = () => {
+    if (!window.confirm(`Delete ${blog.title}?`)) {
+      return
+    }
+
+    deleteMutation.mutate(blog.id, {
+      onSuccess: () => {
+        const blogs = queryClient.getQueryData('blogs')
+        queryClient.setQueryData('blogs', blogs.filter(n => n.id !== blog.id))
+      },
+      onError: (exception) => {
+        setNotification({ type: 'SET_NOTIFICATION', payload: `error: ${exception.response.data.error}` })
+      }
+    })
+  }
 
   const showWhenExpanded = { display: expanded ? '' : 'none' }
 
@@ -25,7 +48,6 @@ const Blog = ({ blog, user, handleDelete, sortBlogs }) => {
     blog.likes += 1
     setLikes(blog.likes)
     blogService.updateBlog(blog)
-    sortBlogs(blog)
   }
 
   const deleteButton = () => (
@@ -46,17 +68,10 @@ const Blog = ({ blog, user, handleDelete, sortBlogs }) => {
         <br />
         added by: {blog.user.username}
         <br />
-        {user === blog.user.username && deleteButton()}
+        {user.username === blog.user.username && deleteButton()}
       </div>
     </div>
   )
-}
-
-Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  user: PropTypes.string.isRequired,
-  handleDelete: PropTypes.func.isRequired,
-  sortBlogs: PropTypes.func.isRequired
 }
 
 export default Blog

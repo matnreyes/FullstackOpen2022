@@ -1,20 +1,22 @@
 import userService from '../services/users'
-import blogService from '../services/blogs'
 import { useNotificationDispatch } from '../NotificationContext'
+import { useField } from '../hooks'
+import { setToken } from '../requests'
 
-const Login = ({ username, password, setUsername, setPassword, setUser }) => {
+const Login = ({ setUser }) => {
+  const username = useField('text')
+  const password = useField('password')
+
+
   const notificationDispatch = useNotificationDispatch()
   const handleLogin = async (event) => {
     event.preventDefault()
 
     try {
-      const user = await userService.login({ username, password })
+      const user = await userService.login({ username: username.value, password: password.value })
       window.localStorage.setItem('user', JSON.stringify(user))
-
-      setUsername('')
-      setPassword('')
       setUser(user)
-      blogService.setToken(user.token)
+      setToken(user.token)
       notificationDispatch({
         type: 'SET_NOTIFICATION',
         payload: `${user.username} logged in`
@@ -31,9 +33,7 @@ const Login = ({ username, password, setUsername, setPassword, setUser }) => {
     event.preventDefault()
 
     try {
-      const user = await userService.newUser({ username, password })
-      setUsername('')
-      setPassword('')
+      const user = await userService.newUser({ username: username.value, password: password.value })
       notificationDispatch({
         type: 'SET_NOTIFICATION',
         payload: `${user.username} has been created`
@@ -57,23 +57,11 @@ const Login = ({ username, password, setUsername, setPassword, setUser }) => {
       >
         <div>
           username
-          <input
-            id="username-input"
-            type="text"
-            value={username}
-            name="username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
+          <input {...username}/>
         </div>
         <div>
           password
-          <input
-            id="password-input"
-            type="password"
-            value={password}
-            name="password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
+          <input {...password}/>
         </div>
         <button id="login-button" type="submit" value="login">
           login
