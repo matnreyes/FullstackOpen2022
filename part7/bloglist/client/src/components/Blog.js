@@ -52,7 +52,7 @@ const Blog = ({ blog, user }) => {
         setNotification({ type: 'SET_NOTIFICATION', payload: `Liked ${blog.title}` })
       },
       onError: () => {
-        setNotification('error')
+        setNotification({ type: 'SET_NOTIFICATION', payload: 'Error occurred' })
       }
     })
   }
