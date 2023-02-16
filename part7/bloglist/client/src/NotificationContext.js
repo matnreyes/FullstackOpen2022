@@ -11,29 +11,53 @@ const notificationReducer = (state, action) => {
   }
 }
 
-const NotificationContext = createContext()
+const userReducer = (state, action) => {
+  switch (action.type) {
+  case 'SET_USER':
+    return action.payload
+  case 'RESET':
+    return ''
+  default:
+    return state
+  }
+}
 
-export const NotificationContextProvider = (props) => {
-  const [notification, notificationDispatch] = useReducer(
-    notificationReducer,
-    null
-  )
+const StateContext = createContext()
+
+export const StateContextProvider = (props) => {
+  const [notification, notificationDispatch] = useReducer(notificationReducer, '')
+  const [user, userDispatch] = useReducer(userReducer, { username: null })
+
+  const combinedReducers = {
+    notification: [notification, notificationDispatch],
+    user: [user, userDispatch]
+  }
 
   return (
-    <NotificationContext.Provider value={[notification, notificationDispatch]}>
+    <StateContext.Provider value={combinedReducers}>
       {props.children}
-    </NotificationContext.Provider>
+    </StateContext.Provider>
   )
 }
 
 export const useNotificationValue = () => {
-  const notificationAndDispatch = useContext(NotificationContext)
-  return notificationAndDispatch[0]
+  const { notification } = useContext(StateContext)
+  return notification[0]
 }
 
 export const useNotificationDispatch = () => {
-  const notificationAndDispatch = useContext(NotificationContext)
-  return notificationAndDispatch[1]
+  const { notification } = useContext(StateContext)
+  return notification[1]
 }
 
-export default NotificationContext
+export const useUserValue = () => {
+  const { user } = useContext(StateContext)
+  return user[0]
+}
+
+export const useUserDispatch = () => {
+  const { user } = useContext(StateContext)
+  return user[1]
+}
+
+export default StateContext

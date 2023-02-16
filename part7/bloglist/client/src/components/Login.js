@@ -1,50 +1,52 @@
-import userService from '../services/users'
 import { useNotificationDispatch } from '../NotificationContext'
-import { useField } from '../hooks'
-import { setToken } from '../requests'
+import { useField, useLogin } from '../hooks'
+import {  useMutation } from 'react-query'
+import { sendUser } from '../requests/userRequests'
 
-const Login = ({ setUser }) => {
+
+const Login = () => {
+  const { login } = useLogin()
+  const userMutation = useMutation(sendUser)
   const username = useField('text')
   const password = useField('password')
 
-
   const notificationDispatch = useNotificationDispatch()
-  const handleLogin = async (event) => {
-    event.preventDefault()
 
-    try {
-      const user = await userService.login({ username: username.value, password: password.value })
-      window.localStorage.setItem('user', JSON.stringify(user))
-      setUser(user)
-      setToken(user.token)
-      notificationDispatch({
-        type: 'SET_NOTIFICATION',
-        payload: `${user.username} logged in`
-      })
-    } catch (exception) {
-      notificationDispatch({
-        type: 'SET_NOTIFICATION',
-        payload: `error: ${exception.response.data.error}`
-      })
+  const setErrorNotification = (error) => {
+    notificationDispatch({ type: 'SET_NOTIFICATION', payload: `error ${error.response.data.error}` })
+  }
+
+  const handleLogin = (event) => {
+    event.preventDefault()
+    const userInfo = {
+      username: username.value,
+      password: password.value
     }
+
+    userMutation.mutate({ url: '/api/login', user: userInfo }, {
+      onSuccess: (userSession) => {
+        console.log(userSession)
+        login(userSession)
+        notificationDispatch({ type: 'SET_NOTIFICATION', payload: `${username.value} logged in` })
+      },
+      onError: (e) => setErrorNotification(e)
+    })
   }
 
   const handleNewUser = async (event) => {
     event.preventDefault()
-
-    try {
-      const user = await userService.newUser({ username: username.value, password: password.value })
-      notificationDispatch({
-        type: 'SET_NOTIFICATION',
-        payload: `${user.username} has been created`
-      })
-    } catch (exception) {
-      notificationDispatch({
-        type: 'SET_NOTIFICATION',
-        payload: `error: ${exception.data.error}`
-      })
+    const userInfo = {
+      username: username.value,
+      password: password.value
     }
+    userMutation.mutate({ url: '/api/users', user: userInfo }, {
+      onSuccess: () => {
+        notificationDispatch({ type: 'SET_NOTIFICATION', payload: `${username.value} has been added` })
+      },
+      onError: (e) => setErrorNotification(e)
+    })
   }
+
   return (
     <div>
       <h2>log in to application</h2>

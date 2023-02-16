@@ -1,5 +1,5 @@
 
-import { postBlog } from '../requests'
+import { postBlog } from '../requests/blogRequests'
 import { useNotificationDispatch } from '../NotificationContext'
 import { useMutation, useQueryClient } from 'react-query'
 import { useField } from '../hooks'

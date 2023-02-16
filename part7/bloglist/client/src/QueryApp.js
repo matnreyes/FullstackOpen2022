@@ -4,14 +4,16 @@ import BlogForm from './components/BlogForm'
 import Blog from './components/Blog'
 import { useNotificationValue } from './NotificationContext'
 import { useQuery } from 'react-query'
-import { fetchBlogs } from './requests'
-import { useState } from 'react'
+import { fetchBlogs } from './requests/blogRequests'
+import { useLogin } from './hooks'
 
 const App = () => {
-  const [user, setUser] = useState('')
   const notification = useNotificationValue()
+  const { user } = useLogin()
 
-  const result = useQuery('blogs', fetchBlogs)
+  const result = useQuery('blogs', fetchBlogs, {
+    refetchOnWindowFocus: false
+  })
   if (result.isLoading) {
     return <div> loading... </div>
   }
@@ -21,10 +23,10 @@ const App = () => {
     <div>
       {notification ? <Notification /> : ''}
       {blogs.map((blog, i) => (
-        <Blog blog={blog} key={i} user={user}/>
+        <Blog blog={blog} key={i}/>
       ))}
       <BlogForm />
-      {user ? '' : <Login setUser={setUser}/>}
+      {!user.username &&  <Login /> }
     </div>
   )
 }

@@ -1,11 +1,11 @@
-import { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
-import { deleteBlog, likeBlog } from '../requests'
-import { useNotificationDispatch } from '../NotificationContext'
+import { deleteBlog, likeBlog } from '../requests/blogRequests'
+import { useNotificationDispatch, useUserValue } from '../NotificationContext'
+import { useToggle } from '../hooks'
 
-
-const Blog = ({ blog, user }) => {
-  const [expanded, setExpanded] = useState(false)
+const Blog = ({ blog }) => {
+  const [expanded, toggleExpand] = useToggle()
+  const user = useUserValue()
 
   const setNotification = useNotificationDispatch()
   const queryClient = useQueryClient()
@@ -40,9 +40,6 @@ const Blog = ({ blog, user }) => {
     marginBottom: 5
   }
 
-  const toggleExpand = () => {
-    setExpanded(!expanded)
-  }
 
   const handleLike = () => {
     likeMutation.mutate(blog, {
