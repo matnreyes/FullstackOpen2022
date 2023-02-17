@@ -1,8 +1,7 @@
 import { useNotificationDispatch } from '../StateContext'
 import { useField, useLogin } from '../hooks'
-import {  useMutation } from 'react-query'
+import { useMutation } from 'react-query'
 import { sendUser } from '../requests/userRequests'
-
 
 const Login = () => {
   const { login } = useLogin()
@@ -13,7 +12,10 @@ const Login = () => {
   const notificationDispatch = useNotificationDispatch()
 
   const setErrorNotification = (error) => {
-    notificationDispatch({ type: 'SET_NOTIFICATION', payload: `error ${error.response.data.error}` })
+    notificationDispatch({
+      type: 'SET_NOTIFICATION',
+      payload: `error ${error.response.data.error}`
+    })
   }
 
   const handleLogin = (event) => {
@@ -23,14 +25,20 @@ const Login = () => {
       password: password.value
     }
 
-    userMutation.mutate({ url: '/api/login', user: userInfo }, {
-      onSuccess: (userSession) => {
-        console.log(userSession)
-        login(userSession)
-        notificationDispatch({ type: 'SET_NOTIFICATION', payload: `${username.value} logged in` })
-      },
-      onError: (e) => setErrorNotification(e)
-    })
+    userMutation.mutate(
+      { url: '/api/login', user: userInfo },
+      {
+        onSuccess: (userSession) => {
+          console.log(userSession)
+          login(userSession)
+          notificationDispatch({
+            type: 'SET_NOTIFICATION',
+            payload: `${username.value} logged in`
+          })
+        },
+        onError: (e) => setErrorNotification(e)
+      }
+    )
   }
 
   const handleNewUser = async (event) => {
@@ -39,12 +47,18 @@ const Login = () => {
       username: username.value,
       password: password.value
     }
-    userMutation.mutate({ url: '/api/users', user: userInfo }, {
-      onSuccess: () => {
-        notificationDispatch({ type: 'SET_NOTIFICATION', payload: `${username.value} has been added` })
-      },
-      onError: (e) => setErrorNotification(e)
-    })
+    userMutation.mutate(
+      { url: '/api/users', user: userInfo },
+      {
+        onSuccess: () => {
+          notificationDispatch({
+            type: 'SET_NOTIFICATION',
+            payload: `${username.value} has been added`
+          })
+        },
+        onError: (e) => setErrorNotification(e)
+      }
+    )
   }
 
   return (
@@ -59,11 +73,11 @@ const Login = () => {
       >
         <div>
           username
-          <input {...username}/>
+          <input {...username} />
         </div>
         <div>
           password
-          <input {...password}/>
+          <input {...password} />
         </div>
         <button id="login-button" type="submit" value="login">
           login

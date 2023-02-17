@@ -2,30 +2,33 @@ import { createContext, useReducer, useContext } from 'react'
 
 const notificationReducer = (state, action) => {
   switch (action.type) {
-  case 'SET_NOTIFICATION':
-    return action.payload
-  case 'RESET':
-    return null
-  default:
-    return state
+    case 'SET_NOTIFICATION':
+      return action.payload
+    case 'RESET':
+      return null
+    default:
+      return state
   }
 }
 
 const userReducer = (state, action) => {
   switch (action.type) {
-  case 'SET_USER':
-    return action.payload
-  case 'RESET':
-    return ''
-  default:
-    return state
+    case 'SET_USER':
+      return action.payload
+    case 'RESET':
+      return ''
+    default:
+      return state
   }
 }
 
 const StateContext = createContext()
 
 export const StateContextProvider = (props) => {
-  const [notification, notificationDispatch] = useReducer(notificationReducer, '')
+  const [notification, notificationDispatch] = useReducer(
+    notificationReducer,
+    ''
+  )
   const [user, userDispatch] = useReducer(userReducer, { username: null })
 
   const combinedReducers = {

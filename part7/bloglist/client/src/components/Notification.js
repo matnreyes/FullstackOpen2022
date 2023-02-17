@@ -1,7 +1,4 @@
-import {
-  useNotificationDispatch,
-  useNotificationValue
-} from '../StateContext'
+import { useNotificationDispatch, useNotificationValue } from '../StateContext'
 
 const Notification = () => {
   const notification = useNotificationValue()

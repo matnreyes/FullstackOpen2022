@@ -21,7 +21,11 @@ const App = () => {
   return (
     <div>
       {notification ? <Notification /> : ''}
-      {!user.username ? <Login /> : <Blogs blogs={blogs} username={user.username}/>}
+      {!user.username ? (
+        <Login />
+      ) : (
+        <Blogs blogs={blogs} username={user.username} />
+      )}
     </div>
   )
 }

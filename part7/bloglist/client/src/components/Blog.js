@@ -21,11 +21,17 @@ const Blog = ({ blog }) => {
     deleteMutation.mutate(blog.id, {
       onSuccess: () => {
         const blogs = queryClient.getQueryData('blogs')
-        queryClient.setQueryData('blogs', blogs.filter(n => n.id !== blog.id))
+        queryClient.setQueryData(
+          'blogs',
+          blogs.filter((n) => n.id !== blog.id)
+        )
         setNotification({ type: 'SET_NOTIFICATION', payload: 'Deleted blog' })
       },
       onError: (exception) => {
-        setNotification({ type: 'SET_NOTIFICATION', payload: `error: ${exception.response.data.error}` })
+        setNotification({
+          type: 'SET_NOTIFICATION',
+          payload: `error: ${exception.response.data.error}`
+        })
       }
     })
   }
@@ -41,14 +47,21 @@ const Blog = ({ blog }) => {
     marginBottom: 5
   }
 
-
   const handleLike = () => {
     console.log(blog)
     likeMutation.mutate(blog, {
       onSuccess: (updatedBlog) => {
         const blogs = queryClient.getQueryData('blogs')
-        queryClient.setQueryData('blogs', (blogs.map(b => b.id === updatedBlog.id ? updatedBlog : b)).sort((a, b) => b.likes - a.likes))
-        setNotification({ type: 'SET_NOTIFICATION', payload: `Liked ${blog.title}` })
+        queryClient.setQueryData(
+          'blogs',
+          blogs
+            .map((b) => (b.id === updatedBlog.id ? updatedBlog : b))
+            .sort((a, b) => b.likes - a.likes)
+        )
+        setNotification({
+          type: 'SET_NOTIFICATION',
+          payload: `Liked ${blog.title}`
+        })
       },
       onError: () => {
         setNotification({ type: 'SET_NOTIFICATION', payload: 'Error occurred' })
@@ -85,10 +98,14 @@ const Blogs = ({ blogs, username }) => {
   return (
     <div>
       <h1>blogs</h1>
-      <div>Logged in as {username} <button onClick={logout}>logout</button></div>
+      <div>
+        Logged in as {username} <button onClick={logout}>logout</button>
+      </div>
       <BlogForm />
       <div>
-        {blogs.map((blog, index) => <Blog blog={blog} key={index}/>)}
+        {blogs.map((blog, index) => (
+          <Blog blog={blog} key={index} />
+        ))}
       </div>
     </div>
   )

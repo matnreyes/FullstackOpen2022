@@ -19,7 +19,7 @@ export const useField = (type) => {
 export const useToggle = (intitialState = false) => {
   const [state, setState] = useState(intitialState)
 
-  const toggle = () => setState(state => !state)
+  const toggle = () => setState((state) => !state)
 
   return [state, toggle]
 }

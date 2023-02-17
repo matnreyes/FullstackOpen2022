@@ -11,16 +11,14 @@ export const setToken = (token) => {
   return config
 }
 
+export const fetchBlogs = () => axios.get(baseUrl).then((res) => res.data)
 
+export const postBlog = (newBlog) =>
+  axios.post(baseUrl, newBlog, config).then((res) => res.data)
 
-export const fetchBlogs = () =>
-  axios.get(baseUrl).then(res => res.data)
+export const deleteBlog = (id) => axios.delete(`${baseUrl}/${id}`, config)
 
-export const postBlog = newBlog =>
-  axios.post(baseUrl, newBlog, config).then(res => res.data)
-
-export const deleteBlog = id =>
-  axios.delete(`${baseUrl}/${id}`, config)
-
-export const likeBlog = blog =>
-  axios.put(`${baseUrl}/${blog.id}`, { ...blog, likes: blog.likes + 1 }, config).then(res => res.data)
+export const likeBlog = (blog) =>
+  axios
+    .put(`${baseUrl}/${blog.id}`, { ...blog, likes: blog.likes + 1 }, config)
+    .then((res) => res.data)

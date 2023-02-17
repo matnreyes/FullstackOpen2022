@@ -1,4 +1,3 @@
-
 import { postBlog } from '../requests/blogRequests'
 import { useNotificationDispatch } from '../StateContext'
 import { useMutation, useQueryClient } from 'react-query'
@@ -55,17 +54,17 @@ const BlogForm = () => {
         <div>
           title:
           <br />
-          <input {...title}/>
+          <input {...title} />
         </div>
         <div>
           author:
           <br />
-          <input {...author}/>
+          <input {...author} />
         </div>
         <div>
           url:
           <br />
-          <input {...url}/>
+          <input {...url} />
         </div>
         <button type="submit">submit</button>
       </form>
