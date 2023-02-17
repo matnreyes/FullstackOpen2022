@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './QueryApp'
-import { StateContextProvider } from './NotificationContext'
+import App from './App'
+import { StateContextProvider } from './StateContext'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 const queryClient = new QueryClient()

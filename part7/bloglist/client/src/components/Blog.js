@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from 'react-query'
 import { deleteBlog, likeBlog } from '../requests/blogRequests'
-import { useNotificationDispatch, useUserValue } from '../NotificationContext'
-import { useToggle } from '../hooks'
+import { useNotificationDispatch, useUserValue } from '../StateContext'
+import { useToggle, useLogin } from '../hooks'
+import BlogForm from './BlogForm'
 
 const Blog = ({ blog }) => {
   const [expanded, toggleExpand] = useToggle()
@@ -79,4 +80,18 @@ const Blog = ({ blog }) => {
   )
 }
 
-export default Blog
+const Blogs = ({ blogs, username }) => {
+  const { logout } = useLogin()
+  return (
+    <div>
+      <h1>blogs</h1>
+      <div>Logged in as {username} <button onClick={logout}>logout</button></div>
+      <BlogForm />
+      <div>
+        {blogs.map((blog, index) => <Blog blog={blog} key={index}/>)}
+      </div>
+    </div>
+  )
+}
+
+export default Blogs

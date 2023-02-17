@@ -1,4 +1,4 @@
-import { useNotificationDispatch } from '../NotificationContext'
+import { useNotificationDispatch } from '../StateContext'
 import { useField, useLogin } from '../hooks'
 import {  useMutation } from 'react-query'
 import { sendUser } from '../requests/userRequests'

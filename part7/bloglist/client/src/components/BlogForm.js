@@ -1,6 +1,6 @@
 
 import { postBlog } from '../requests/blogRequests'
-import { useNotificationDispatch } from '../NotificationContext'
+import { useNotificationDispatch } from '../StateContext'
 import { useMutation, useQueryClient } from 'react-query'
 import { useField } from '../hooks'
 

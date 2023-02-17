@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useUserDispatch, useUserValue } from '../NotificationContext'
+import { useUserDispatch, useUserValue } from '../StateContext'
 import { setToken } from '../requests/blogRequests'
 
 export const useField = (type) => {

@@ -1,7 +1,7 @@
 import {
   useNotificationDispatch,
   useNotificationValue
-} from '../NotificationContext'
+} from '../StateContext'
 
 const Notification = () => {
   const notification = useNotificationValue()
