@@ -29,7 +29,6 @@ const Login = () => {
       { url: '/api/login', user: userInfo },
       {
         onSuccess: (userSession) => {
-          console.log(userSession)
           login(userSession)
           notificationDispatch({
             type: 'SET_NOTIFICATION',

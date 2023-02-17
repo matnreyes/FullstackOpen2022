@@ -48,7 +48,6 @@ const Blog = ({ blog }) => {
   }
 
   const handleLike = () => {
-    console.log(blog)
     likeMutation.mutate(blog, {
       onSuccess: (updatedBlog) => {
         const blogs = queryClient.getQueryData('blogs')
