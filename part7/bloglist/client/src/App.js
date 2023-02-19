@@ -1,6 +1,7 @@
 import Notification from './components/Notification'
 import Login from './components/Login'
 import Blogs from './components/Blog'
+import Users from './components/Users'
 import { useNotificationValue } from './StateContext'
 import { useQuery } from 'react-query'
 import { fetchBlogs } from './requests/blogRequests'
@@ -24,7 +25,10 @@ const App = () => {
       {!user.username ? (
         <Login />
       ) : (
-        <Blogs blogs={blogs} username={user.username} />
+        <div>
+          <Blogs blogs={blogs} username={user.username} />
+          <Users />
+        </div>
       )}
     </div>
   )
