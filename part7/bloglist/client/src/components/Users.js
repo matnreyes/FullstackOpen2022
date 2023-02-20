@@ -1,5 +1,7 @@
 import { useQuery } from 'react-query'
 import { fetchUsers } from '../requests/userRequests'
+import { Link } from 'react-router-dom'
+
 const Users = () => {
   const result = useQuery('users', fetchUsers, {
     refetchOnWindowFocus: false
@@ -24,7 +26,9 @@ const Users = () => {
         <tbody>
           {users.map((user, index) => (
             <tr key={index}>
-              <td>{user.username}</td>
+              <td>
+                <Link to={`/users/${user.id}`}>{user.username}</Link>
+              </td>
               <td>{user.blogs.length}</td>
             </tr>
           ))}

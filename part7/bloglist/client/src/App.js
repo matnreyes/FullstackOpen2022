@@ -6,6 +6,7 @@ import { useNotificationValue } from './StateContext'
 import { useQuery } from 'react-query'
 import { fetchBlogs } from './requests/blogRequests'
 import { useLogin } from './hooks'
+import { Routes, Route } from 'react-router-dom'
 
 const App = () => {
   const notification = useNotificationValue()
@@ -20,16 +21,14 @@ const App = () => {
   const blogs = result.data.sort((a, b) => b.likes - a.likes)
 
   return (
+
     <div>
       {notification ? <Notification /> : ''}
-      {!user.username ? (
-        <Login />
-      ) : (
-        <div>
-          <Blogs blogs={blogs} username={user.username} />
-          <Users />
-        </div>
-      )}
+      <Routes>
+        <Route path="/" element={<Blogs blogs={blogs}/>} />
+        <Route path="/login/" element={user && <Login />}/>
+        <Route path="/users/" element={<Users />} />
+      </Routes>
     </div>
   )
 }
