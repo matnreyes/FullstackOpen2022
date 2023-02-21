@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from 'react-query'
 import { deleteBlog, likeBlog } from '../requests/blogRequests'
 import { useNotificationDispatch, useUserValue } from '../StateContext'
-import { useToggle } from '../hooks'
 import BlogForm from './BlogForm'
+import { useNavigate, Link } from 'react-router-dom'
 
-const Blog = ({ blog }) => {
-  const [expanded, toggleExpand] = useToggle()
+export const Blog = ({ blog }) => {
+  const navigate = useNavigate()
   const user = useUserValue()
 
   const setNotification = useNotificationDispatch()
@@ -35,8 +35,6 @@ const Blog = ({ blog }) => {
       }
     })
   }
-
-  const showWhenExpanded = { display: expanded ? '' : 'none' }
 
   const blogStyle = {
     paddingTop: 10,
@@ -75,8 +73,8 @@ const Blog = ({ blog }) => {
   return (
     <div className="blog" style={blogStyle}>
       {blog.title} by {blog.author}
-      <button onClick={toggleExpand}>{expanded ? 'close' : 'expand'}</button>
-      <div style={showWhenExpanded} className="moreInfo">
+      <button onClick={() => navigate(`/blogs/${blog.id}`)}>open</button>
+      <div className="moreInfo">
         {blog.url}
         <br />
         likes: {blog.likes}
@@ -84,7 +82,7 @@ const Blog = ({ blog }) => {
           like
         </button>
         <br />
-        added by: {blog.user.username}
+        added by {blog.user.name}
         <br />
         {user.username === blog.user.username && deleteButton()}
       </div>
@@ -92,17 +90,26 @@ const Blog = ({ blog }) => {
   )
 }
 
-const Blogs = ({ blogs }) => {
+export const Blogs = ({ blogs }) => {
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    width: 500,
+    borderWidth: 1,
+    marginBottom: 5
+  }
+
   return (
     <div>
       <BlogForm />
       <div>
-        {blogs.map((blog, index) => (
-          <Blog blog={blog} key={index} />
+        {blogs.map((blog) => (
+          <div key={blog.id} style={blogStyle}>
+            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+          </div>
         ))}
       </div>
     </div>
   )
 }
-
-export default Blogs

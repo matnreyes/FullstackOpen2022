@@ -1,19 +1,20 @@
-import Notification from './components/Notification'
-import Login from './components/Login'
-import Blogs from './components/Blog'
-import Users from './components/Users'
-import { useNotificationValue } from './StateContext'
 import { useQueries } from 'react-query'
-import { fetchBlogs } from './requests/blogRequests'
-import { useLogin } from './hooks'
 import { Routes, Route, useMatch, Navigate } from 'react-router-dom'
+import { useNotificationValue } from './StateContext'
+import Notification from './components/Notification'
+import { fetchBlogs } from './requests/blogRequests'
 import { fetchUsers } from './requests/userRequests'
+import { useLogin } from './hooks'
+import Login from './components/Login'
+import { Blog, Blogs } from './components/Blog'
+import Users from './components/Users'
 import User from './components/User'
 
 const App = () => {
   const notification = useNotificationValue()
   const { user, logout } = useLogin()
-  const match = useMatch('/users/:id')
+  const userMatch = useMatch('/users/:id')
+  const blogMatch = useMatch('/blogs/:id')
 
   const [ blogsQuery, usersQuery ] = useQueries([
     {
@@ -33,9 +34,16 @@ const App = () => {
   const blogs = blogsQuery.data
   const users = usersQuery.data
 
-  const selectedUser = match
-    ? users.find(u => u.id === match.params.id)
+  const selectedUser = userMatch
+    ? users.find(u => u.id === userMatch.params.id)
     : null
+
+  const selectedBlog = blogMatch
+    ? blogs.find(b => b.id === blogMatch.params.id)
+    : null
+
+
+  console.log(blogMatch)
 
   return (
 
@@ -51,6 +59,7 @@ const App = () => {
         <Route path="/login/" element={<Login />}/>
         <Route path="/users/" element={<Users />} />
         <Route path="/users/:id" element={<User user={selectedUser}/>} />
+        <Route path="/blogs/:id" element={<Blog blog={selectedBlog} />} />
       </Routes>
     </div>
   )
