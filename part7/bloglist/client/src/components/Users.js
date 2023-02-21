@@ -1,6 +1,6 @@
+import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { fetchUsers } from '../requests/userRequests'
-import { Link } from 'react-router-dom'
 
 const Users = () => {
   const result = useQuery('users', fetchUsers, {
@@ -12,7 +12,6 @@ const Users = () => {
   }
 
   const users = result.data
-
   return (
     <div>
       <h1>Users</h1>

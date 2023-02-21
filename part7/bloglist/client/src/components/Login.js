@@ -2,12 +2,14 @@ import { useNotificationDispatch } from '../StateContext'
 import { useField, useLogin } from '../hooks'
 import { useMutation } from 'react-query'
 import { sendUser } from '../requests/userRequests'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const { login } = useLogin()
   const userMutation = useMutation(sendUser)
   const username = useField('text')
   const password = useField('password')
+  const navigate = useNavigate()
 
   const notificationDispatch = useNotificationDispatch()
 
@@ -34,6 +36,7 @@ const Login = () => {
             type: 'SET_NOTIFICATION',
             payload: `${username.value} logged in`
           })
+          navigate('/')
         },
         onError: (e) => setErrorNotification(e)
       }
