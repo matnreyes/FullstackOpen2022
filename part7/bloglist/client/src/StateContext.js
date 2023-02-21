@@ -1,7 +1,7 @@
 import { createContext, useReducer, useContext } from 'react'
 
 const notificationReducer = (state, action) => {
-switch (action.type) {
+  switch (action.type) {
   case 'SET_NOTIFICATION':
     return action.payload
   case 'RESET':

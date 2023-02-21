@@ -1,5 +1,5 @@
 import { useQueries } from 'react-query'
-import { Routes, Route, useMatch, Navigate } from 'react-router-dom'
+import { Routes, Route, useMatch, Navigate, useNavigate } from 'react-router-dom'
 import { useNotificationValue } from './StateContext'
 import Notification from './components/Notification'
 import { fetchBlogs } from './requests/blogRequests'
@@ -12,6 +12,7 @@ import User from './components/User'
 
 const App = () => {
   const notification = useNotificationValue()
+  const navigate = useNavigate()
   const { user, logout } = useLogin()
   const userMatch = useMatch('/users/:id')
   const blogMatch = useMatch('/blogs/:id')
@@ -19,11 +20,13 @@ const App = () => {
   const [ blogsQuery, usersQuery ] = useQueries([
     {
       queryKey: 'blogs',
-      queryFn: fetchBlogs
+      queryFn: fetchBlogs,
+      refetchOnWindowFocus: false
     },
     {
       queryKey: 'users',
-      queryFn: fetchUsers
+      queryFn: fetchUsers,
+      refetchOnWindowFocus: false
     }
   ])
 
@@ -43,7 +46,10 @@ const App = () => {
     : null
 
 
-  console.log(blogMatch)
+  const handleLogout = () => {
+    navigate('/login')
+    logout()
+  }
 
   return (
 
@@ -51,7 +57,7 @@ const App = () => {
       {notification ? <Notification /> : ''}
       <h1>blogs</h1>
       {user.username
-        ? <em> {user.username} logged in <button onClick={logout}>logout</button></em>
+        ? <em> {user.username} logged in <button onClick={handleLogout}>logout</button></em>
         : ''
       }
       <Routes>

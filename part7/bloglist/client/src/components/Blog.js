@@ -2,10 +2,14 @@ import { useMutation, useQueryClient } from 'react-query'
 import { deleteBlog, likeBlog } from '../requests/blogRequests'
 import { useNotificationDispatch, useUserValue } from '../StateContext'
 import BlogForm from './BlogForm'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export const Blog = ({ blog }) => {
-  const navigate = useNavigate()
+  if (!blog) {
+    return <div> <h2> blog does not exist </h2> </div>
+  }
+
+
   const user = useUserValue()
 
   const setNotification = useNotificationDispatch()
@@ -36,15 +40,6 @@ export const Blog = ({ blog }) => {
     })
   }
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    width: 500,
-    borderWidth: 1,
-    marginBottom: 5
-  }
-
   const handleLike = () => {
     likeMutation.mutate(blog, {
       onSuccess: (updatedBlog) => {
@@ -71,18 +66,17 @@ export const Blog = ({ blog }) => {
   )
 
   return (
-    <div className="blog" style={blogStyle}>
-      {blog.title} by {blog.author}
-      <button onClick={() => navigate(`/blogs/${blog.id}`)}>open</button>
+    <div className="blog">
+      <h1>{blog.title} by {blog.author} </h1>
       <div className="moreInfo">
-        {blog.url}
+        <a href={blog.url} rel="noopener">{blog.url}</a>
         <br />
         likes: {blog.likes}
         <button id="like-button" onClick={handleLike}>
           like
         </button>
         <br />
-        added by {blog.user.name}
+        added by {blog.user.username}
         <br />
         {user.username === blog.user.username && deleteButton()}
       </div>
