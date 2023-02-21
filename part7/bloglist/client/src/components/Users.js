@@ -1,17 +1,6 @@
 import { Link } from 'react-router-dom'
-import { useQuery } from 'react-query'
-import { fetchUsers } from '../requests/userRequests'
 
-const Users = () => {
-  const result = useQuery('users', fetchUsers, {
-    refetchOnWindowFocus: false
-  })
-
-  if (result.isLoading) {
-    return <div> loading users... </div>
-  }
-
-  const users = result.data
+const Users = ({ users }) => {
   return (
     <div>
       <h1>Users</h1>
