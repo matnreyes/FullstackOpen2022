@@ -28,6 +28,9 @@ const BlogForm = () => {
           type: 'SET_NOTIFICATION',
           payload: 'Blog succesfully added'
         })
+        title.resetValue()
+        author.resetValue()
+        url.resetValue()
       },
       onError: (exception) => {
         setNotification({

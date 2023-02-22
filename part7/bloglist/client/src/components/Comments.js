@@ -22,6 +22,7 @@ const Comments = ({ blogId, comments }) => {
               : blog
           )
           queryClient.setQueryData('blogs', newBlogs)
+          newComment.resetValue()
         },
         onError: () => {
           setNotification({
@@ -31,7 +32,6 @@ const Comments = ({ blogId, comments }) => {
         }
       }
     )
-    newComment.value = ''
   }
   return (
     <div>
