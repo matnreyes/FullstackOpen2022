@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from 'react-query'
-import { deleteBlog, likeBlog } from '../requests/blogRequests'
+import { deleteBlog, likeBlog, postComment } from '../requests/blogRequests'
 import { useNotificationDispatch, useUserValue } from '../StateContext'
 import BlogForm from './BlogForm'
+import { useField } from '../hooks'
 import { Link } from 'react-router-dom'
 
 export const Blog = ({ blog }) => {
@@ -11,7 +12,7 @@ export const Blog = ({ blog }) => {
 
 
   const user = useUserValue()
-
+  const comment = useField('text')
   const setNotification = useNotificationDispatch()
   const queryClient = useQueryClient()
   const deleteMutation = useMutation(deleteBlog)
@@ -65,6 +66,12 @@ export const Blog = ({ blog }) => {
     <button onClick={() => handleDelete(blog)}>delete</button>
   )
 
+  const handleComment = async (event) => {
+    event.preventDefault()
+    const updatedComments = await postComment(blog, comment)
+    blog.comment = updatedComments
+  }
+
   return (
     <div className="blog">
       <h1>{blog.title} by {blog.author} </h1>
@@ -81,6 +88,10 @@ export const Blog = ({ blog }) => {
         {user.username === blog.user.username && deleteButton()}
       </div>
       <h3>comments</h3>
+      <form onSubmit={handleComment}>
+        <input {...comment}></input>
+        <button type="submit">submit</button>
+      </form>
       <ul>
         {blog.comments.map(n => <li key={n.id}>{n.content}</li>)}
       </ul>
