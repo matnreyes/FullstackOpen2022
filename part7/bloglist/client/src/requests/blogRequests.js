@@ -23,5 +23,5 @@ export const likeBlog = (blog) =>
     .put(`${baseUrl}/${blog.id}`, { ...blog, likes: blog.likes + 1 }, config)
     .then((res) => res.data)
 
-export const postComment = (blog, comment) =>
-  axios.post(`${baseUrl}/${blog.id}/comments`, { comment: comment.value }).then(res => res.data)
+export const postComment = ({ blogId, comment }) =>
+  axios.post(`${baseUrl}/${blogId}/comments`, { comment }).then(res => res.data)
