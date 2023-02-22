@@ -22,17 +22,23 @@ blogsRouter.get('/:id/comments', async (req, res) => {
     .findById(id)
     .populate('comments', { blog: 0 })
 
-  console.log(blog)
-  res.json(blog)
+  res.json(blog.comments)
 })
 
 blogsRouter.post('/:id/comments', async (req, res) => {
   const { comment } = req.body
-  const newComment = new Comment({ 
-    content: comment
+  const blog = await Blog.findById(req.params.id)
+  const newComment = new Comment({
+    content: comment,
+    blog: blog.id
   })
 
-  await Comment.save()
+  blog.comments = blog.comments.concat(newComment.id)
+  const savedBlog = await blog.save()
+  await newComment.save()
+  await savedBlog.populate('comments', { blog: 0 })
+
+  res.json(blog.comments)
 })
 
 blogsRouter.post('/', tokenExtractor, async (req, res) => {
