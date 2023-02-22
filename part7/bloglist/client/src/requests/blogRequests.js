@@ -24,4 +24,6 @@ export const likeBlog = (blog) =>
     .then((res) => res.data)
 
 export const postComment = ({ blogId, comment }) =>
-  axios.post(`${baseUrl}/${blogId}/comments`, { comment }).then(res => res.data)
+  axios
+    .post(`${baseUrl}/${blogId}/comments`, { comment })
+    .then((res) => res.data)

@@ -17,7 +17,7 @@ const App = () => {
   const userMatch = useMatch('/users/:id')
   const blogMatch = useMatch('/blogs/:id')
 
-  const [ blogsQuery, usersQuery ] = useQueries([
+  const [blogsQuery, usersQuery] = useQueries([
     {
       queryKey: 'blogs',
       queryFn: fetchBlogs,
@@ -38,27 +38,32 @@ const App = () => {
   const users = usersQuery.data
 
   const selectedUser = userMatch
-    ? users.find(u => u.id === userMatch.params.id)
+    ? users.find((u) => u.id === userMatch.params.id)
     : null
 
   const selectedBlog = blogMatch
-    ? blogs.find(b => b.id === blogMatch.params.id)
+    ? blogs.find((b) => b.id === blogMatch.params.id)
     : null
 
-
-
-
   return (
-
     <div>
       <NavBar username={user.username} />
       {notification ? <Notification /> : ''}
       <h1>blogs</h1>
       <Routes>
-        <Route path="/" element={user.username ? <Blogs blogs={blogs}/> : <Navigate replace to="/login" />} />
-        <Route path="/login/" element={<Login />}/>
+        <Route
+          path="/"
+          element={
+            user.username ? (
+              <Blogs blogs={blogs} />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        />
+        <Route path="/login/" element={<Login />} />
         <Route path="/users/" element={<Users users={users} />} />
-        <Route path="/users/:id" element={<User user={selectedUser}/>} />
+        <Route path="/users/:id" element={<User user={selectedUser} />} />
         <Route path="/blogs/:id" element={<Blog blog={selectedBlog} />} />
       </Routes>
     </div>

@@ -8,7 +8,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Router >
+  <Router>
     <QueryClientProvider client={queryClient}>
       <StateContextProvider>
         <App />

@@ -7,9 +7,13 @@ import Comments from './Comments'
 
 export const Blog = ({ blog }) => {
   if (!blog) {
-    return <div> <h2> blog does not exist </h2> </div>
+    return (
+      <div>
+        {' '}
+        <h2> blog does not exist </h2>{' '}
+      </div>
+    )
   }
-
 
   const user = useUserValue()
   const setNotification = useNotificationDispatch()
@@ -47,7 +51,9 @@ export const Blog = ({ blog }) => {
         queryClient.setQueryData(
           'blogs',
           blogs
-            .map((b) => (b.id === updatedBlog.id ? { ...b, likes: updatedBlog.likes } : b))
+            .map((b) =>
+              b.id === updatedBlog.id ? { ...b, likes: updatedBlog.likes } : b
+            )
             .sort((a, b) => b.likes - a.likes)
         )
         setNotification({
@@ -67,9 +73,13 @@ export const Blog = ({ blog }) => {
 
   return (
     <div className="blog">
-      <h1>{blog.title} by {blog.author} </h1>
+      <h1>
+        {blog.title} by {blog.author}{' '}
+      </h1>
       <div className="moreInfo">
-        <a href={blog.url} rel="noopener">{blog.url}</a>
+        <a href={blog.url} rel="noopener">
+          {blog.url}
+        </a>
         <br />
         likes: {blog.likes}
         <button id="like-button" onClick={handleLike}>

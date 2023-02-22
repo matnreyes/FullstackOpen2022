@@ -11,16 +11,26 @@ const Comments = ({ blogId, comments }) => {
 
   const handleComment = async (event) => {
     event.preventDefault()
-    commentMutation.mutate({ blogId, comment: newComment.value }, {
-      onSuccess: (updatedBlog) => {
-        const blogs = queryClient.getQueryData('blogs')
-        const newBlogs = blogs.map(blog => blog.id === updatedBlog.id ? { ...blog, comments: updatedBlog.comments } : blog)
-        queryClient.setQueryData('blogs', newBlogs)
-      },
-      onError: () => {
-        setNotification({ type:'SET_NOTIFICATION', payload: 'error has occurred' })
+    commentMutation.mutate(
+      { blogId, comment: newComment.value },
+      {
+        onSuccess: (updatedBlog) => {
+          const blogs = queryClient.getQueryData('blogs')
+          const newBlogs = blogs.map((blog) =>
+            blog.id === updatedBlog.id
+              ? { ...blog, comments: updatedBlog.comments }
+              : blog
+          )
+          queryClient.setQueryData('blogs', newBlogs)
+        },
+        onError: () => {
+          setNotification({
+            type: 'SET_NOTIFICATION',
+            payload: 'error has occurred'
+          })
+        }
       }
-    })
+    )
     newComment.value = ''
   }
   return (
@@ -30,9 +40,9 @@ const Comments = ({ blogId, comments }) => {
         <button type="submit">comment</button>
       </form>
       <ul>
-        {comments.map(comment =>
+        {comments.map((comment) => (
           <li key={comment.id}>{comment.content}</li>
-        )}
+        ))}
       </ul>
     </div>
   )

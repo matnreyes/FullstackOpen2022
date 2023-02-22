@@ -30,9 +30,20 @@ const NavBar = ({ username }) => {
 
   return (
     <div style={navBarStyle}>
-      <Link to="/" style={buttonStyle}>blogs</Link>
-      <Link to="/users" style={buttonStyle}>users</Link>
-      { username && <em>{username} logged in <button onClick={handleLogout} style={buttonStyle}>logout</button></em> }
+      <Link to="/" style={buttonStyle}>
+        blogs
+      </Link>
+      <Link to="/users" style={buttonStyle}>
+        users
+      </Link>
+      {username && (
+        <em>
+          {username} logged in{' '}
+          <button onClick={handleLogout} style={buttonStyle}>
+            logout
+          </button>
+        </em>
+      )}
     </div>
   )
 }
