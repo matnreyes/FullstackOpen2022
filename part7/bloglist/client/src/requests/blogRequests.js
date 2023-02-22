@@ -8,7 +8,6 @@ const config = {
 
 export const setToken = (token) => {
   config.headers.Authorization = 'bearer ' + token
-  console.log(config)
   return config
 }
 

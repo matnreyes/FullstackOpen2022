@@ -1,5 +1,4 @@
 const User = ({ user }) => {
-  console.log(user)
   return (
     <div>
       <h2>{user.username}</h2>
