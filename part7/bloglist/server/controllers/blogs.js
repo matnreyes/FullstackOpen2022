@@ -12,17 +12,8 @@ blogsRouter.get('/', async (req, res) => {
 })
 
 blogsRouter.get('/:id', async (req, res) => {
-  const blog = await Blog.findById(req.params.id)
+  const blog = await Blog.findById(req.params.id).populate('comments', { blog: 0 })
   res.json(blog)
-})
-
-blogsRouter.get('/:id/comments', async (req, res) => {
-  const { id } = req.params
-  const blog = await Blog
-    .findById(id)
-    .populate('comments', { blog: 0 })
-
-  res.json(blog.comments)
 })
 
 blogsRouter.post('/:id/comments', async (req, res) => {
