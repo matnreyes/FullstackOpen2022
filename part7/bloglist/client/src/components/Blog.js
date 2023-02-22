@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from 'react-query'
 import { deleteBlog, likeBlog } from '../requests/blogRequests'
 import { useNotificationDispatch, useUserValue } from '../StateContext'
 import BlogForm from './BlogForm'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Comments from './Comments'
 
 export const Blog = ({ blog }) => {
@@ -16,6 +16,7 @@ export const Blog = ({ blog }) => {
   }
 
   const user = useUserValue()
+  const navigate = useNavigate()
   const setNotification = useNotificationDispatch()
   const queryClient = useQueryClient()
   const deleteMutation = useMutation(deleteBlog)
@@ -34,6 +35,7 @@ export const Blog = ({ blog }) => {
           blogs.filter((n) => n.id !== blog.id)
         )
         setNotification({ type: 'SET_NOTIFICATION', payload: 'Deleted blog' })
+        navigate('/')
       },
       onError: (exception) => {
         setNotification({
@@ -67,9 +69,11 @@ export const Blog = ({ blog }) => {
     })
   }
 
-  const deleteButton = () => (
-    <button onClick={() => handleDelete(blog)}>delete</button>
-  )
+  const deleteButton = () => {
+    return (
+      <button onClick={() => handleDelete(blog)}>delete</button>
+    )
+  }
 
   return (
     <div className="blog">
