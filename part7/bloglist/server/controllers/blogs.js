@@ -27,9 +27,9 @@ blogsRouter.post('/:id/comments', async (req, res) => {
   blog.comments = blog.comments.concat(newComment.id)
   const savedBlog = await blog.save()
   await newComment.save()
-  await savedBlog.populate('comments', { blog: 0 })
+  const populatedBlog = await savedBlog.populate('comments', { blog: 0 })
 
-  res.json(blog.comments)
+  res.json(populatedBlog)
 })
 
 blogsRouter.post('/', tokenExtractor, async (req, res) => {
