@@ -61,7 +61,8 @@ blogsRouter.delete('/:id', tokenExtractor, async (req, res) => {
   user.blogs = user.blogs.filter((b) => b !== blog._id.toString())
   await user.save()
 
-  blog.delete()
+  await Comment.deleteMany({ blog: blog.id })
+  await blog.delete()
   res.status(204).end()
 })
 

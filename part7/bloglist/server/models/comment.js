@@ -3,7 +3,10 @@
 const mongoose = require('mongoose')
 
 const commentSchema = new mongoose.Schema({
-  content: String,
+  content: {
+    type: String,
+    minlength: 3
+  },
   blog: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Blog'
