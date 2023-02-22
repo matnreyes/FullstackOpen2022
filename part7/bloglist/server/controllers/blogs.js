@@ -7,7 +7,7 @@ const Comment = require('../models/comment')
 const { tokenExtractor } = require('../utils/middleware')
 
 blogsRouter.get('/', async (req, res) => {
-  const blogs = await Blog.find({}).populate('user', { blogs: 0 })
+  const blogs = await Blog.find({}).populate('user', { blogs: 0 }).populate('comments', { blogs: 0 })
   res.json(blogs)
 })
 
