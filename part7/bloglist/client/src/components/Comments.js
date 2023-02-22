@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from 'react-query'
 import { useNotificationDispatch } from '../StateContext'
 
 const Comments = ({ blogId, comments }) => {
-  const newComment = useField('text')
+  const { resetValue: resetComment, ...newComment } = useField('text')
   const queryClient = useQueryClient()
   const commentMutation = useMutation(postComment)
   const setNotification = useNotificationDispatch()
@@ -22,7 +22,7 @@ const Comments = ({ blogId, comments }) => {
               : blog
           )
           queryClient.setQueryData('blogs', newBlogs)
-          newComment.resetValue()
+          resetComment()
         },
         onError: () => {
           setNotification({

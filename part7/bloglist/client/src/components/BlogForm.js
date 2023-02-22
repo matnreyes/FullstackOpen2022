@@ -4,9 +4,9 @@ import { useMutation, useQueryClient } from 'react-query'
 import { useField } from '../hooks'
 
 const BlogForm = () => {
-  const title = useField('text')
-  const author = useField('text')
-  const url = useField('text')
+  const { resetValue: resetTitle, ...title } = useField('text')
+  const { resetValue: resetAuthor, ...author } = useField('text')
+  const { resetValue: resetUrl, ...url } = useField('text')
   const setNotification = useNotificationDispatch()
 
   const newBlogMutation = useMutation(postBlog)
@@ -28,9 +28,9 @@ const BlogForm = () => {
           type: 'SET_NOTIFICATION',
           payload: 'Blog succesfully added'
         })
-        title.resetValue()
-        author.resetValue()
-        url.resetValue()
+        resetTitle()
+        resetAuthor()
+        resetUrl()
       },
       onError: (exception) => {
         setNotification({

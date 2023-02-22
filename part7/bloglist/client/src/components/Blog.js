@@ -6,17 +6,21 @@ import { Link, useNavigate } from 'react-router-dom'
 import Comments from './Comments'
 
 export const Blog = ({ blog }) => {
+  const navigate = useNavigate()
+
   if (!blog) {
+    setTimeout(() => {
+      navigate('/')
+    }, 5000)
+    console.log('error')
     return (
       <div>
-        {' '}
         <h2> blog does not exist </h2>{' '}
       </div>
     )
   }
 
   const user = useUserValue()
-  const navigate = useNavigate()
   const setNotification = useNotificationDispatch()
   const queryClient = useQueryClient()
   const deleteMutation = useMutation(deleteBlog)
