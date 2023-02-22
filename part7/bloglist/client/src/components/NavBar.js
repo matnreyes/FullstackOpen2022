@@ -14,7 +14,8 @@ const NavBar = ({ username }) => {
     backgroundColor: 'grey',
     borderRadius: 3,
     color: 'white',
-    padding: 10
+    padding: 10,
+    margin: 10
   }
 
   const buttonStyle = {
