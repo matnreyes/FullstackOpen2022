@@ -80,6 +80,10 @@ export const Blog = ({ blog }) => {
         <br />
         {user.username === blog.user.username && deleteButton()}
       </div>
+      <h3>comments</h3>
+      <ul>
+        {blog.comments.map(n => <li key={n.id}>{n.content}</li>)}
+      </ul>
     </div>
   )
 }
