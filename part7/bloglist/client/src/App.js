@@ -46,7 +46,7 @@ const App = () => {
     : null
 
   return (
-    <div>
+    <div className="bg-secondary">
       <NavBar username={user.username} />
       {notification ? <Notification /> : ''}
       <h1>blogs</h1>

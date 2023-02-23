@@ -7,12 +7,12 @@ const Notification = () => {
     dispatch({ type: 'RESET' })
   }, 5000)
 
-  // const notificationType = notification.includes('error')
-  //   ? 'error'
-  //   : 'success'
+  const notificationType = notification.includes('error')
+    ? 'alert-error'
+    : 'alert-success'
 
   return (
-    <div className="alert alert-success shadow-lg">
+    <div className={`alert ${notificationType} shadow-lg`}>
       <h2>{notification}</h2>
     </div>
   )
