@@ -66,30 +66,37 @@ const Login = () => {
   }
 
   return (
-    <div>
-      <h2>log in to application</h2>
-      <form
-        onSubmit={(event) =>
-          event.nativeEvent.submitter.value === 'login'
-            ? handleLogin(event)
-            : handleNewUser(event)
-        }
-      >
-        <div>
-          username
-          <input {...username} />
-        </div>
-        <div>
-          password
-          <input {...password} />
-        </div>
-        <button id="login-button" type="submit" value="login">
-          login
-        </button>
-        <button id="signup-button" type="submit" value="newuser">
-          create account
-        </button>
-      </form>
+    <div className="grid">
+
+      <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+        <h2 className="card-title justify-center">log in to application</h2>
+        <form className="card-body"
+          onSubmit={(event) =>
+            event.nativeEvent.submitter.value === 'login'
+              ? handleLogin(event)
+              : handleNewUser(event)
+          }
+        >
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Email</span>
+            </label>
+            <input {...username} placeholder="username" className="input input-bordered" />
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Password</span>
+            </label>
+            <input {...password} placeholder="password" className="input input-bordered" />
+          </div>
+          <div className="form-control mt-6">
+            <button className="btn btn-primary" value="login">Login</button>
+          </div>
+          <div className="form-control">
+            <button className="btn btn-primary" value="signup">Sign up</button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }

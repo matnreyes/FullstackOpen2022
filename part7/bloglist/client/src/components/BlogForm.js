@@ -41,36 +41,44 @@ const BlogForm = () => {
     })
   }
 
-  const formStyle = {
-    backgroundColor: 'lightgrey',
-    borderStyle: 'solid',
-    borderRadius: 10,
-    borderColor: 'grey',
-    borderWidth: 2,
-    padding: 8,
-    width: 200
-  }
   return (
-    <div style={formStyle}>
-      <h3>add blog</h3>
-      <form onSubmit={handleSubmit}>
-        <div>
-          title:
-          <br />
-          <input {...title} />
-        </div>
-        <div>
-          author:
-          <br />
-          <input {...author} />
-        </div>
-        <div>
-          url:
-          <br />
-          <input {...url} />
-        </div>
-        <button type="submit">submit</button>
-      </form>
+    <div className="cardContainer">
+      <div className="card-body">
+        <span className="card-title">add blog</span>
+        <form onSubmit={handleSubmit} className="formStyle">
+          <div className="p-1">
+            <label className="labeledInput">
+              <span>Title:</span>
+              <input
+                className="borderedInput"
+                placeholder="enter title"
+                {...title}
+              />
+            </label>
+          </div>
+          <div className="p-1">
+            <label className="labeledInput">
+              <span>Author:</span>
+              <input
+                className="borderedInput"
+                placeholder="enter author"
+                {...author}
+              />
+            </label>
+          </div>
+          <div className="p-1">
+            <label className="labeledInput">
+              <span>Url:</span>
+              <input
+                className="borderedInput"
+                placeholder="enter url"
+                {...url}
+              />
+            </label>
+          </div>
+          <button className="btn btn-outline btn-info" type="submit">submit</button>
+        </form>
+      </div>
     </div>
   )
 }

@@ -35,7 +35,7 @@ const App = () => {
   }
 
   const blogs = blogsQuery.data
-  const users = usersQuery.data
+  const users = usersQuery.data.sort((a, b) => b.blogs.length - a.blogs.length)
 
   const selectedUser = userMatch
     ? users.find((u) => u.id === userMatch.params.id)
@@ -46,10 +46,9 @@ const App = () => {
     : null
 
   return (
-    <div className="bg-secondary">
+    <div>
       <NavBar username={user.username} />
       {notification ? <Notification /> : ''}
-      <h1>blogs</h1>
       <Routes>
         <Route
           path="/"

@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.labeledInput {
+  @apply input-group;
+  @apply input-group-vertical;
+}
+
+.formStyle {
+  @apply form-control;
+  @apply w-full;
+  @apply max-w-xs;
+}
+
+.borderedInput {
+  @apply input;
+  @apply input-bordered;
+}
+
+.cardContainer {
+  @apply card;
+  @apply w-96;
+  @apply bg-base-100;
+  @apply shadow-xl;
+}
+
+.cardContainerNeutral {
+  @apply cardContainer;
+  @apply bg-neutral;
+  @apply text-neutral-content;
+}
+
+.centeredCard {
+  @apply card-body;
+  @apply items-center;
+  @apply text-center;
+}
+
+.ghostButton {
+  @apply btn;
+  @apply btn-ghost;
+}
+
+.grid {
+  display: grid;
+  grid-gap: 8px;
+  grid-template-columns: repeat(auto-fill, 400px);
+}

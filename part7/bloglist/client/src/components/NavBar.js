@@ -10,40 +10,41 @@ const NavBar = ({ username }) => {
     logout()
   }
 
-  const navBarStyle = {
-    backgroundColor: 'grey',
-    borderRadius: 3,
-    color: 'white',
-    padding: 10,
-    margin: 10
-  }
-
-  const buttonStyle = {
-    padding: 5,
-    margin: 5,
-    borderRadius: 4,
-    background: 'lightBlue',
-    borderStyle: 'solid',
-    borderColor: 'navy',
-    color: 'black'
-  }
-
   return (
-    <div style={navBarStyle}>
-      <Link to="/" style={buttonStyle}>
-        blogs
-      </Link>
-      <Link to="/users" style={buttonStyle}>
-        users
-      </Link>
-      {username && (
-        <em>
-          {username} logged in{' '}
-          <button onClick={handleLogout} style={buttonStyle}>
-            logout
-          </button>
-        </em>
-      )}
+    <div className="navbar bg-primary text-primary-content">
+      <div className="flex-1">
+        <Link className="btn btn-ghost normal-case text-xl" to="/">
+          blogslist
+        </Link>
+      </div>
+
+      <div className="flex-none">
+        <ul className="menu menu-horizontal px-1">
+          <li>
+            <Link to="/users">
+              users
+            </Link>
+          </li>
+          {username
+            ? (
+              <div className="dropdown">
+                <label tabIndex={0} className="btn btn-ghost normal-case">{username}</label>
+                <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 text-primary">
+                  <li><a>Posts</a></li>
+                  <li><a onClick={handleLogout}>logout</a></li>
+                </ul>
+              </div>
+            )
+            : (
+              <li>
+                <Link to="/login">
+                  login
+                </Link>
+              </li>
+            )
+          }
+        </ul>
+      </div>
     </div>
   )
 }

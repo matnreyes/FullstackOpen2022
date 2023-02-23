@@ -35,15 +35,30 @@ const Comments = ({ blogId, comments }) => {
   }
   return (
     <div>
-      <form onSubmit={handleComment}>
-        <input {...newComment} />
-        <button type="submit">comment</button>
-      </form>
-      <ul>
-        {comments.map((comment) => (
-          <li key={comment.id}>{comment.content}</li>
-        ))}
-      </ul>
+      <div className="form-control">
+        <label className="label">
+          <span className="label-text">Post an anonymous comment</span>
+        </label>
+        <form onSubmit={handleComment} className="input-group">
+          <input {...newComment} className="borderedInput"/>
+          <button className="btn" type="submit">comment</button>
+        </form>
+
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="table table-compact w-full">
+          <tbody>
+            {comments.map((comment) => (
+              <tr key={comment.id}>
+                <td>
+                  {comment.content}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
