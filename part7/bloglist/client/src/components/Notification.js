@@ -7,20 +7,12 @@ const Notification = () => {
     dispatch({ type: 'RESET' })
   }, 5000)
 
-  const notifStyle = {
-    backgroundColor: 'lightgrey',
-    borderStyle: 'solid',
-    borderRadius: 5,
-    padding: 10,
-    width: '50%'
-  }
-
-  notification.includes('error')
-    ? (notifStyle.color = 'red')
-    : (notifStyle.color = 'green')
+  // const notificationType = notification.includes('error')
+  //   ? 'error'
+  //   : 'success'
 
   return (
-    <div style={notifStyle}>
+    <div className="alert alert-success shadow-lg">
       <h2>{notification}</h2>
     </div>
   )
