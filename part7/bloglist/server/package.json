@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": " NODE_ENV=test jest --verbose --runInBand --forceExit",
-    "build:ui": "rm -rf build && cd ../../part5/bloglist-frontend && npm run build && cp -r build ../../part4/bloglist",
+    "build:ui": "rm -rf build && cd ../client && npm run build && cp -r build ../server",
     "deploy": "fly deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
     "dev": " NODE_ENV=development nodemon index.js",
