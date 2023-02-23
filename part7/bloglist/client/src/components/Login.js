@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom'
 const Login = () => {
   const { login } = useLogin()
   const userMutation = useMutation(sendUser)
-  const username = useField('text')
-  const password = useField('password')
+  const { resetValue: resetUsername, ...username } = useField('text')
+  const { resetValue: resetPassword, ...password } = useField('password')
   const navigate = useNavigate()
 
   const notificationDispatch = useNotificationDispatch()
@@ -57,6 +57,8 @@ const Login = () => {
             type: 'SET_NOTIFICATION',
             payload: `${username.value} has been added`
           })
+          resetUsername()
+          resetPassword()
         },
         onError: (e) => setErrorNotification(e)
       }
