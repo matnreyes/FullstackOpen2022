@@ -1,15 +1,16 @@
 import patients from '../../data/patients';
 import { v4 as uuid } from 'uuid';
-import { NonSensitivePatientInfo, Patient, NewPatient } from '../types';
+import { PublicPatient, Patient, NewPatient } from '../types';
 
-const getAll = (): Array<NonSensitivePatientInfo> => {
-  return patients.map(({ id, name, dateOfBirth, gender, occupation }) => (
+const getAll = (): Array<PublicPatient> => {
+  return patients.map(({ id, name, dateOfBirth, gender, occupation, entries }) => (
     {
       id,
       name,
       dateOfBirth,
       gender,
-      occupation
+      occupation,
+      entries
     }
   ));
 };
