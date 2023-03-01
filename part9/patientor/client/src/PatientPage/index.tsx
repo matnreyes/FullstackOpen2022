@@ -4,7 +4,7 @@ import { Patient } from "../types";
 import { apiBaseUrl } from "../constants";
 import axios from "axios";
 
-import { Typography } from "@material-ui/core";
+import { CardContent, Typography, Card, Button } from "@material-ui/core";
 import EntryDetails from "./EntryDetails";
 import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
@@ -47,21 +47,33 @@ const PatientPage = () => {
 
   const entries = viewedPatient.entries;
 
+  const genderIconSwitch = () => {
+    switch (viewedPatient.gender) {
+      case "male":
+        return <MaleIcon />;
+      case "female":
+        return <FemaleIcon />;
+      default: 
+        return <OtherIcon />;
+    }
+  };
+
   return (
     <div>
       <Typography variant="h5">
-        {viewedPatient.name} 
-      {viewedPatient.gender === "male" ? <MaleIcon />
-      : viewedPatient.gender === "female" ? <FemaleIcon />
-      : <OtherIcon />
-      }
+        {viewedPatient.name}{genderIconSwitch()}
       </Typography>
       <p>occupation: {viewedPatient.occupation}</p>
       <p>ssn: {viewedPatient.ssn}</p>
       <Typography variant="h6">entries</Typography>
       {entries.map(entry => 
-        <EntryDetails entry={entry} key={entry.id} />
+        <Card key={entry.id} variant="outlined">
+          <CardContent>
+            <EntryDetails entry={entry} />
+          </CardContent>
+        </Card>
       )}
+      <Button variant="contained" color={"primary"}>add new entry</Button>
     </div>
   );
 };

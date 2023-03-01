@@ -10,6 +10,7 @@
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.10",
+    "assert-never": "^1.2.1",
     "axios": "^0.25.0",
     "formik": "^2.2.9",
     "react": "^17.0.2",
