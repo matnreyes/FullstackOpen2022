@@ -1,5 +1,5 @@
 import { Entry } from "../types";
-import axios from "axios";
+import { useStateValue } from "../state";
 
 interface EntryProps {
   entry: Entry
@@ -7,13 +7,12 @@ interface EntryProps {
 
 
 const EntryDetails = (props: EntryProps) => {
+  const [{ diagnosisInfo }] = useStateValue();
   const { 
     date,
     description,
     diagnosisCodes
   } = props.entry;
-
-
 
   return (
     <div>
@@ -21,7 +20,7 @@ const EntryDetails = (props: EntryProps) => {
       <ul>
         {diagnosisCodes?.map(code => 
           <li key={code}>
-            {code}
+            {code}: {diagnosisInfo?.map(d => d.code === code && d.name)}
           </li>
         )}
       </ul>

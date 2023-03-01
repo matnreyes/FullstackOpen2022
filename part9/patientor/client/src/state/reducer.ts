@@ -16,7 +16,7 @@ export type Action =
   }
   | {
     type: "SET_DIAGNOSES";
-    payload: Diagnosis;
+    payload: Array<Diagnosis>;
   };
 
 export const reducer = (state: State, action: Action): State => {
@@ -75,6 +75,14 @@ export const addPatient = (patient: Patient) => {
   const actionObject: Action = {
     type: "ADD_PATIENT",
     payload: patient
+  };
+  return actionObject;
+};
+
+export const loadDiagnoses = (diagnosisData: Array<Diagnosis>) => {
+  const actionObject: Action = {
+    type: "SET_DIAGNOSES",
+    payload: diagnosisData
   };
   return actionObject;
 };
