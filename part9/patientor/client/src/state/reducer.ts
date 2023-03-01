@@ -1,5 +1,5 @@
 import { State } from "./state";
-import { Patient } from "../types";
+import { Patient, Diagnosis } from "../types";
 
 export type Action =
   | {
@@ -13,6 +13,10 @@ export type Action =
   | {
     type: "SET_PATIENT";
     payload: Patient;
+  }
+  | {
+    type: "SET_DIAGNOSES";
+    payload: Diagnosis;
   };
 
 export const reducer = (state: State, action: Action): State => {
@@ -40,6 +44,11 @@ export const reducer = (state: State, action: Action): State => {
         return {
           ...state,
           patient: action.payload
+        };
+    case "SET_DIAGNOSES": 
+        return {
+          ...state,
+          diagnosisInfo: action.payload
         };
     default:
       return state;

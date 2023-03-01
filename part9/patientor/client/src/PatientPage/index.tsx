@@ -5,6 +5,7 @@ import { apiBaseUrl } from "../constants";
 import axios from "axios";
 
 import { Typography } from "@material-ui/core";
+import EntryDetails from "./EntryDetails";
 import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
 import OtherIcon from "@mui/icons-material/TransgenderTwoTone";
@@ -44,6 +45,8 @@ const PatientPage = () => {
     );
   }
 
+  const entries = viewedPatient.entries;
+
   return (
     <div>
       <Typography variant="h5">
@@ -55,6 +58,10 @@ const PatientPage = () => {
       </Typography>
       <p>occupation: {viewedPatient.occupation}</p>
       <p>ssn: {viewedPatient.ssn}</p>
+      <Typography variant="h6">entries</Typography>
+      {entries.map(entry => 
+        <EntryDetails entry={entry} key={entry.id} />
+      )}
     </div>
   );
 };
