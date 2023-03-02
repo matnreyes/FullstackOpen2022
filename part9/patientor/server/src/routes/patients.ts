@@ -2,8 +2,16 @@ import express from 'express';
 const router = express.Router();
 
 import patientService from '../services/patientsService';
-import { Entry } from '../types';
+import { Entry, Gender } from '../types';
 import toNewPatient from '../utils/helpers';
+
+interface PatientFields {
+  name: string;
+  dateOfBirth: string;
+  gender: Gender;
+  occupation: string;
+  ssn: string;
+}
 
 router.get('/', (_req, res) => {
   const patients = patientService.getAll();
@@ -12,8 +20,8 @@ router.get('/', (_req, res) => {
 
 router.post('/', (req, res) => {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const newPatient = toNewPatient(req.body);
+    const patientInfo = req.body as PatientFields;
+    const newPatient = toNewPatient(patientInfo);
     const addedPatient = patientService.addPatient(newPatient);
   
     res.json(addedPatient).status(201);
