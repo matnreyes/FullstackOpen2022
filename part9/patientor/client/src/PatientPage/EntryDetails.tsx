@@ -14,8 +14,7 @@ interface HospitalProps {
   };
 }
 
-const HospitalEntry = (props: HospitalProps) => {
-  const { discharge } = props;
+const HospitalEntry = ({ discharge }: HospitalProps) => {
   return (
     <div>
       <strong>Discharge: </strong><br />
@@ -32,8 +31,7 @@ interface OccupationalProps {
   employerName: string;
 }
 
-const OccupationalHealthEntry = (props: OccupationalProps) => {
-  const { sickLeave, employerName } = props;
+const OccupationalHealthEntry = ({ employerName, sickLeave }: OccupationalProps) => {
   return (
     <div>
       {sickLeave &&
@@ -52,8 +50,7 @@ interface HealthProps {
   healthCheckRating: HealthCheckRating;
 }
 
-const HealthEntry = (props: HealthProps) => {
-  const { healthCheckRating } = props;
+const HealthEntry = ({ healthCheckRating }: HealthProps) => {
   switch (healthCheckRating) {
     case 0:
       return <Favorite sx={({ color: "green" })}/>;
@@ -68,9 +65,7 @@ const HealthEntry = (props: HealthProps) => {
   }
 };
 
-const EntryDetails = (props: EntryDetailsProps) => {
-  const { entry } = props;
-
+const EntryDetails = ({ entry }: EntryDetailsProps) => {
   const [{ diagnosisInfo }] = useStateValue();
 
   const entrySwitch = () => {
