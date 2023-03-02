@@ -7,7 +7,7 @@ Content-Type: application/json
     "description": "entry description",
     "date": "1996-01-01",
     "specialist": "Dr. Hartman",
-    "healthCheckRating": 0,
+    "healthCheckRating": "0",
     "type": "HealthCheck"
   }
 }

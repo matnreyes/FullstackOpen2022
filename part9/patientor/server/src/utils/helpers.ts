@@ -1,4 +1,6 @@
-import { NewPatient, Gender } from '../types';
+import { NewPatient, Gender, Entry, HealthCheckRating } from "../types";
+import { v4 as uuid } from "uuid";
+import { assertNever } from "assert-never";
 
 const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
@@ -35,9 +37,20 @@ const parseGender = (gender: unknown): Gender => {
   return gender;
 };
 
+const isRating = (param: number): param is HealthCheckRating => {
+  return Object.values(HealthCheckRating).includes(param);
+};
+
+const parseHealthRating = (rating: unknown): HealthCheckRating => {
+  if (!rating || isNaN(Number(rating)) || !isRating(Number(rating))) {
+    throw new Error('Incorrect or missing health rating');
+  }
+  return Number(rating);
+};
+
 type Fields = { name : unknown, dateOfBirth: unknown, gender: unknown, occupation: unknown, ssn: unknown };
 
-const toNewPatient = ({ name, dateOfBirth, gender, occupation, ssn } : Fields): NewPatient => {
+export const toNewPatient = ({ name, dateOfBirth, gender, occupation, ssn } : Fields): NewPatient => {
   const newPatient: NewPatient = {
     name: parseInput(name),
     dateOfBirth: parseDate(dateOfBirth),
@@ -50,4 +63,43 @@ const toNewPatient = ({ name, dateOfBirth, gender, occupation, ssn } : Fields): 
   return newPatient;
 };
 
-export default toNewPatient;
+
+export const toNewEntry = (entry: Entry): Entry => {
+  const newEntry = {
+    id: uuid(),
+    description: parseInput(entry.description),
+    date: parseDate(entry.date),
+    specialist: parseInput(entry.specialist),
+    diagnosisCodes: entry.diagnosisCodes,
+    type: parseInput(entry.type)
+  };
+  switch (entry.type) {
+    case "Hospital":
+      const parsedHospitalEntry = {
+        ...newEntry,
+        discharge: {
+          date: parseDate(entry.discharge.date),
+          criteria: parseInput(entry.discharge.criteria)
+         }
+      };
+      return parsedHospitalEntry as Entry;
+    case "OccupationalHealthcare":
+      const parsedOccupationalEntry = {
+        ...newEntry,
+        employerName: parseInput(entry.employerName),
+        sickLeave: {
+          startDate: parseDate(entry.sickLeave?.startDate),
+          endDate: parseDate(entry.sickLeave?.endDate)
+        }
+      };
+      return parsedOccupationalEntry as Entry;
+    case "HealthCheck":
+      const parsedHealthEntry = {
+        ...newEntry,
+        healthCheckRating: parseHealthRating(entry.healthCheckRating)
+      };
+      return parsedHealthEntry as Entry;
+    default: 
+      return assertNever(entry);
+  }
+};

@@ -3,7 +3,7 @@ const router = express.Router();
 
 import patientService from '../services/patientsService';
 import { Entry, Gender } from '../types';
-import toNewPatient from '../utils/helpers';
+import { toNewEntry, toNewPatient } from '../utils/helpers';
 
 interface PatientFields {
   name: string;
@@ -54,7 +54,8 @@ router.post('/:id/entries', (req, res) => {
   }
 
   const entry = req.body.entry as Entry;
-  const updatedPatient = patientService.addEntry(patient, entry);
+  const formattedEntry = toNewEntry(entry);
+  const updatedPatient = patientService.addEntry(patient, formattedEntry);
 
   return res.json(updatedPatient);
 });

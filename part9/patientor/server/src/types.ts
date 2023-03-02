@@ -15,11 +15,10 @@ interface BaseEntry {
 type SickLeaveTime = {
   startDate: string,
   endDate: string;
-}
+};
 
 interface OccupationalHealthcareEntry extends BaseEntry {
   type: "OccupationalHealthcare";
-  specialist: string;
   employerName: string;
   sickLeave?: SickLeaveTime;
 }
@@ -27,11 +26,10 @@ interface OccupationalHealthcareEntry extends BaseEntry {
 type Discharge = {
   date: string,
   criteria: string,
-}
+};
 
 interface HospitalEntry extends BaseEntry {
   type: "Hospital";
-  specialist: string;
   discharge: Discharge;
 }
 
