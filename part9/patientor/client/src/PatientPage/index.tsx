@@ -59,10 +59,10 @@ const PatientPage = () => {
   };
 
   return (
-    <div>
+    <div style={({ paddingTop: 20 })}>
       <Typography variant="h5">
-        {viewedPatient.name}{genderIconSwitch()}
-      </Typography>
+        {viewedPatient.name} {genderIconSwitch()}
+      </Typography> 
       <p>occupation: {viewedPatient.occupation}</p>
       <p>ssn: {viewedPatient.ssn}</p>
       <Typography variant="h6">entries</Typography>
