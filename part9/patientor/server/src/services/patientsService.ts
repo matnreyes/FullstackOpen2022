@@ -16,7 +16,6 @@ const getAll = (): Array<PublicPatient> => {
 };
 
 const addPatient = ( patient: NewPatient ): Patient => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const id: string = uuid();
   const newPatient = { id, ...patient };
   patients.push(newPatient);
