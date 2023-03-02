@@ -27,11 +27,7 @@ const getPatient = ( id: string ): Patient | undefined => {
   return patients.find(p => p.id === id);
 };
 
-const addEntry = (id: string, entry: Entry): Patient => {
-  const patient = patients.find(p => p.id === id);
-  if (!patient) {
-    throw Error('invalid patient');
-  }
+const addEntry = (patient: Patient, entry: Entry): Patient => {
   patient.entries.push(entry);
   return patient;
 };

@@ -1,0 +1,13 @@
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+  "entry": {
+    "id": "12345",
+    "description": "entry description",
+    "date": "1996-01-01",
+    "specialist": "Dr. Hartman",
+    "healthCheckRating": 0,
+    "type": "HealthCheck"
+  }
+}

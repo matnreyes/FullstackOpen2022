@@ -2,6 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 import patientService from '../services/patientsService';
+import { Entry } from '../types';
 import toNewPatient from '../utils/helpers';
 
 router.get('/', (_req, res) => {
@@ -34,6 +35,20 @@ router.get('/:id', (req, res) => {
   }
 
   return res.json(patient);
+});
+
+router.post('/:id/entries', (req, res) => {
+  const { id } = req.params;
+  const patient = patientService.getPatient(id);
+
+  if (!patient) {
+    return res.status(404).json({ error: 'patient not found'});
+  }
+
+  const entry = req.body.entry as Entry;
+  const updatedPatient = patientService.addEntry(patient, entry);
+
+  return res.json(updatedPatient);
 });
 
 export default router;
