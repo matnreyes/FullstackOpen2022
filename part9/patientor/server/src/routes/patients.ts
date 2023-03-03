@@ -54,10 +54,17 @@ router.post('/:id/entries', (req, res) => {
   }
 
   const entry = req.body.entry as Entry;
-  const formattedEntry = toNewEntry(entry);
-  const updatedPatient = patientService.addEntry(patient, formattedEntry);
-
-  return res.json(updatedPatient);
+  try {
+    const formattedEntry = toNewEntry(entry);
+    const updatedPatient = patientService.addEntry(patient, formattedEntry);
+    return res.json(updatedPatient);
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      console.log(e.message);
+      return res.status(400).json(e.message);
+    }
+  }
+  return;
 });
 
 export default router;

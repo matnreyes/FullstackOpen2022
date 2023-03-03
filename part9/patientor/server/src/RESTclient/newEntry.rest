@@ -1,13 +1,17 @@
 POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
 Content-Type: application/json
 
+
 {
   "entry": {
-    "id": "12345",
-    "description": "entry description",
-    "date": "1996-01-01",
-    "specialist": "Dr. Hartman",
-    "healthCheckRating": 0,
-    "type": "HealthCheck"
+    "date": "1998-01-01",
+    "type": "Hospital",
+    "specialist": "MD HOUSE",
+    "description": "description",
+    "diagnosisCodes": ["S62.5"],
+    "discharge": {
+      "date": "1998-01-02",
+      "criteria": "healed"
+    }
   }
 }

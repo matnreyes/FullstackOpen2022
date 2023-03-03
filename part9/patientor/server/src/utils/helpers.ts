@@ -70,7 +70,7 @@ export const toNewEntry = (entry: Entry): Entry => {
     description: parseInput(entry.description),
     date: parseDate(entry.date),
     specialist: parseInput(entry.specialist),
-    diagnosisCodes: entry.diagnosisCodes,
+    diagnosisCodes: entry.diagnosisCodes?.map(d => parseInput(d)),
     type: parseInput(entry.type)
   };
   switch (entry.type) {
