@@ -1,14 +1,10 @@
-import React from "react";
 import { Grid, Button } from "@material-ui/core";
 import { Field, Formik, Form } from "formik";
 
-import { TextField, SelectField, RatingOption } from "./FormField";
-import { Entry } from "../types";
+import { TextField, SelectField, RatingOption, DiagnosisSelection } from "./FormField";
+import { useStateValue } from "../state";
+import { Diagnosis, Entry } from "../types";
 
-/*
- * use type Patient, but omit id and entries,
- * because those are irrelevant for new patient object.
- */
 export type EntryFormValues = Omit<Extract<Entry, { type: "HealthCheck" }>, "id">;
 
 interface Props {
@@ -24,6 +20,7 @@ const ratingOptions: RatingOption[] = [
 ];
 
 export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
+  const [{ diagnosisInfo }] = useStateValue();
   return (
     <Formik
       initialValues={{
@@ -31,7 +28,8 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
         description: "",
         date: "",
         specialist: "",
-        healthCheckRating: 0
+        healthCheckRating: 0,
+        diagnosisCodes: []
       }}
       onSubmit={onSubmit}
       validate={(values) => {
@@ -49,7 +47,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
         return errors;
       }}
     >
-      {({ isValid, dirty }) => {
+      {({ isValid, dirty, setFieldTouched, setFieldValue }) => {
         return (
           <Form className="form ui">
             <Field
@@ -71,6 +69,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
               component={TextField}
             />
             <SelectField label="Health Rating" name="healthCheckRating" options={ratingOptions} />
+            <DiagnosisSelection diagnoses={Object.values(diagnosisInfo as Diagnosis[])} setFieldTouched={setFieldTouched} setFieldValue={setFieldValue}/>
             <Grid>
               <Grid item>
                 <Button

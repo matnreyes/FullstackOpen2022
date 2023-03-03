@@ -80,7 +80,7 @@ const PatientPage = () => {
       closeModal();
     } catch (e: unknown) {
       if (axios.isAxiosError(e)) {
-        setError(String(e?.response?.data?.error));
+        setError(String(e?.response?.data));
       }
     }
   };
