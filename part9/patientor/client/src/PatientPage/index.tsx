@@ -2,6 +2,7 @@ import { setPatient, updateEntries, useStateValue } from "../state";
 import { useParams } from "react-router-dom";
 import { Patient } from "../types";
 import { apiBaseUrl } from "../constants";
+import { useState } from 'react';
 import axios from "axios";
 
 import { CardContent, Typography, Card, Button } from "@material-ui/core";
@@ -15,6 +16,17 @@ import { EntryFormValues } from "../AddEntryModal/AddEntryForm";
 const PatientPage = () => {
   const [{ patient }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
+
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [error, setError] = useState<string | undefined>();
+
+  const openModal = (): void => setModalOpen(true);
+
+  const closeModal = (): void => {
+    setModalOpen(false);
+    setError(undefined);
+  };
+
 
   if (!id) {
     return (
@@ -65,8 +77,11 @@ const PatientPage = () => {
       const { data: updatedPatient } = await axios.post<Patient>(`${apiBaseUrl}/patients/${viewedPatient.id}/entries`, { entry: values });
 
       dispatch(updateEntries(updatedPatient));
+      closeModal();
     } catch (e: unknown) {
-      console.log(e);
+      if (axios.isAxiosError(e)) {
+        setError(String(e?.response?.data?.error));
+      }
     }
   };
 
@@ -85,8 +100,13 @@ const PatientPage = () => {
           </CardContent>
         </Card>
       )}
-      <Button variant="contained" color={"primary"}>add new entry</Button>
-      <AddEntryModal modalOpen={true} onClose={() => { console.log('hello');}} onSubmit={submitEntry} />
+      <Button variant="contained" color={"primary"} onClick={() => openModal()}>add new entry</Button>
+      <AddEntryModal
+        modalOpen={modalOpen}
+        onClose={closeModal}
+        onSubmit={submitEntry}
+        error={error}
+      />
     </div>
   );
 };
