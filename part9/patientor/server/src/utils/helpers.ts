@@ -42,7 +42,7 @@ const isRating = (param: number): param is HealthCheckRating => {
 };
 
 const parseHealthRating = (rating: unknown): HealthCheckRating => {
-  if (!rating || isNaN(Number(rating)) || !isRating(Number(rating))) {
+  if (rating === undefined || isNaN(Number(rating)) || !isRating(Number(rating))) {
     throw new Error('Incorrect or missing health rating');
   }
   return Number(rating);
