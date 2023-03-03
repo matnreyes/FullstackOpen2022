@@ -1,4 +1,4 @@
-import { setPatient, useStateValue } from "../state";
+import { setPatient, updateEntries, useStateValue } from "../state";
 import { useParams } from "react-router-dom";
 import { Patient } from "../types";
 import { apiBaseUrl } from "../constants";
@@ -9,6 +9,8 @@ import EntryDetails from "./EntryDetails";
 import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
 import OtherIcon from "@mui/icons-material/TransgenderTwoTone";
+import AddEntryModal from "../AddEntryModal";
+import { EntryFormValues } from "../AddEntryModal/AddEntryForm";
 
 const PatientPage = () => {
   const [{ patient }, dispatch] = useStateValue();
@@ -58,6 +60,16 @@ const PatientPage = () => {
     }
   };
 
+  const submitEntry = async (values: EntryFormValues) => {
+    try {
+      const { data: updatedPatient } = await axios.post<Patient>(`${apiBaseUrl}/patients/${viewedPatient.id}/entries`, { entry: values });
+
+      dispatch(updateEntries(updatedPatient));
+    } catch (e: unknown) {
+      console.log(e);
+    }
+  };
+
   return (
     <div style={({ paddingTop: 20 })}>
       <Typography variant="h5">
@@ -74,6 +86,7 @@ const PatientPage = () => {
         </Card>
       )}
       <Button variant="contained" color={"primary"}>add new entry</Button>
+      <AddEntryModal modalOpen={true} onClose={() => { console.log('hello');}} onSubmit={submitEntry} />
     </div>
   );
 };
