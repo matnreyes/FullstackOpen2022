@@ -99,7 +99,7 @@ const EntryDetails = ({ entry }: EntryDetailsProps) => {
       {entry.date} {iconSwitch()} <br />
       <i>{entry.description}</i><br/>    
       {entrySwitch()}
-      {(entry.diagnosisCodes?.length !== 0) && 
+      {entry.diagnosisCodes && 
         <div>
           <strong>Diagnoses:</strong>
           <ul>
