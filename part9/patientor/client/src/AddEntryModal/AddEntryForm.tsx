@@ -1,7 +1,7 @@
 import { Grid, Button } from "@material-ui/core";
 import { Field, Formik, Form } from "formik";
 
-import { TextField, SelectField, RatingOption, DiagnosisSelection } from "./FormField";
+import { TextField, SelectField, RatingOption, DiagnosisSelection, DateField } from "./FormField";
 import { useStateValue } from "../state";
 import { Diagnosis, Entry } from "../types";
 
@@ -58,9 +58,10 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
             />
             <Field
               label="Date"
-              placeholder="YYYY-MM-DD"
               name="date"
-              component={TextField}
+              component={DateField}
+              setFieldTouched={setFieldTouched}
+              setFieldValue={setFieldValue}
             />
             <Field
               label="Specialist"

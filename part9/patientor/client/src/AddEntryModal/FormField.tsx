@@ -9,6 +9,9 @@ import {
 } from "@material-ui/core";
 import { Diagnosis } from "../types";
 import { InputLabel } from "@material-ui/core";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Input from '@material-ui/core/Input';
 
 // structure of a single option
@@ -63,6 +66,31 @@ export const TextField = ({ field, label, placeholder }: TextProps) => (
     </Typography>
   </div>
 );
+
+interface DateProps extends TextProps {
+  setFieldValue: FormikProps<{ date: Date }>["setFieldValue"];
+  setFieldTouched: FormikProps<{ date: Date }>["setFieldTouched"];
+}
+
+export const DateField = ({ field, label, setFieldValue, setFieldTouched }: DateProps) => {
+  return (
+    <div style={{ marginBottom: "1em" }}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+          {...field}
+          onChange={(value) => {
+            setFieldTouched("date", true);
+            setFieldValue("date", value);
+          }}
+          label={label}
+        />
+        <Typography variant="subtitle2" style={{ color: "red" }}>
+          <ErrorMessage name={field.name} />
+        </Typography>
+      </LocalizationProvider>
+    </div>
+  );
+};
 
 /*
   for exercises 9.24.-

@@ -74,8 +74,11 @@ const PatientPage = () => {
 
   const submitEntry = async (values: EntryFormValues) => {
     try {
-      const { data: updatedPatient } = await axios.post<Patient>(`${apiBaseUrl}/patients/${viewedPatient.id}/entries`, { entry: values });
-
+      const entry = {
+        ...values,
+        date: (new Date(values.date)).toLocaleDateString()
+      };
+      const { data: updatedPatient } = await axios.post<Patient>(`${apiBaseUrl}/patients/${viewedPatient.id}/entries`, { entry });
       dispatch(updateEntries(updatedPatient));
       closeModal();
     } catch (e: unknown) {
