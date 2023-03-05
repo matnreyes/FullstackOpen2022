@@ -11,7 +11,7 @@ import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
 import OtherIcon from "@mui/icons-material/TransgenderTwoTone";
 import AddEntryModal from "../AddEntryModal";
-import { EntryFormValues } from "../AddEntryModal/AddEntryForm";
+import { EntryFormValues } from "../AddEntryModal/AddHealthForm";
 
 const PatientPage = () => {
   const [{ patient }, dispatch] = useStateValue();

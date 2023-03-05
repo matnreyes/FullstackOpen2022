@@ -1,34 +1,30 @@
 import { Grid, Button } from "@material-ui/core";
 import { Field, Formik, Form } from "formik";
 
-import { TextField, SelectField, RatingOption, DiagnosisSelection, DateField } from "./FormField";
+import { TextField, DiagnosisSelection, DateField } from "./FormField";
 import { useStateValue } from "../state";
 import { Diagnosis, Entry } from "../types";
 
-export type EntryFormValues = Omit<Extract<Entry, { type: "HealthCheck" }>, "id">;
+export type EntryFormValues = Omit<Extract<Entry, { type: "Hospital" }>, "id">;
 
 interface Props {
   onSubmit: (values: EntryFormValues) => void;
   onCancel: () => void;
 }
 
-const ratingOptions: RatingOption[] = [
-  { value: 0, label: "Healthy" },
-  { value: 1, label: "Low Risk" },
-  { value: 2, label: "High Risk" },
-  { value: 3, label: "Critical Risk" }
-];
-
-export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
+export const AddHospitalForm = ({ onSubmit, onCancel }: Props) => {
   const [{ diagnosisInfo }] = useStateValue();
   return (
     <Formik
       initialValues={{
-        type: "HealthCheck",
+        type: "Hospital",
         description: "",
         date: "",
         specialist: "",
-        healthCheckRating: 0,
+        discharge: {
+          date: "",
+          criteria: "",
+        },
         diagnosisCodes: []
       }}
       onSubmit={onSubmit}
@@ -43,6 +39,12 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
         }
         if (!values.specialist) {
           errors.specialist = requiredError;
+        }
+        if (!values.discharge.date) {
+          errors.discharge = requiredError;
+        }
+        if (!values.discharge.criteria) {
+          errors.discharge = requiredError;
         }
         return errors;
       }}
@@ -69,7 +71,20 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
               name="specialist"
               component={TextField}
             />
-            <SelectField label="Health Rating" name="healthCheckRating" options={ratingOptions} />
+            <Field
+              label="Discharge Date"
+              placeholder="Date"
+              name="discharge.date"
+              component={DateField}
+              setFieldTouched={setFieldTouched}
+              setFieldValue={setFieldValue}
+            />
+            <Field
+              label="Criteria"
+              placeholder="Criteria for discharge"
+              name="discharge.criteria"
+              component={TextField}
+            />
             <DiagnosisSelection diagnoses={Object.values(diagnosisInfo as Diagnosis[])} setFieldTouched={setFieldTouched} setFieldValue={setFieldValue}/>
             <Grid>
               <Grid item>
@@ -103,4 +118,4 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
   );
 };
 
-export default AddEntryForm;
+export default AddHospitalForm;

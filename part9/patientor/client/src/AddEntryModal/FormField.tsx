@@ -79,8 +79,8 @@ export const DateField = ({ field, label, setFieldValue, setFieldTouched }: Date
         <DatePicker
           {...field}
           onChange={(value) => {
-            setFieldTouched("date", true);
-            setFieldValue("date", value);
+            setFieldTouched(field.name, true);
+            setFieldValue(field.name, value);
           }}
           label={label}
         />

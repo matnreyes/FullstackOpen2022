@@ -1,11 +1,12 @@
 import { Dialog, DialogTitle, DialogContent, Divider } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import AddEntryForm, { EntryFormValues } from "./AddEntryForm";
+// import AddHealthForm from "./AddHealthForm";
+import AddHospitalForm from "./AddHospitalForm";
 
 interface Props {
   modalOpen: boolean;
   onClose: () => void;
-  onSubmit: (values: EntryFormValues) => void;
+  onSubmit: (values: any) => void;
   error?: string;
 }
 
@@ -15,7 +16,8 @@ const AddEntryModal = ({ modalOpen, onClose, onSubmit, error }: Props) => (
     <Divider />
     <DialogContent>
       {error && <Alert severity="error">{`Error: ${error}`}</Alert>}
-      <AddEntryForm onSubmit={onSubmit} onCancel={onClose} />
+      <AddHospitalForm onSubmit={onSubmit} onCancel={onClose}/>
+      {/* <AddHealthForm onSubmit={onSubmit} onCancel={onClose} /> */}
     </DialogContent>
   </Dialog>
 );
