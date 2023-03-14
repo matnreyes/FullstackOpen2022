@@ -1,5 +1,6 @@
 const { ApolloServer } = require('@apollo/server')
 const { startStandaloneServer } = require('@apollo/server/standalone')
+const { GraphQLError } = require('graphql')
 const { v1: uuid } = require('uuid')
 
 let authors = [
@@ -111,6 +112,10 @@ const typeDefs = `
       author: String!
       genres: [String]!
     ): Book
+    editAuthor(
+      name: String!
+      setBornTo: Int!
+    ): Author
   }
 `
 
@@ -150,7 +155,20 @@ const resolvers = {
       }
       books = books.concat(book)
       return book
-
+    },
+    editAuthor: (root, args) => {
+      const author = authors.find(a => a.name === args.name)
+      if (!author) {
+        throw new GraphQLError('Author not found', {
+          extentions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.author
+          }
+        })
+      }
+      author.born = args.setBornTo
+      authors = authors.concat(author)
+      return author
     }
   }
 }
