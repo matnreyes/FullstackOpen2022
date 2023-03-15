@@ -17,8 +17,7 @@ const NewBook = (props) => {
 
   const submit = async (event) => {
     event.preventDefault()
-
-    console.log('add book...')
+    
     addBook({ variables: {
         title,
         author,
@@ -27,7 +26,6 @@ const NewBook = (props) => {
       },
       refetchQueries: [{ query: ALL_AUTHORS}, { query: ALL_BOOKS}],
       onError: (error) => {
-        console.log(error)
         props.setError(error.message)
       }
     })
