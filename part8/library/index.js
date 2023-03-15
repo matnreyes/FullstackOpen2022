@@ -148,6 +148,9 @@ const resolvers = {
   },
   Mutation: {
     addBook: (root, args) => {
+      if (args.title <= 1 || args.author <= 1) {
+        throw new GraphQLError('Value must be longer than 1')
+      }
       const book = { ...args, id: uuid()}
       if (!authors.find(a => a.name === book.author)) {
         const author = { name: book.author, id: uuid()}
