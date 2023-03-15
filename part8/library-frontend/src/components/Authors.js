@@ -33,18 +33,22 @@ const Authors = (props) => {
           ))}
         </tbody>
       </table>
-      <AuthorEdit setError={props.setError}/>
+      <AuthorEdit setError={props.setError} authors={authors}/>
     </div>
   )
 }
 
-const AuthorEdit = ({ setError }) => {
+const AuthorEdit = ({ setError, authors }) => {
   const [editAuthor] = useMutation(EDIT_AUTHOR)
   const [name, setName] = useState('')
   const [born, setBorn] = useState('')
 
   const submit = (event) => {
     event.preventDefault()
+    
+    if (name === '') {
+      setError('No author selected')
+    }
 
     editAuthor({ variables: { name, setBornTo: Number(born) },
       onError: (error) => {
@@ -60,10 +64,13 @@ const AuthorEdit = ({ setError }) => {
       <h2>Set birthyear</h2>
       <form onSubmit={submit}>
         <div>
-          name: <input 
-            value={name}
-            onChange={({ target }) => setName(target.value)}
-          />
+          name:
+          <select value={name} onChange={({ target }) => setName(target.value)}>
+            <option disabled={true} value=''>-- Select an author --</option>
+            {authors.map(a =>
+              <option value={a.name} key={a.name}>{a.name}</option>
+            )}
+          </select>
         </div>
         <div>
           born: <input 
