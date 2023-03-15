@@ -5,6 +5,14 @@ import NewBook from './components/NewBook'
 
 const App = () => {
   const [page, setPage] = useState('authors')
+  const [message, setMessage] = useState(null)
+
+  const notify = (notif) => {
+    setMessage(notif)
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
+  }
 
   return (
     <div>
@@ -13,12 +21,25 @@ const App = () => {
         <button onClick={() => setPage('books')}>books</button>
         <button onClick={() => setPage('add')}>add book</button>
       </div>
+      <Notify message={message}/>
 
       <Authors show={page === 'authors'} />
 
       <Books show={page === 'books'} />
 
-      <NewBook show={page === 'add'} />
+      <NewBook show={page === 'add'} setError={notify}/>
+    </div>
+  )
+}
+
+const Notify = ({ message }) => {
+  if (!message) {
+    return null
+  }
+
+  return (
+    <div style={{ color: 'red', border: 3}}>
+      {message}
     </div>
   )
 }
