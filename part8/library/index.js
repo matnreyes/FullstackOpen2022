@@ -170,7 +170,7 @@ const resolvers = {
         })
       }
       author.born = args.setBornTo
-      authors = authors.concat(author)
+      authors = authors.map(a => a.id === author.id ? author : a)
       return author
     }
   }
