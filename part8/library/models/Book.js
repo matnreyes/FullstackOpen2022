@@ -1,12 +1,9 @@
 const mongoose = require('mongoose')
 
-// const uniqueValidator = require('mongoose-unique-validator')
-
 const schema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    // unique: true,
     minLength: 5
   },
   published: {
@@ -21,6 +18,5 @@ const schema = new mongoose.Schema({
   ]
 })
 
-// schema.plugin(uniqueValidator)
 
 module.exports = mongoose.model('Book', schema)

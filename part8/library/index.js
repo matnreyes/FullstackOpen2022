@@ -57,14 +57,30 @@ const typeDefs = `
 `
 
 const resolvers = {
+  Author: {
+    bookCount: async (root) => Book.find({ author: root.id }).count()
+  },
   Query: {
     bookCount: async () => Book.count(),
     authorCount: async () => Author.count(),
-    allBooks: async () => Book.find({}).populate('author'),
+    allBooks: async (root, args) => { 
+      const books = await Book.find({}).populate('author')
+      if (Object.keys(args).length === 0) {
+        return books
+      }
+
+      if (Object.keys(args).length === 1) {
+        if (args.author) {
+          return books.filter(b => b.author.name === args.author)
+        }
+        if (args.genre) {
+          return books.filter(b => b.genres.includes(args.genre))
+        }
+      }
+
+      return books.filter(b => b.genres.includes(args.genre) && b.author.name === args.author)
+    },
     allAuthors: async () => Author.find({})
-  },
-  Author: {
-    bookCount: async (root) => Book.find({ author: root.name }).count()
   },
   Mutation: {
     addBook: async (root, args) => {
@@ -79,19 +95,20 @@ const resolvers = {
       const book = new Book({ ...args, author: newAuthor })
       return book.save()
     },
-    editAuthor: (root, args) => {
-      const author = authors.find(a => a.name === args.name)
-      if (!author) {
-        throw new GraphQLError('Author not found', {
-          extentions: {
-            code: 'BAD_USER_INPUT',
-            invalidArgs: args.author
-          }
+    editAuthor: async (root, args) => {
+      const author = await Author
+        .findOne({ name: args.name })
+        .catch((error) => {
+          throw new GraphQLError('No author found', {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+              invalidargs: args.name,
+              error
+            }
+          })
         })
-      }
       author.born = args.setBornTo
-      authors = authors.map(a => a.id === author.id ? author : a)
-      return author
+      return author.save()
     }
   }
 }
