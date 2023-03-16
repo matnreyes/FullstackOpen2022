@@ -4,7 +4,7 @@ const schema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    minLength: 5
+    minLength: [5, 'Title should be at least 5 characters']
   },
   published: {
     type: Number
