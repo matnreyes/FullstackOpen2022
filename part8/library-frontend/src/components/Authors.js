@@ -33,7 +33,7 @@ const Authors = (props) => {
           ))}
         </tbody>
       </table>
-      <AuthorEdit setError={props.setError} authors={authors}/>
+      { props.user && <AuthorEdit setError={props.setError} authors={authors}/> }
     </div>
   )
 }
@@ -50,7 +50,7 @@ const AuthorEdit = ({ setError, authors }) => {
       setError('No author selected')
     }
 
-    editAuthor({ variables: { name, setBornTo: Number(born) },
+    editAuthor({ variables: { name, setBornTo: Number(born.length > 0 ? born : undefined) },
       onError: (error) => {
         setError(error.message)
       }
