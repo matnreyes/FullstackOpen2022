@@ -9,6 +9,7 @@ const User = require('./models/User')
 mongoose.set('strictQuery', false)
 require('dotenv').config()
 
+// eslint-disable-next-line no-undef
 const MONGODB_URI = process.env.MONGODB_URI
 
 console.log('Connecting to ', MONGODB_URI)
@@ -28,9 +29,10 @@ const server = new ApolloServer({
 
 startStandaloneServer(server, {
   listen: { port: 4000 },
-  context: async ({ req, res }) => {
+  context: async ({ req }) => {
     const auth = req ? req.headers.authorization : null
     if (auth && auth.startsWith('Bearer ')) {
+      // eslint-disable-next-line no-undef
       const decodedToken = jwt.verify(auth.substring(7), process.env.JWT_SECRET)
       const currentUser = await User.findById(decodedToken.id)
       return { currentUser }
