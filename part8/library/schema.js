@@ -57,5 +57,4 @@ const typeDefs = `
     bookAdded: Book!
   }
 `
-
 module.exports = typeDefs

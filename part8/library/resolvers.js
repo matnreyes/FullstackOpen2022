@@ -1,9 +1,11 @@
 /* eslint-disable no-undef */
+const { GraphQLError } = require('graphql')
+const { PubSub } = require('graphql-subscriptions')
+const pubsub = new PubSub()
+const jwt = require('jsonwebtoken')
 const Book = require('./models/Book')
 const Author = require('./models/Author')
 const User = require('./models/User')
-const { GraphQLError } = require('graphql')
-const jwt = require('jsonwebtoken')
 
 const resolvers = {
   Author: {
@@ -70,6 +72,9 @@ const resolvers = {
         const newAuthor = new Author({ name: args.author })
         await newAuthor.save()
         const book = new Book({ ...args, author: newAuthor })
+
+        pubsub.publish('BOOK_ADDED', { bookAdded: book })
+
         return book.save()
       } catch (error) {
         throw new GraphQLError('Invalid input', {
@@ -99,6 +104,11 @@ const resolvers = {
         })
       author.born = args.setBornTo
       return author.save()
+    }
+  },
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterator('BOOK_ADDED')
     }
   }
 }
