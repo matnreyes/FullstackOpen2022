@@ -17,7 +17,7 @@ const Login = ({ setToken, setError, show }) => {
       setToken(token)
       localStorage.setItem('library-user-token', token)
     }
-  }, [result.data]) //eslint-ignore-line
+  }, [result.data]) // eslint-disable-line
 
   if (!show) {
     return null
