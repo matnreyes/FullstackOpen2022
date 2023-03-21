@@ -72,10 +72,11 @@ const resolvers = {
         const newAuthor = new Author({ name: args.author })
         await newAuthor.save()
         const book = new Book({ ...args, author: newAuthor })
-
+        await book.save()
+        
         pubsub.publish('BOOK_ADDED', { bookAdded: book })
-
-        return book.save()
+        
+        return book
       } catch (error) {
         throw new GraphQLError('Invalid input', {
           extensions: {
