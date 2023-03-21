@@ -8,9 +8,6 @@ const Author = require('./models/Author')
 const User = require('./models/User')
 
 const resolvers = {
-  Author: {
-    bookCount: async (root) => Book.find({ author: root.id }).count()
-  },
   Query: {
     bookCount: async () => Book.count(),
     authorCount: async () => Author.count(),
@@ -67,7 +64,12 @@ const resolvers = {
         const author = await Author.findOne({ name: args.author })
         if (author) {
           const book = new Book({ ...args, author: author })
-          return book.save()
+          await book.save()
+          author.bookCount = author.bookCount + 1
+          await author.save()
+          
+          pubsub.publish('BOOK_ADDED', { bookAdded: book })
+          return book
         }
         const newAuthor = new Author({ name: args.author })
         await newAuthor.save()
