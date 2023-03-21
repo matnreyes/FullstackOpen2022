@@ -5,7 +5,7 @@ import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Login from './components/Login'
 import Recommended from './components/Recommended'
-import { BOOK_ADDED } from './queries'
+import { ALL_BOOKS, BOOK_ADDED } from './queries'
 
 const App = () => {
   const [page, setPage] = useState('login')
@@ -23,7 +23,11 @@ const App = () => {
 
   useSubscription(BOOK_ADDED, {
     onData: ({ data }) => {
-      console.log(data)
+      const newBook = data.data.bookAdded
+      client.cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
+        return { allBooks: allBooks.concat(newBook)}
+      })
+      window.alert(`New book "${newBook.title}" by ${newBook.author.name} has been added`)
     }
   })
 
